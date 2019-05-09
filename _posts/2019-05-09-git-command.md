@@ -4,13 +4,13 @@ key: 2019-05-09
 tags: Git
 ---
 
-1. 查看连接ssh是否成功
+### 1. 查看连接ssh是否成功
 `ssh -T git@github.com`
 
-2. 克隆github上的仓库到本地
+### 2. 克隆github上的仓库到本地
 `git clone [url]`
 
-3. 提交代码常用命令
+### 3. 提交代码常用命令
 `git add ./-all/*.java/test.java` 将文件添加到缓存区  
 `git status -s` 查看项目的当前状态  
 `git commit -m "comment"` 添加注释  
@@ -31,9 +31,7 @@ git rm
 `git rm –r *` 
 git mv 命令用于移动或重命名一个文件、目录、软连接。
 
-
 ----
-
 
 [Git基本操作](http://www.runoob.com/git/git-basic-operations.html)  
 [搭建Github博客](https://blog.csdn.net/u012168038/article/details/77715439)
