@@ -44,4 +44,7 @@ public static void main(String[] args){
     int c = a + b;
 }
 ```
+
+----
+
 [Markdown基础语法](https://www.jianshu.com/p/191d1e21f7ed)
