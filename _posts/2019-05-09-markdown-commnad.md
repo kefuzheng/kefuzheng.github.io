@@ -35,6 +35,8 @@ tags: Markdown
        空格+空格+回车  
        
 6. 代码
+单行代码：代码之间分别用一个反引号包起来  
+代码块：代码之间分别用三个反引号包起来，且两边的反引号单独占一行
 ```java
 public static void main(String[] args){
     int a = 0;
