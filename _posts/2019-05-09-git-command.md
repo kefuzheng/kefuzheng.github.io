@@ -4,11 +4,11 @@ key: 2019-05-09
 tags: Git
 ---
 
-#### 1. 查看连接ssh是否成功  
+#### 1. 查看连接ssh是否成功
 `ssh -T git@github.com`
-#### 2. 克隆github上的仓库到本地  
+#### 2. 克隆github上的仓库到本地
 `git clone [url]`
-#### 3. 提交代码常用命令  
+#### 3. 提交代码常用命令
 `git add ./-all/*.java/test.java` 将文件添加到缓存区  
 `git status -s` 查看项目的当前状态  
 `git commit -m "comment"` 添加注释  
