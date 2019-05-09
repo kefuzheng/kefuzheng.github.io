@@ -22,8 +22,8 @@ fatal: remote origin already exists
 再执行git remote add origin [url]  
 `git pull origin master`  从master分支更新代码到本地  
 `git push origin master`  提交本地代码到master分支  
-git rm
-如果只是简单地从工作目录中手工删除文件，运行 git status 时就会在 Changes not staged for commit 的提示。
+git rm  
+如果只是简单地从工作目录中手工删除文件，运行 git status 时就会在 Changes not staged for commit 的提示。  
 要从 Git 中移除某个文件，就必须要从已跟踪文件清单中移除，然后提交。可以用以下命令完成此项工作  
 `git rm <file>`  
 如果删除之前修改过并且已经放到暂存区域的话，则必须要用强制删除选项 -f  
@@ -31,7 +31,9 @@ git rm
 `git rm –r *` 
 git mv 命令用于移动或重命名一个文件、目录、软连接。
 
+
 ----
+
 
 [Git基本操作](http://www.runoob.com/git/git-basic-operations.html)  
 [搭建Github博客](https://blog.csdn.net/u012168038/article/details/77715439)
