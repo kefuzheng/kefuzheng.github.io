@@ -6,8 +6,8 @@ header:
       zh-Hant:  歸檔
     url:        /archive.html
   - titles:
-      en:       About
-      zh:       关于
-      zh-Hans:  关于
-      zh-Hant:  關於
+      en:       About Me
+      zh:       关于我
+      zh-Hans:  关于我
+      zh-Hant:  關於我
     url:        /about.html
