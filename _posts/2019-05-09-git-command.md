@@ -4,20 +4,20 @@ key: 2019-05-09
 tags: Git
 ---
 
-### 1. Git ssh key 生成步骤
-#### 1. 设置Git的user name和email
+### 1. Git SSH Key 生成步骤
+##### 1. 设置Git的user name和email
 `git config --global user.name "kefuzheng" `  
 `git config --global user.email "kefuzheng@hotmail.com" `  
-#### 2. 查看密钥是否存在
+##### 2. 查看密钥是否存在
 `cd ~/.ssh`  
 若存在，备份删除
-#### 3. 生成密钥
+##### 3. 生成密钥
 `ssh-keygen -t rsa -C "kefuzheng@hotmail.com"`  
 按3个回车，密码为空  
 最后得到两个文件：id_rsa和id_rsa.pub
-#### 4. 在github上添加ssh密钥
+##### 4. 在github上添加ssh密钥
 id_rsa.pub里面的公钥
-#### 5. 测试是否成功
+##### 5. 测试是否成功
 `ssh -T git@github.com`
 
 ### 2. 克隆github上的仓库到本地
