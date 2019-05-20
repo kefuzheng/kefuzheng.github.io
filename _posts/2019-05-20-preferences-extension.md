@@ -27,14 +27,10 @@ tags: Plug-in
 ```java
 private static final Set<String> ALLOWED_PREFERENCE_PAGES = new HashSet<String>();
 static {
-  ALLOWED_PREFERENCE_PAGES
-			.add("org.eclipse.ui.preferencePages.Workbench");
-	ALLOWED_PREFERENCE_PAGES
-			.add("org.eclipse.cdt.ui.preferences.CPluginPreferencePage");
-	ALLOWED_PREFERENCE_PAGES
-			.add("org.eclipse.debug.ui.DebugPreferencePage");
-	ALLOWED_PREFERENCE_PAGES
-			.add("org.eclipse.egit.ui.GitPreferencesLocal");
+	ALLOWED_PREFERENCE_PAGES.add("org.eclipse.ui.preferencePages.Workbench");
+	ALLOWED_PREFERENCE_PAGES.add("org.eclipse.cdt.ui.preferences.CPluginPreferencePage");
+	ALLOWED_PREFERENCE_PAGES.add("org.eclipse.debug.ui.DebugPreferencePage");
+	ALLOWED_PREFERENCE_PAGES.add("org.eclipse.egit.ui.GitPreferencesLocal");
 }
 public static void hideUnWantedPerferencePages() {
 	PreferenceManager manager = PlatformUI.getWorkbench()
@@ -56,6 +52,6 @@ public static void hideUnWantedPerferencePages() {
 
 ----
 
-[Preferences in the Eclipse Workbench UI](https://www.eclipse.org/articles/article.php?file=Article-Preferences/article.html) 
-[Preference pages](https://help.eclipse.org/kepler/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/preferences_prefs_contribute.htm)
+[Preferences in the Eclipse Workbench UI](https://www.eclipse.org/articles/article.php?file=Article-Preferences/article.html)  
+[Preference pages](https://help.eclipse.org/kepler/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/preferences_prefs_contribute.htm)  
 [eclipse插件之preference 开发](https://blog.csdn.net/Aqu415/article/details/54645152)
