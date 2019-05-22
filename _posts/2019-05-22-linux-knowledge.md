@@ -24,7 +24,23 @@ cp 在linux下是复制的命令
 -i 会在复制文件的时候给提示,如果复制的目标文件存在,会给你提示,不存在就直接复制了  
 -f 强行复制文件或目录，不论目标文件或目录是否已存在  
 \cp 取消cp的别名
-### 7. yes
+### 7. scp
+scp 可以在 2个 linux 主机间复制文件  
+命令基本格式： `scp [可选参数] file_source file_target`  
+`scp local_file remote_username@remote_ip:remote_folder`    
+`scp local_file remote_username@remote_ip:remote_file`  
+`scp local_file remote_ip:remote_folder`  
+`scp local_file remote_ip:remote_file`  
+
+第1,2个指定了用户名，命令执行后需要再输入密码，第1个仅指定了远程的目录，文件名字不变，第2个指定了文件名
+第3,4个没有指定用户名，命令执行后需要输入用户名和密码，第3个仅指定了远程的目录，文件名字不变，第4个指定了文件名
+例子:  
+`scp /home/space/music/1.mp3 root@www.cumt.edu.cn:/home/root/others/music`  
+`scp /home/space/music/1.mp3 root@www.cumt.edu.cn:/home/root/others/music/001.mp3`   
+`scp /home/space/music/1.mp3 www.cumt.edu.cn:/home/root/others/music`  
+`scp /home/space/music/1.mp3 www.cumt.edu.cn:/home/root/others/music/001.mp3`   
+
+### 8. yes
 在删除n个文件时，需要确认要不要删除  
 `yes | rm -i *`  删除时，自动回答y，就删除了
 
