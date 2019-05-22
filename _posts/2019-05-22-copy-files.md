@@ -47,8 +47,6 @@ private static void copyFileUsingFileChannels(File source, File dest) throws IOE
 ### 3. Commons IO
 Apache Commons IO提供拷贝文件方法在其FileUtils类,可用于复制一个文件到另一个地方。它非常方便使用Apache Commons FileUtils类时。  
 基本上,这个类使用Java NIO FileChannel内部
-扩展点中变量名称（%Name）的使用  
-需要将其变量定义在plugin.properties中，然后文件需要在MANIFEST.MF中注册  
 ```java
 private static void copyFileUsingApacheCommonsIO(File source, File dest)
         throws IOException {
