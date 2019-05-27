@@ -43,9 +43,11 @@ git rm
 可以递归删除，即如果后面跟的是一个目录做为参数，则会递归删除整个目录中的所有子目录和文件：  
 `git rm –r *` 
 git mv 命令用于移动或重命名一个文件、目录、软连接。
-### 4. HTTPS和SSH方式的区别和使用
+### 4. HTTPS和SSH方式的区别
 HTTPS: 使用https url克隆对初学者来说会比较方便，复制https url然后到git Bash里面直接用clone命令克隆到本地就好了，但是每次fetch和push代码都需要输入账号和密码，这也是https方式的麻烦之处。  
 SSH: 使用SSH url克隆却需要在克隆之前先配置和添加好SSH key，因此，如果你想要使用SSH url克隆的话，你必须是这个项目的拥有者。否则你是无法添加SSH key的，另外ssh默认是每次fetch和push代码都不需要输入账号和密码，如果你想要每次都输入账号密码才能进行fetch和push也可以另外进行设置
+### 5. .gitignore文件
+`<repository path>/.gitignore` 忽略指定类型的文件
 
 ----
 
