@@ -45,11 +45,14 @@ public static void hideUnWantedPerferencePages() {
 ### 3. 更改perference的默认值
 Preferences页面的默认值，通过Key和Value进行了存贮，若要更改其它插件的Preference的默认值，可以通过代码获取Key，更改Value来进行控制。  
 例如：  
+![preference_page](https://github.com/kefuzheng/kefuzheng.github.io/raw/master/assets/images/perference_extension.PNG)  
 这个是Terminal的Preference，在源代码中可以发现，它的"Shell Command"对应的Key是IPreferenceKeys.PREF_LOCAL_TERMINAL_DEFAULT_SHELL_UNIX，而且此插件（org.eclipse.tm.terminal.view.ui）也给了对应的修改方法  
 ```java
-String value = UIPlugin.getScopedPreferences().getString(IPreferenceKeys.PREF_LOCAL_TERMINAL_DEFAULT_SHELL_UNIX);
+String value = UIPlugin.getScopedPreferences()
+    .getString(IPreferenceKeys.PREF_LOCAL_TERMINAL_DEFAULT_SHELL_UNIX);
 if(value!=null){
-    UIPlugin.getScopedPreferences().putString(IPreferenceKeys.PREF_LOCAL_TERMINAL_DEFAULT_SHELL_UNIX, "init.sh");
+    UIPlugin.getScopedPreferences()
+        .putString(IPreferenceKeys.PREF_LOCAL_TERMINAL_DEFAULT_SHELL_UNIX, "init.sh");
 }
 ```		
 若自己的插件没有定义相应的Perference，可以把它设置在org.eclipse.ui.ide插件中,ide是eclipse比较基础的插件
@@ -61,8 +64,10 @@ IDEWorkbenchPlugin.getDefault().savePluginPreferences();
 ```
 它们会存在workspace相应的插件setting下面
 ```xml
-./.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.ui.ide.prefs:2:terminals.localTerminalDefaultShellUnix=init.sh
-./.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.tm.terminal.view.ui.prefs:2:terminals.localTerminalDefaultShellUnix=init.sh
+./.metadata/.plugins/org.eclipse.core.runtime/.settings/
+    org.eclipse.ui.ide.prefs:2:terminals.localTerminalDefaultShellUnix=init.sh
+./.metadata/.plugins/org.eclipse.core.runtime/.settings/
+    org.eclipse.tm.terminal.view.ui.prefs:2:terminals.localTerminalDefaultShellUnix=init.sh
 ```
 ### 4. Tips
 扩展点中变量名称（%Name）的使用  
