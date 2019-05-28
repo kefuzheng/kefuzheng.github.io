@@ -39,10 +39,14 @@ scp 可以在 2个 linux 主机间复制文件
 `scp /home/space/music/1.mp3 root@www.cumt.edu.cn:/home/root/others/music/001.mp3`   
 `scp /home/space/music/1.mp3 www.cumt.edu.cn:/home/root/others/music`  
 `scp /home/space/music/1.mp3 www.cumt.edu.cn:/home/root/others/music/001.mp3`   
-
 ### 8. yes
 在删除n个文件时，需要确认要不要删除  
 `yes | rm -i *`  删除时，自动回答y，就删除了
+### 9. alias
+`alias` 查看系统中所有的命令别名
+`alias 别名='原命令'` 设置别名
+`unalias 别名` 删除别名
+`~/.bashrc` 写入这个文件中使别名永久生效
 
 ----
 
