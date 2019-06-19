@@ -14,8 +14,10 @@ tags: Linux
 `df -h ./`        查看使用情况
 `du -sh filename` 查看文件的大小
 ### 4. 解压
-`tar -zxvf file.tar -C dirName` 解压tar包到指定目录  
-`unzip file.zip -d dirName`     解压zip包到指定目录
+`tar -zxvf file.tar.gz -C dirName` 解压tar包到指定目录  
+`tar -zcvf file.tar.gz dirName`    指定目录压缩到tar包  
+`unzip file.zip -d dirName` 解压zip包到指定目录  
+`zip -r file.zip dirName`   指定目录压缩到zip包
 ### 5. tail
 `tail -f file` 实时输出文件更新的内容
 ### 6. cp
