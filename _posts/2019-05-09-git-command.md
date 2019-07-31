@@ -14,11 +14,16 @@ tags: Git
 ##### 3. 生成密钥
 `ssh-keygen -t rsa -C "kefuzheng@hotmail.com"`  
 按3个回车，密码为空  
-最后得到两个文件：id_rsa和id_rsa.pub
+最后得到两个文件：id_rsa和id_rsa.pub  
+tips: 所有平台以及所有私有电脑使用的都是同一个ssh公钥，当要在另一台未添加ssh的电脑上使用git，只需要使用  
+`ssh-keygen -t rsa -C "kefuzheng@hotmail.com"`  
+生成秘钥，然后将其他电脑的秘钥拷贝覆盖，就不需要再次在每一个git平台添加公钥.   
+优点：省时省力，不用重复添加   
+缺点：无法通过git平台删除指定电脑的ssh，删除公钥后所有电脑都无法接入git平台.  
 ##### 4. 在github上添加ssh密钥
 id_rsa.pub里面的公钥
 ##### 5. 测试是否成功
-`ssh -T git@github.com`
+`ssh -T git@github.com`  
 
 ### 2. 克隆github上的仓库到本地
 `git clone [url]`
