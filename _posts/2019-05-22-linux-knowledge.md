@@ -52,6 +52,11 @@ scp 可以在 2个 linux 主机间复制文件
 ### 10. 查看当前进程
 `ps -ef | grep username` 查看当前进程  
 `kill -9 进程号` 关闭此进程
+### 11. find & grep
+`find . -name filename` 查找文件名称
+`grep "content" . -r -n` 查找关键内容
+`--exclude=GLOB` 排除指定类型的文件
+`--include=GLOB` 从指定类型的文件中搜索
 
 ----
 
