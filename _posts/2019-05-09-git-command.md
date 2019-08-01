@@ -55,8 +55,35 @@ SSH: 使用SSH url克隆却需要在克隆之前先配置和添加好SSH key，�
 `<repository path>/.gitignore` 忽略指定类型的文件
 ### 6. 修改Github上的开源代码
 先将别人的代码Fork到自己的账户，然后进行修改，修改完成后，发起New pull requst，若原项目主同意别人所发起的request，就会把被人修改的内容更新到原项目
+![New pull request](https://github.com/kefuzheng/kefuzheng.github.io/raw/master/assets/images/Git New pull requst.png)
+### 7. 搭建Git私服
+##### 1. 创建bare仓库
+`git init --bare sample.git`  
+裸仓库没有工作区，因为服务器上的Git仓库纯粹是为了共享，所以用户不能直接登录到服务器上去改工作区，并且服务器上的Git仓库通常都以.git结尾
+##### 2. 设置SSH key
+收集客户端公钥，复制到服务器上。  
+`ssh-keygen -t rsa -C "kefuzheng@hotmail.com"`  
+`cat id_rsa.pub >> ~/.ssh/authorized_keys`
+##### 3. 客户端获取sample库，并增加文件上传到服务器
+服务器地址： 'username'@'hostname':'repository path'
+```xml
+git clone git@192.168.10.14:/home/git/sample.git
+Cloning into 'sample'...
+warning: You appear to have cloned an empty repository.
+Checking connectivity... done.
+```
+获取成功，增加一个文件，并提交到服务器上 
+```xml
+cd sample
+cat 'first file.' >> readme.md
+git add .
+git commit -m "first commit"
+git push
+```
+提交成功后，在服务器上，git log查看状态
 
 ----
 
 [Git基本操作](http://www.runoob.com/git/git-basic-operations.html)  
 [搭建Github博客](https://blog.csdn.net/u012168038/article/details/77715439)
+[搭建Git私服](https://www.cnblogs.com/zhoug2020/p/5789041.html)
