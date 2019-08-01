@@ -53,6 +53,8 @@ HTTPS: 使用https url克隆对初学者来说会比较方便，复制https url�
 SSH: 使用SSH url克隆却需要在克隆之前先配置和添加好SSH key，因此，如果你想要使用SSH url克隆的话，你必须是这个项目的拥有者。否则你是无法添加SSH key的，另外ssh默认是每次fetch和push代码都不需要输入账号和密码，如果你想要每次都输入账号密码才能进行fetch和push也可以另外进行设置
 ### 5. .gitignore文件
 `<repository path>/.gitignore` 忽略指定类型的文件
+### 6. 修改Github上的开源代码
+先将别人的代码Fork到自己的账户，然后进行修改，修改完成后，发起New pull requst，若原项目主同意别人所发起的request，就会把被人修改的内容更新到原项目
 
 ----
 
