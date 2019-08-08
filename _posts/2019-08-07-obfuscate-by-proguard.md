@@ -23,18 +23,18 @@ ProGuard是一个混淆代码的开源项目，它的主要作用是混淆代码
 <target depends="pack" name="obfuscate">
         <taskdef resource="proguard/ant/task.properties"
             classpath="lib/proguard.jar" />
-		<!-- 若报错，尝试classpath完整路径	
-		<taskdef resource="proguard/ant/task.properties">
-			<classpath>
-			    <pathelement location="${ProGuardRoot}/lib/proguard.jar" />
-			</classpath>
-  		</taskdef>
-		-->
-		<proguard configuration="proguard.pro">
-			-injars ${dist.dir}/${ant.project.name}.jar
-			-outjar ${dist.dir}/../${ant.project.name}.jar
-			-libraryjars ${ECLIPSE_HOME}/plugins/org.eclipse.ui_3.109.0.v20170411-1742.jar
-		</proguard>
+	<!-- 若报错，尝试classpath完整路径	
+	<taskdef resource="proguard/ant/task.properties">
+		<classpath>
+		    <pathelement location="${ProGuardRoot}/lib/proguard.jar" />
+		</classpath>
+  	</taskdef>
+	-->
+	<proguard configuration="proguard.pro">
+		-injars ${dist.dir}/${ant.project.name}.jar
+		-outjar ${dist.dir}/../${ant.project.name}.jar
+		-libraryjars ${ECLIPSE_HOME}/plugins/org.eclipse.ui_3.109.0.v20170411-1742.jar
+	</proguard>
 </target>
 ```		
 ##### 3. 参数的配置
@@ -48,7 +48,8 @@ ProGuard是一个混淆代码的开源项目，它的主要作用是混淆代码
 # 为所有引用的相对路径指定一个根路径
 -basedirectory directory 
 
-# 指定输入的包，可以包括 jar, aar, war, ear, zip, apk或者文件目录。这些包或者目录下的class文件将被处理后写入到输出文件中。默认情况下非class文件会被原封不动的复制到输出文件中。
+# 指定输入的包，可以包括 jar, aar, war, ear, zip, apk或者文件目录。
+# 这些包或者目录下的class文件将被处理后写入到输出文件中。默认情况下非class文件会被原封不动的复制到输出文件中。
 -injars classpath 
 
 # 指定输出文件，类型包括 jar, aar, war, ear, zip, apk和 目录。
@@ -91,10 +92,13 @@ ProGuard是一个混淆代码的开源项目，它的主要作用是混淆代码
  
 # 抛出异常时保留代码行号，在异常分析中可以方便定位
 -keepattributes SourceFile,LineNumberTable
-# 用于告诉ProGuard，不要跳过对非公开类的处理。默认情况下是跳过的，因为程序中不会引用它们，有些情况下人们编写的代码与类库中的类在同一个包下，并且对包中内容加以引用，此时需要加入此条声明。
+# 用于告诉ProGuard，不要跳过对非公开类的处理。
+# 默认情况下是跳过的，因为程序中不会引用它们，有些情况下人们编写的代码与类库中的类在同一个包下，
+# 并且对包中内容加以引用，此时需要加入此条声明。
 -dontskipnonpubliclibraryclasses
 
-# 这个是给Microsoft Windows用户的，因为ProGuard假定使用的操作系统是能区分两个只是大小写不同的文件名，但是Microsoft Windows不是这样的操作系统，所以必须为ProGuard指定-dontusemixedcaseclassnames选项
+# 这个是给Microsoft Windows用户的，因为ProGuard假定使用的操作系统是能区分两个只是大小写不同的文件名，
+# 但是Microsoft Windows不是这样的操作系统，所以必须为ProGuard指定-dontusemixedcaseclassnames选项
 -dontusemixedcaseclassnames
 
 # 保留所有的本地native方法不被混淆
