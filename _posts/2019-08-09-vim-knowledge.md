@@ -31,16 +31,16 @@ set smartcase
 例如:%s/foo/bar/g会在全局范围(%)查找foo并替换为bar，所有出现都会被替换（g）
 ### 6. 作用范围
 作用范围分为当前行、全文、选区等等。  
-`:s/foo/bar/g` 当前行
-`:%s/foo/bar/g` 全文
-`:'<,'>s/foo/bar/g` 选区，在Visual模式下选择区域后输入:，Vim即可自动补全为 :'<,'>。
-`:5,12s/foo/bar/g` 2-11行
-`:.,+2s/foo/bar/g` 当前行.与接下来两行+2：
-`:n,$s/vivian/sky/` 替换第n行开始到最后一行中每一行的第一个vivian为sky 
-`:n,$s/vivian/sky/g` 替换第n行开始到最后一行中每一行所有vivian为sky 
+`:s/foo/bar/g` 当前行  
+`:%s/foo/bar/g` 全文  
+`:'<,'>s/foo/bar/g` 选区，在Visual模式下选择区域后输入:，Vim即可自动补全为 :'<,'>。  
+`:2,12s/foo/bar/g` 2-11行  
+`:.,+2s/foo/bar/g` 当前行.与接下来两行+2：  
+`:n,$s/vivian/sky/` 替换第n行开始到最后一行中每一行的第一个vivian为sky   
+`:n,$s/vivian/sky/g` 替换第n行开始到最后一行中每一行所有vivian为sky   
 `:s#vivian/#sky/#` 替换当前行第一个vivian/为sky/  　可以使用 # 作为分隔符，此时中间出现的 / 不会作为分隔符 
 ### 7. 删除文本中的^M
-问题描述：对于换行，window下用回车换行（0A0D）来表示，linux下是回车（0A）来表示。这样，将window上的文件拷到unix上用时，总会有个^M.请写个用在unix下的过滤windows文件的换行符（0D）的shell或c程序。  　 
+问题描述：对于换行，window下用回车换行（0A0D）来表示，linux下是回车（0A）来表示。这样，将window上的文件拷到unix上用时，总会有个^M.请写个用在unix下的过滤windows文件的换行符（0D）的shell或c程序。  
 `:cat filename1 | tr -d “^V^M” > newfile`  
 `:sed -e “s/^V^M//” filename > outputfilename`  
 需要注意的是在1、2两种方法中，^V和^M指的是Ctrl+V和Ctrl+M.你必须要手工进行输入，而不是粘贴。 
@@ -49,12 +49,11 @@ set smartcase
 set tabstop=4  #表示一个tab显示出来是多少个空格的长度，默认 8。
 set softtabstop=4  #Tab 转为多少个空格。
 set shiftwidth=4   #在文本上按下>>（增加一级缩进）、<<（取消一级缩进）或者==（取消全部缩进）时，每一级的字符数。
-set expandtab   由于 Tab 键在不同的编辑器缩进不一致，该设置自动将 Tab 转为空格。
+set expandtab   #由于 Tab 键在不同的编辑器缩进不一致，该设置自动将 Tab 转为空格。
 ```
 ### 9. Vim禁止生成临时文件
-打开.vimrc，找到:set backup 注释掉
-（Vim的注释符是"）
-即修改后应该是这样的：
+打开.vimrc，找到:set backup 注释掉（Vim的注释符是"）  
+即修改后应该是这样的：  
 ```
 if has("vms")
 set nobackup " do not keep a backup file, use versions instead
@@ -62,7 +61,7 @@ set nobackup " do not keep a backup file, use versions instead
 " set backup " keep a backup file
 ```
 ### 10. 不能右键粘贴设置方法
-编辑 ~/.vimrc 文件，加入如下代码： 
+编辑 ~/.vimrc 文件，加入如下代码：   
 ```
 if has('mouse') 
 	set mouse-=a endif 
