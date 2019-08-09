@@ -9,38 +9,23 @@ tags: Plug-in
 ##### 1. Job用法示例
 ```java
 Job job = new Job(“Job Name”){
-
     protected IStatus run(IProgressMonitor monitor) {
-
-            
-
         // 在这里添加你的任务代码
-
         return Status.OK_STATUS;
-
     }
-
 };
-
 job.schedule(1133);//delaytime
-
 job.setUser(true);//if true show UI
-
 job.setPriority(priority) //Job.NTERACTIVE, SHORT, LONG, BUILD, or DECORATE.
-
 ```
 在Eclipse中我们也会经常用到Display.asynchExec()和Display.synchExec()来启动任务的执行。这两个方法主要为了方便我们完成界面操作的任务。以下是Display.asynchExec()的用法，Display.synchExec()和它类似。
 
 ##### 2. Display.synchExec()用法示例
 ```java
 Display.getDefault().asyncExec(new Runnable() {
-
     public void run() {
-
         // 在这里添加你的任务代码
-
     }
-
 });
 ```
 通常，在Eclipse中我们最好使用Eclipse提供的Job接口来实现多任务，而不是使用Java的thread。为什么呢？主要有以下几个原因：  
@@ -78,7 +63,6 @@ myjob2.setRule(Schedule_RULE);
 Text text = new Text(parent,SWT.NONE);
 UIJob refreshJob = new UIJob(“更新界面”){
     public IStatus runInUIThread(IProgressMonitor monitor) {
-    
         text.setText(“新文本”);
         return Status.OK_STATUS;
     }
@@ -104,17 +88,15 @@ button.addSelectionListener(new SelectionListener(){
     }
   
     private void perform(){
-
         Job job = new Job(“获取数据”){
             protected IStatus run(IProgressMonitor monitor){
 
-				// 在此添加获取数据的代码
-				Display.getDefault().asyncExec(new Runnable(){
-					public void run(){
-						// 在此添加更新界面的代码
-
-					}
-				});
+		// 在此添加获取数据的代码
+		Display.getDefault().asyncExec(new Runnable(){
+			public void run(){
+				// 在此添加更新界面的代码
+			}
+		});
             }
         };
         job.schedule();
@@ -127,24 +109,17 @@ button.addSelectionListener(new SelectionListener(){
 实际上，Jface中就是通过延时执行Job来实现这一功能的。我们也可以自己实现类似功能：  
 ```java
 private final static Object UPDATE_UI_JOBFAMILY = new Object();
-
 tableviewer. addSelectionChangedListener (new ISelectionChangedListener (){
-
     public void selectionChanged(SelectionChangedEvent event){
-
         Job.getJobManager().cancel(UPDATE_UI_JOBFAMILY);
-
         new UIJob("更新界面") {
-
             protected IStatus runInUIThread (IProgressMonitor monitor) {
-				//更新界面
-				return Status.OK_STATUS; 
+		//更新界面
+		return Status.OK_STATUS; 
             }
-
-			public boolean belongsTo(Object family){
-
-				return family== UPDATE_UI_JOBFAMILY;
-			}
+	    public boolean belongsTo(Object family){
+		return family== UPDATE_UI_JOBFAMILY;
+	    }
         }.schedule(500);
     }
 });
@@ -156,8 +131,8 @@ tableviewer. addSelectionChangedListener (new ISelectionChangedListener (){
 try {
     ModalContext.run(new IRunnableWithProgress(){
         public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-			/*需要在非UI线程中执行的代码*/
-			ModalContext.checkCanceled(monitor);
+		/*需要在非UI线程中执行的代码*/
+		ModalContext.checkCanceled(monitor);
         }    
     }, true, new NullProgressMonitor(), Display.getCurrent());
 } catch (InvocationTargetException e) {            
@@ -169,19 +144,14 @@ try {
 ```java
 Private Object MY_JOB_FAMILY = new Object();
 Job job = new Job(“Job Name”){
-
     protected IStatus run(IProgressMonitor monitor) {
-
         // 在这里添加你的任务代码
         return Status.OK_STATUS;
     }
-          
     public boolean belongsTo(Object family){
-
         return MY_JOB_FAMILY.equals(family);
     }
 };
-
 Job.getJobManager().cancel(MY_JOB_FAMILY); //取消所有属于MY_JOB_FAMILY的所有Job
 Job.getJobManager().join(MY_JOB_FAMILY); //等待属于MY_JOB_FAMILY的所有Job结束
 Job.getJobManager().sleep(MY_JOB_FAMILY); //将所有属于MY_JOB_FAMILY的Job转入睡眠状态
