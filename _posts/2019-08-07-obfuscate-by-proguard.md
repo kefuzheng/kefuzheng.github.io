@@ -258,6 +258,7 @@ public static ** valueOf(java.lang.String);
 1. jdk8和jdk9以上对于jdk基本库的依赖的不同；  
 2. 在插件开发中，在扩展点中扩展的viewer和editor等，将具体的class绑定在扩展点中的，需要keep出去；  
 3. 反射调用，需要keep出去。
+4. 若是想将import的第三方的class也进行混淆，需要将这个第三方的jar包放到injars，这样就能混淆它的所有引用，而不影响runtime。
 
 ----
 
