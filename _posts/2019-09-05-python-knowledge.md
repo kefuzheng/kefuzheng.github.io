@@ -16,7 +16,7 @@ Jython是运行在Java平台上的Python解释器，可以直接把Python代码�
 IronPython  
 IronPython和Jython类似，只不过IronPython是运行在微软.Net平台上的Python解释器，可以直接把Python代码编译成.Net的字节码。
 ### 2. 输入和输出
-`print('hello, world')` 输出
+`print('hello, world')` 输出  
 `name = input()` 让用户输入内容
 ### 3. 数据类型和运算符
 整数、浮点数（小数）、字符串、布尔值（True、False）、空值（None）  
@@ -150,8 +150,6 @@ def f1(a, b, c=0, *args, **kw):
 
 def f2(a, b, c=0, *, d, **kw):
     print('a =', a, 'b =', b, 'c =', c, 'd =', d, 'kw =', kw)
-	
-	
 ```  
 ### 8. 高级特性
 ##### 1. 切片
