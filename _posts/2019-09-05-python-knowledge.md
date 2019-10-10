@@ -255,7 +255,8 @@ step 3
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 StopIteration
-#odd不是普通函数，而是generator，在执行过程中，遇到yield就中断，下次又继续执行。执行3次yield后，已经没有yield可以执行了，所以，第4次调用next(o)就报错。
+#odd不是普通函数，而是generator，在执行过程中，遇到yield就中断，下次又继续执行。执行3次yield后，已经没有yield可以执行了，  
+#所以，第4次调用next(o)就报错。
 
 #斐波拉契数列（Fibonacci）
 def fib(max):
@@ -292,7 +293,8 @@ Python的for循环本质上就是通过不断调用next()函数实现的
 class Student(object):
 
 	#特殊方法，类似于java中的构造函数
-	#注意到__init__方法的第一个参数永远是self，表示创建的实例本身，因此，在__init__方法内部，就可以把各种属性绑定到self，因为self就指向创建的实例本身。
+	#注意到__init__方法的第一个参数永远是self，表示创建的实例本身，因此，在__init__方法内部，就可以把各种属性绑定到self，
+	#因为self就指向创建的实例本身。
     def __init__(self, name, score):
         self.name = name
         self.score = score
@@ -325,7 +327,7 @@ class Student(object):
     def get_score(self):
         return self.__score
 	
-	def set_score(self, score):
+    def set_score(self, score):
         self.__score = score
 ```
 变量名类似__xxx__的，也就是以双下划线开头，并且以双下划线结尾的，是特殊变量，特殊变量是可以直接访问的，不是private变量，所以，不能用__name__、__score__这样的变量名  
