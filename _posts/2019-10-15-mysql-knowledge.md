@@ -25,4 +25,5 @@ FLUSH PRIVILEGES;
 
 ----
 
-[navicat for mysql 链接时报错](https://my.oschina.net/u/3295928/blog/1811804)
+[navicat for mysql 链接时报错](https://my.oschina.net/u/3295928/blog/1811804)  
+[navicat for mysql 10.0.11简体中文破解版 绿色版](https://blog.csdn.net/qq_16093323/article/details/79228481)
