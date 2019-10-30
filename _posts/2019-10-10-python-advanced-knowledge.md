@@ -834,7 +834,7 @@ bytes转str：
 str(b'123', encoding='utf-8')
 bytes.decode(b'123')
 ```
-##### 5. JOSON
+##### 5. JSON
 ```python
 json.loads(json_str)  # json字符串转换成字典
 json.dumps(dict)      # 字典转换成json字符串 
