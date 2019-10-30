@@ -834,6 +834,13 @@ bytes转str：
 str(b'123', encoding='utf-8')
 bytes.decode(b'123')
 ```
+##### 5. JOSON
+```python
+json.loads(json_str)  # json字符串转换成字典
+json.dumps(dict)      # 字典转换成json字符串 
+# json.dumps 序列化时对中文默认使用的ascii编码.想输出真正的中文需要指定ensure_ascii=False：
+json.dumps('中国',ensure_ascii=False)
+```
 
 ----
 
