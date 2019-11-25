@@ -95,7 +95,7 @@ private Class MyContentProvider implements ITreeContentProvider {
 
 // 还可以根据需要 实现ITableColorProvider, ILabelProvider, ITableFontProvider
 private Class MyLabelProvider implements ITableLabelProvider {
-	@Override
+    @Override
     public String getColumnText(Object element, int columnIndex) {
         ITreeEntry entry = (ITreeEntry) element;
         switch (columnIndex) {
@@ -116,18 +116,18 @@ private Class MyLabelProvider implements ITableLabelProvider {
            return "";
         }
     }
-	@Override
+    @Override
     public Image getColumnImage(Object element, int columnIndex) {
        return null;
     }
-	@Override
+    @Override
     public void addListener(ILabelProviderListener listener) {}
     @Override
-	public void removeListener(ILabelProviderListener listener) {}
+    public void removeListener(ILabelProviderListener listener) {}
     @Override
-	public void dispose() {}
+    public void dispose() {}
     @Override
-	public boolean isLabelProperty(Object element, String property) {
+    public boolean isLabelProperty(Object element, String property) {
         return false;
     }
  }
