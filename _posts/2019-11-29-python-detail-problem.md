@@ -132,7 +132,7 @@ worksheet.write(2, 1, 'test2')
 workbook.close()
 ```
 ### 9. strip()的用法
-`'   ####test  '.strip()'` #去除空格换行符
+`'   ####test  '.strip()'` #去除空格换行符  
 `'####test'.strip('#')'` # 去除字符#
 
 ----
