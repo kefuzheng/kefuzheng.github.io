@@ -1,5 +1,5 @@
 ---
-title: python常见问题
+title: Python常见问题
 key: 2019-11-29
 tags: Python
 ---
