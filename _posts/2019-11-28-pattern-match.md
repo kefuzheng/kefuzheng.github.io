@@ -1,7 +1,7 @@
 ---
-title: python正则表达式
+title: Python正则表达式
 key: 2019-11-28
-tags: python
+tags: Python
 ---
 
 ### 1. 元字符和语法
