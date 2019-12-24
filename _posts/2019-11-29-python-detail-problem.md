@@ -131,7 +131,27 @@ worksheet.write(2, 0, 'test1') # 等于A2
 worksheet.write(2, 1, 'test2')
 workbook.close()
 ```
-### 9. strip()的用法
+### 9. 读取excel表格
+```python
+import xlrd
+
+def parse_xlsx(path):
+    workbook = xlrd.open_workbook(path)
+    table = workbook.sheet_by_name('Sheet1')  # 获得表格
+    total_rows = table.nrows  # 拿到总共行数
+    columns = table.row_values(0)  # 获取表头 ['姓名', '用户名', '联系方式', '密码']
+    excel_list = []
+    for one_row in range(1, total_rows):  # 也就是从Excel第二行开始，第一行表头不算
+        row = table.row_values(one_row)
+        if row:
+            row_object = {}
+            for i in range(0, len(columns)):
+                key = columns[i]
+                row_object[key] = row[i]  # 表头与数据对应
+            excel_list.append(row_object)
+    return excel_list
+```
+### 10. strip()的用法
 `'   ####test  '.strip()'` #去除空格换行符  
 `'####test'.strip('#')'` # 去除字符#
 
