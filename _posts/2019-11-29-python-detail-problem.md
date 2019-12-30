@@ -82,6 +82,8 @@ dumps()：将dict数据转化成json数据
 load()：读取json文件数据，转成dict数据
 dump()：将dict数据转化成json数据后写入json文件
 ```python
+import json
+
 # json字符串转成dict字典
 dict = json.loads(j)
 
@@ -193,10 +195,26 @@ os.path.exists(file)  #判断文件是否存在
 os.path.getsize(file)  #判断文件是否为空
 os.mkdir(folder)  #创建单个目录
 ```
-### 12. json字符串和dict的转化
+### 12. logging模块
+将关键信息输出到console，将所有的信息输入到log文件
+```
+import logging as log
 
+log.basicConfig(level=log.DEBUG, filename='test.log', format='%(levelname)-8s %(message)s', filemode='w')
+console = log.StreamHandler()
+console.setLevel(log.INFO)
+formatter = log.Formatter('[%(levelname)s] %(message)s')
+console.setFormatter(formatter)
+log.getLogger('').addHandler(console)
+#  只输入到log
+log.debug('test debug')
+#  log和console
+log.info('test info')
+```
 
 ----
 
 [Python基础知识](https://kefuzheng.github.io/2019/09/05/python-knowledge.html)  
 [Python进阶](https://kefuzheng.github.io/2019/10/10/python-advanced-knowledge.html)   
+[Python + logging 输出到屏幕，将log日志写入文件](https://www.cnblogs.com/nancyzhu/p/8551506.html)
+[python logging模块使用教程](https://www.jianshu.com/p/feb86c06c4f4)
