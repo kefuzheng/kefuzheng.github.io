@@ -76,8 +76,29 @@ os.popen('ls').read()  # readlines()
 import os
 os.system('./hello.sh')
 ```
-### 5. 格式化输出json数据
-`json.dumps(data, sort_keys=True, indent=2)` # 排序并且缩进两个字符输出
+### 5. json模块
+loads()：将json数据转化成dict数据
+dumps()：将dict数据转化成json数据
+load()：读取json文件数据，转成dict数据
+dump()：将dict数据转化成json数据后写入json文件
+```python
+# json字符串转成dict字典
+dict = json.loads(j)
+
+# dict字典转json字符串
+json_data = json.dumps(dict)
+
+# 读取json文件数据，转成dict数据
+with open('1.json', 'r') as f:
+    dict = json.load(f)
+
+# 将dict数据转化成json数据后写入json文件
+with open('1.json', 'w') as f:
+    json.dump(dict, f)
+    
+# 排序并且缩进两个字符输出
+json.dumps(data, sort_keys=True, indent=2)
+```
 ### 6. 读取xml文件
 ```python
 try:
@@ -163,6 +184,17 @@ def parse_xlsx(path):
 ### 10. strip()的用法
 `'   ####test  '.strip()'` #去除空格换行符  
 `'####test'.strip('#')'` # 去除字符#
+### 11. os模块
+```python
+os.getcwd() #用以获取当前的工作目录  
+os.chdir(path) #用于改变当前工作目录到指定的路径  
+os.chmod(file_name, stat.S_IRWXU | stat.S_IRWXO | stat.S_IRWXG)  #更改权限  
+os.path.exists(file)  #判断文件是否存在
+os.path.getsize(file)  #判断文件是否为空
+os.mkdir(folder)  #创建单个目录
+```
+### 12. json字符串和dict的转化
+
 
 ----
 
