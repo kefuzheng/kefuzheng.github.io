@@ -16,7 +16,16 @@ tags: Python
 反斜杠，转换成两个反斜杠后再在正则表达式里转义成一个反斜杠。Python里的原生字符串很好地解决了这个问题，这  
 个例子中的正则表达式可以使用r"\\"表示。同样，匹配一个数字的"\\d"可以写成r"\d"。有了原生字符串，你再也  
 不用担心是不是漏写了反斜杠，写出来的表达式也更直观。
-### 4. re.match函数
+### 4. 匹配模式
+flag是匹配模式，取值可以使用按位或运算符'|'表示同时生效，比如re.I | re.M。另外，你也可以在regex字符串中指定模式，比如re.compile('pattern', re.I | re.M)与re.compile('(?im)pattern')是等价的。  
+可选值有：  
+re.I(re.IGNORECASE): 忽略大小写（括号内是完整写法，下同）  
+M(MULTILINE): 多行模式，改变'^'和'$'的行为（参见上图）  
+S(DOTALL): 点任意匹配模式，改变'.'的行为  
+L(LOCALE): 使预定字符类 \w \W \b \B \s \S 取决于当前区域设定  
+U(UNICODE): 使预定字符类 \w \W \b \B \s \S \d \D 取决于unicode定义的字符属性  
+X(VERBOSE): 详细模式。  
+### 5. re.match函数
 re.match 尝试从字符串的起始位置匹配一个模式，如果不是起始位置匹配成功的话，match()就返回none。  
 `re.match(pattern, string, flags=0)`  
 ```python
@@ -34,7 +43,7 @@ if matchObj:
 else:
    print ("No match!!")
 ```
-
+### 6. finditer
 ----
 
 [Python3 正则表达式](https://www.runoob.com/python3/python3-reg-expressions.html)  
