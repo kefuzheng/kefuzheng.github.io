@@ -58,7 +58,7 @@ scp 可以在 2个 linux 主机间复制文件
 `--exclude=GLOB` 排除指定类型的文件  
 `--include=GLOB` 从指定类型的文件中搜索
 ### 12. PS1命令提示符
-`export PS1="\[\e]2;\w\a\e[31;1m\]\u\[\e[30;1m\]@\[\e[34;1m\][\H \W]\\$ \[\e[0m\]"`
+`export PS1="\[\e]2;\w\a\e[31;1m\]\u\[\e[30;1m\]@\[\e[34;1m\][\H \W]\\$ \[\e[0m\]"`  
 kefuz@[xhdrdevl27 ~]$
 
 ----
