@@ -4,8 +4,9 @@ key: 2019-11-29
 tags: Python
 ---
 
-### 1. list的使用
+### 1. list, set, OrderedDict的使用
 ```python
+#  list
 len([1, 2, 3])  #list长度
 [1, 2, 3] + [4, 5, 6]	#list组合
 3 in [1, 2, 3]  #元素是否在列表中
@@ -15,6 +16,14 @@ list.append(obj)  #在列表末尾添加新的对象
 for inx, val in enumerate(['uyy', 'dfdf']):
 	print(inx)
 	print(val)
+	
+#  set的定义
+s = set()
+s = set([1,1,2,3])  # list 转set
+
+#  有序字典的定义
+import collections
+d1=collections.OrderedDict()
 ```
 ### 2. 定义全局变量的用法
 ##### 1. 声明法
