@@ -216,5 +216,5 @@ log.info('test info')
 
 [Python基础知识](https://kefuzheng.github.io/2019/09/05/python-knowledge.html)  
 [Python进阶](https://kefuzheng.github.io/2019/10/10/python-advanced-knowledge.html)   
-[Python + logging 输出到屏幕，将log日志写入文件](https://www.cnblogs.com/nancyzhu/p/8551506.html)
+[Python + logging 输出到屏幕，将log日志写入文件](https://www.cnblogs.com/nancyzhu/p/8551506.html)  
 [python logging模块使用教程](https://www.jianshu.com/p/feb86c06c4f4)
