@@ -57,7 +57,11 @@ scp 可以在 2个 linux 主机间复制文件
 `grep "content" . -r -n` 查找关键内容  
 `--exclude=GLOB` 排除指定类型的文件  
 `--include=GLOB` 从指定类型的文件中搜索
+### 12. PS1命令提示符
+`export PS1="\[\e]2;\w\a\e[31;1m\]\u\[\e[30;1m\]@\[\e[34;1m\][\H \W]\\$ \[\e[0m\]"`
+kefuz@[xhdrdevl27 ~]$
 
 ----
 
 [在VirtualBox下安装linux操作系统](https://blog.csdn.net/yuchao2015/article/details/52132270)  
+[Unix环境下PS1变量的设置](https://www.cnblogs.com/undead/p/3741764.html)  
