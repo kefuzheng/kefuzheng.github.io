@@ -43,7 +43,32 @@ if matchObj:
 else:
    print ("No match!!")
 ```
-### 6. finditer
+### 6. search
+这个方法用于查找字符串中可以匹配成功的子串
+```python
+ pattern_str = r'.*' + key + r'\s*[,)]'
+ match_obj = re.search(pattern_str, content)
+ if match_obj:
+     print(match_obj.group())
+ ```
+### 7. finditer
+搜索string，返回一个顺序访问每一个匹配结果（Match对象）的迭代器。  
+能得到所有的能匹配到的，并且分组也正常
+```python
+pattern_str = r'\s*\w+_(MSG|MESSAGE)\([^,;]*?printMsg\s*\(\s*' + key + r'\s*(,[^;]*)*\);'
+match_obj = re.finditer(pattern_str, CONTENT, re.M | re.S)
+
+not_matched = True
+for m in match_obj:
+    not_matched = False
+    match_str = m.group().strip()
+    match_arg = m.group(2)
+    print('matched str in [%s]: \n%s' % (file_name, match_str))
+    print('args of matched str in [%s]: \n%s' % (file_name, match_arg))
+if not_matched:
+    print("No match key: %s in the file [%s]" % (key, file_name))
+```
+
 ----
 
 [Python3 正则表达式](https://www.runoob.com/python3/python3-reg-expressions.html)  
