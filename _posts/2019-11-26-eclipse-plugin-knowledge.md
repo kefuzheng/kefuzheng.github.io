@@ -14,6 +14,50 @@ IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 IProject project = root.getProject(projectName);
 ```
 
+### 3. 打开perspective
+```java
+IWorkbench workbench = PlatformUI.getWorkbench();
+		if(workbench != null){
+			IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+			if(window != null){
+				try {
+					workbench.showPerspective("perspective id", window);
+				} catch (WorkbenchException e1) {
+					e1.printStackTrace();
+				}
+			}
+		}
+```
+
+### 4. 打开viewer
+```java
+//方式1
+IViewPart view = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("viewer id");
+
+//方式2
+IWorkbenchWindow window PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+IWorkbenchPage activePage = window.getActivePage();
+IViewPart view = activePage.findView("viewer id");
+activePage.activate(view);
+```
+
+### 5. 打开editor
+```java
+try {
+  IDE.openEditor(window.getActivePage(), input(implements IEditorInput), "editor id");
+} catch (PartInitException e) {
+  e.printStackTrace();
+}
+```
+
+### 6. IFile与File的转换
+```java
+IPath path = new Path(temp.getFilePath());
+// get project
+IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject("project name");
+String relativePath = path.toString().substring(project.getLocation().toString().length() + 1);
+IFile file = project.getFile(relativePath);
+```
 ----
 
 [Eclipse插件入门-----刷新资源](https://blog.csdn.net/zyf814/article/details/8448209)
