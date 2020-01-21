@@ -229,6 +229,7 @@ private class InverseSorter extends ViewerComparator {
 ```
 
 ### 3. 右键菜单
+方式1  
 ```java
 // 右键菜单实现展开、关闭所有子节点
 Menu menu = new Menu(tree);
@@ -259,6 +260,42 @@ collapse.addSelectionListener(new SelectionAdapter() {
 });
 
 tree.setMenu(menu);
+```
+方式2  
+```java
+// 使用已有的action 作为menu item
+
+public class ContextMenuGroup extends ActionGroup {
+	@Override
+	public void fillContextMenu(IMenuManager mgr) {
+		IAction openOldSVAction = new Action() {
+			@Override
+			public void run() {
+				AutoPilotReportUtil.openAnalysisPerspective();
+				IFile adb = folder.getFile(name + ".adb");
+				new CreatAndOpenCDFGDiagramUIJob(adb).schedule();
+			};
+		};
+		openOldSVAction.setText("Open Old Schedule Viewer");		
+		mgr.add(openOldSVAction);
+	}
+}
+
+private void hookContextMenu() {
+	MenuManager menuMgr = new MenuManager("#PopupMenu");
+	menuMgr.setRemoveAllWhenShown(true);
+	menuMgr.addMenuListener(new IMenuListener() {
+		public void menuAboutToShow(IMenuManager manager) {
+			ContextMenuGroup actionGroup = new ContextMenuGroup();
+			IStructuredSelection selection = (IStructuredSelection) treeViewer
+					.getSelection();
+			actionGroup.setContext(new ActionContext(selection));
+			actionGroup.fillContextMenu(manager);
+		}
+	});
+	Menu menu = menuMgr.createContextMenu(treeViewer.getTree());
+	treeViewer.getTree().setMenu(menu);
+}
 ```
 
 ### 4. 常见问题
