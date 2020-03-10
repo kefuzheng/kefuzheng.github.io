@@ -58,6 +58,15 @@ IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject("project 
 String relativePath = path.toString().substring(project.getLocation().toString().length() + 1);
 IFile file = project.getFile(relativePath);
 ```
+
+### 7. label自动换行
+```java
+Label mylabel = new Label(composite, SWT.WRAP);
+mylabel.setText(“xxxxxx”);
+mylabel .pack();
+```
+要实现有换行效果的Label只需要在创建Label时，给它的Style设置为SWT.Wrap，然后对其进行pack操作即可。
+
 ----
 
 [Eclipse插件入门-----刷新资源](https://blog.csdn.net/zyf814/article/details/8448209)
