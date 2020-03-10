@@ -67,6 +67,11 @@ mylabel .pack();
 ```
 要实现有换行效果的Label只需要在创建Label时，给它的Style设置为SWT.Wrap，然后对其进行pack操作即可。
 
+### 8.Java split()方法
+split() 方法根据匹配给定的正则表达式来拆分字符串。  
+注意： . 、 $、 | 和 * 等转义字符，必须得加 \\。  
+注意：多个分隔符，可以用 | 作为连字符。  
+
 ----
 
 [Eclipse插件入门-----刷新资源](https://blog.csdn.net/zyf814/article/details/8448209)
