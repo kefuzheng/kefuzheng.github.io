@@ -197,7 +197,7 @@ os.mkdir(folder)  #创建单个目录
 ```
 ### 12. logging模块
 将关键信息输出到console，将所有的信息输入到log文件
-```
+```python
 import logging as log
 
 log.basicConfig(level=log.DEBUG, filename='test.log', format='%(levelname)-8s %(message)s', filemode='w')
@@ -211,7 +211,8 @@ log.debug('test debug')
 #  log和console
 log.info('test info')
 ```
-
+### 13. __name__说明
+自己的 __name__ 在自己用时就是 main，当自己作为模块被调用时就是自己的名字，就相当于：我管自己叫我自己，但是在朋友眼里我就是小仙女一样。
 ----
 
 [Python基础知识](https://kefuzheng.github.io/2019/09/05/python-knowledge.html)  
