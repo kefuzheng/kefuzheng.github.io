@@ -62,8 +62,16 @@ scp 可以在 2个 linux 主机间复制文件
 kefuz@[xhdrdevl27 ~]$
 ### 13. 更改分辨率
 `xrandr -s 1920x1080`
-
+### 14. shell执行多个命令
+（1）在每个命令之间用；（分号）隔开。  
+（2）在每个命令之间用&&隔开。  
+ &&表示：若前一个命令执行成功，才会执行下一个。这样，可确保所有的命令执行完毕后，其执行过程都是成功的
+这种执行方法，经常运用在自动安装的Script中。  
+（3）在每个命令之间用||隔开。  
+ ||表示：若前一个命令执行成功，就不会执行下一条了。  
+ 
 ----
 
 [在VirtualBox下安装linux操作系统](https://blog.csdn.net/yuchao2015/article/details/52132270)  
 [Unix环境下PS1变量的设置](https://www.cnblogs.com/undead/p/3741764.html)  
+[linux shell 执行多个命令的方法](https://blog.csdn.net/ysdaniel/article/details/6127860)  
