@@ -36,8 +36,7 @@ tags: Java
 
 ### 2. 详解
 此代码的背景是，需要将yfile的code进行混淆，此project引用了yfile里面的code，所以需要将project和yfile都作为输入和输出，进行混淆，但是在混淆的过程中将所有project的方法，全部都keep出去，只混淆yfile的code。   
-混淆完毕后，将project中的yfile替换成混淆之后的yfile，这就zip的作用
-
+混淆完毕后，将project中的yfile替换成混淆之后的yfile，这就zip的作用。然后在把混淆的project copy的指定位置。
 
 ----
 
