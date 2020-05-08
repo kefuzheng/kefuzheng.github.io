@@ -305,6 +305,49 @@ private void hookContextMenu() {
 ##### 2. 表格数据的选择状态
 可以通过treeViewer.getSelection() 和setSelection来实现
 
+### 5.在表头和表格内部显示不同的右键菜单
+```java
+tree.addListener(SWT.MenuDetect, new Listener() {
+	public void handleEvent(Event event) {
+		Tree t = (Tree) event.widget;
+		Point pt = t.getDisplay().map(null, t, event.x, event.y);
+		Rectangle clientArea = t.getClientArea();
+		boolean isHeader = ((pt.y - clientArea.y) <= t.getHeaderHeight());
+		if (isHeader) {
+			hookHeaderMenu(t);
+		}
+		t.setMenu(isHeader ? headerMenu : bodyMenu);
+	}
+});
+
+private void hookHeaderMenu(Tree tree) {
+	if (headerMenu != null) {
+		return;
+	}
+	headerMenu = new Menu(tree);
+	MenuItem showAllItem = new MenuItem(headerMenu, SWT.PUSH);
+	showAllItem.setText("Show All Hidden Columns");
+	showAllItem.addSelectionListener(new SelectionAdapter() {
+		@Override
+		public void widgetSelected(SelectionEvent e) {
+			MenuItem item = (MenuItem) e.widget;
+			if (!item.getSelection()) {
+				for (Object[] obj : cacheMap.values()) {
+					obj[1] = COLUMN_WIDTH;
+					obj[3] = true;
+				}
+				for (MenuItem menuItem : headerMenu.getItems()) {
+					menuItem.setSelection(true);
+				}
+			}
+			super.widgetSelected(e);
+			packTree(tree);
+		}
+	});
+	new MenuItem(headerMenu, SWT.SEPARATOR);
+}
+
+```
 
 ----
 

@@ -72,6 +72,66 @@ split() 方法根据匹配给定的正则表达式来拆分字符串。
 注意： . 、 $、 | 和 * 等转义字符，必须得加 \\。  
 注意：多个分隔符，可以用 | 作为连字符。  
 
+### 9.重绘监听
+```java
+Composite textComp = new Composite(pragmaComposite, SWT.NONE);
+textComp.setLayout(new GridLayout(1, false));
+textGrid = new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1);
+textGrid.heightHint = 40;
+textGrid.exclude = true;
+		
+textComp.setLayoutData(textGrid);
+textComp.addPaintListener(new PaintListener() {
+	@Override
+	public void paintControl(PaintEvent e) {
+		GC gc = e.gc;
+		gc.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
+		gc.drawText("RESOURCE directive is deprecated, use\nBIND_OP or BIND_STORAGE instead",
+				5, 0);
+	}
+});
+```
+对composite进行重绘，重新写了文字，这种方法可以用在，有主题颜色覆盖，一般常用的改字体颜色不生效的情况下
+
+### 10.对editor中添加、删除marker
+```java
+import org.eclipse.core.resources.IMarker;
+
+private void createWarningMarker(String lineNumber, String errorMessage,
+		IFile currentFile) {
+	IMarker marker;
+	try {
+		if (currentFile == null || !currentFile.exists()) {
+			return;
+		}
+		marker = currentFile.createMarker(IMarker.PROBLEM);
+		if (marker.exists()) {
+			marker.setAttribute(IMarker.MESSAGE, errorMessage);
+			marker.setAttribute(IMarker.LINE_NUMBER,
+					Integer.parseInt(lineNumber));
+			marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
+			marker.setAttribute(IMarker.LOCATION,
+					Integer.parseInt(lineNumber));
+		}
+	} catch (CoreException e) {
+		e.printStackTrace();
+	}
+}
+
+private void removeWarningMarker(List<Integer> errorLines, IFile currentFile) {
+	try {
+		IMarker[] markers = currentFile.findMarkers(IMarker.PROBLEM, false, 0);
+		for(IMarker marker : markers) {
+			if(!errorLines.contains(marker.getAttribute(IMarker.LINE_NUMBER, -5))) {
+				marker.delete();
+			}
+		}
+	} catch (CoreException e) {
+		e.printStackTrace();
+	}
+}
+```
+
 ----
 
 [Eclipse插件入门-----刷新资源](https://blog.csdn.net/zyf814/article/details/8448209)
