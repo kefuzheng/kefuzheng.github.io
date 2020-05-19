@@ -1,5 +1,5 @@
 ---
-title: Eclipse插件入门
+title: Eclipse插件知识点
 key: 2019-11-26
 tags: Plug-in
 ---
