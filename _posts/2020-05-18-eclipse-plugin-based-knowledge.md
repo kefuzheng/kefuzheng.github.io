@@ -328,6 +328,16 @@ Browser browser = new Browser(shell, SWT.NONE);
 browser.setUrl("http://www.eclipse.org")
 ```
 ### 7. SWT/JFace的事件处理
+##### 1. SWT中的高级事件
+| 组件   | 事件             | 描述                         |
+| :----- | :--------------- | :--------------------------- |
+| Button | Selection        | Button被选中                 |
+|        | DefaultSelection | 用户再Text中输入回车键时激发 |
+| Text   | Modify           | Text内容已经被更改           |
+|        | Verify           | Text内容将要被更改           |
+|        | DefaultSelection | 用户再Comobo输入回车         |
+| Combo  | Modify           | Combo内容被更改              |
+|        | Verify           | Combo内容将被改变            |
 
 
 ----
