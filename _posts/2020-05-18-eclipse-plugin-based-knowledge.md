@@ -332,14 +332,27 @@ browser.setUrl("http://www.eclipse.org")
 - Button
 	- Selection:Button被选中
 - Text
-	- DefaultSelection:用户再Text中输入回车键时激发
+	- **DefaultSelection**:用户再Text中输入回车键时激发
 	- Modify:Text内容已经被更改
 	- Verify:Text内容将要被更改
 - Combo
-	- DefaultSelection:用户再Combo输入回车
+	- **DefaultSelection**:用户再Combo输入回车
 	- Modify:Combo内容被更改
 	- Verify:Combo内容将被改变
-
+- ToolItem
+  - Selection:用户单击工具栏按钮
+- MenuItem
+  - Selection：用户单机菜单项
+  - Arm：鼠标移动到菜单项上
+  - Help：鼠标停在菜单项上按帮助键
+- List
+  - Selection：用户单机List
+  - **DefaultSelection**：用户双击List
+- Tree
+  - Selection：用户单机Tree
+  - **DefaultSelection**：用户双击Tree
+  - Expand：展开
+  - Collapse：折叠
 
 
 ----
