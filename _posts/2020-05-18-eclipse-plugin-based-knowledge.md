@@ -537,18 +537,18 @@ public class AddressPreferencePage extends FieldEditorPreferencePage implements 
 	}
 
   // 字段编辑器
-	public void createFieldEditors(){
-		// 添加目录字段编辑器
-		addFiled(new DirectoryFieldEditor(PreferenceConstants.P_PATH, "&Directory preference:", getFieldEditorParent()));
+	// public void createFieldEditors(){
+	// 	// 添加目录字段编辑器
+	// 	addFiled(new DirectoryFieldEditor(PreferenceConstants.P_PATH, "&Directory preference:", getFieldEditorParent()));
  
-		addFiled(new BooleanFiledEditor(PreferenceConstants.P_BOOLEAN, "&An example of a boolean preference", getFieldEditorParent()));
+	// 	addFiled(new BooleanFiledEditor(PreferenceConstants.P_BOOLEAN, "&An example of a boolean preference", getFieldEditorParent()));
 
-		addFiled(new RadioGroupFieldEditor(PreferenceConstants.P_CHOICE, "An example of a muli-choice preference", 1, new String[][]{{"&Choice 1", "choice1"}, {"C&hoice 2", "choice2"}}, getFieldEditorParent()));
+	// 	addFiled(new RadioGroupFieldEditor(PreferenceConstants.P_CHOICE, "An example of a muli-choice preference", 1, new String[][]{{"&Choice 1", "choice1"}, {"C&hoice 2", "choice2"}}, getFieldEditorParent()));
 
-		addFiled(new StringFieldEditor(PreferenceConstants.P_STRING, "A text prefrence:", getFieldEditorParent()));
+	// 	addFiled(new StringFieldEditor(PreferenceConstants.P_STRING, "A text prefrence:", getFieldEditorParent()));
 
-    addFiled(new ComboFieldEditor(PreferenceConstants.P_VIEW_COMBO,"选择显示的列：", new String[][]{{"名称", "0"}, {"类别","1"}}, getFieldEditorParent()));
-	}
+  //   addFiled(new ComboFieldEditor(PreferenceConstants.P_VIEW_COMBO,"选择显示的列：", new String[][]{{"名称", "0"}, {"类别","1"}}, getFieldEditorParent()));
+	// }
 }
 ```
 添加子首选项页面，需要标明category，多层需要用/分隔
