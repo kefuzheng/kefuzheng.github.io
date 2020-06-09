@@ -421,14 +421,16 @@ Eclipse的**commands**是一个组件的说明和声明的实施细则，从独�
 - 为已存在editor添加操作：org.eclipse.ui.editorActions(DEPRECATED)
 - commands：org.eclipse.ui.commands
 - handlers: org.eclipse.ui.handlers
-- 菜单：org.eclipse.ui.menus(menu,popup,toolbar)
+- 菜单：org.eclipse.ui.menus(menu,popup,toolbar)  
+
 commands方式创建menu：  
 1. 添加org.eclipse.ui.commands扩展，创建一个command
 2. 添加org.eclipse.ui.handlers扩展，创建一个handler，command id指向步骤1中创建的command，并为其编写实现类
 3. 添加org.eclipse.ui.menus扩展，创建一个menuContribution
-4. 为步骤2中创建的handler指定激活状态的表达式
+4. 为步骤2中创建的handler指定激活状态的表达式   
+
 ##### 3. Activicator
-控制插件生命周期的插件类是激活器（Activicator），如果对UI进行操作的，将扩展org.eclipse.ui.plugin.AbstractUIPlugin类；若非UI，扩展org.eclipse.core.runtime.Plugin
+控制插件生命周期的插件类是激活器（Activicator），如果对UI进行操作的，将扩展org.eclipse.ui.plugin.AbstractUIPlugin类；若非UI，扩展org.eclipse.core.runtime.Plugin  
 ### 9. Views
 所有的视图需要继承org.eclipse.ui.ViewPart  
 预定义视图：  
