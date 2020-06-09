@@ -527,14 +527,14 @@ SWT的对话框类，是基于内置平台的；JFace对话框是独立于平台
 扩展org.eclipse.ui.preferencePages,选择它给的模板，然后更改模板的类名和名称  
 首选项页面必须实现org.eclipse.ui.IWorkbenchPreferencePage接口，可以继承org.eclipse.jface.prefrence.PreferencePage来简化处理过程，FieldEditorPreferencePage可以进一步简化，不过在继承此类时，还需要实现IWorkbenchPreferencePage
 ```java
-public class AddressPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage{
-	public AddressPreferencePage(){
-		// 布局样式GRID或FLAT
-		super(GRID);
-		// 关联首选项的存储
-		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("A demo of a preference page")
-	}
+// public class AddressPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage{
+// 	public AddressPreferencePage(){
+// 		// 布局样式GRID或FLAT
+// 		super(GRID);
+// 		// 关联首选项的存储
+// 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
+// 		setDescription("A demo of a preference page")
+// 	}
 
   // 字段编辑器
 	// public void createFieldEditors(){
@@ -549,7 +549,7 @@ public class AddressPreferencePage extends FieldEditorPreferencePage implements 
 
   //   addFiled(new ComboFieldEditor(PreferenceConstants.P_VIEW_COMBO,"选择显示的列：", new String[][]{{"名称", "0"}, {"类别","1"}}, getFieldEditorParent()));
 	// }
-}
+// }
 ```
 添加子首选项页面，需要标明category，多层需要用/分隔
 ### 14. 不常用功能
