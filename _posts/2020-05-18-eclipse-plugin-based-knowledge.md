@@ -527,29 +527,28 @@ SWT的对话框类，是基于内置平台的；JFace对话框是独立于平台
 扩展org.eclipse.ui.preferencePages,选择它给的模板，然后更改模板的类名和名称  
 首选项页面必须实现org.eclipse.ui.IWorkbenchPreferencePage接口，可以继承org.eclipse.jface.prefrence.PreferencePage来简化处理过程，FieldEditorPreferencePage可以进一步简化，不过在继承此类时，还需要实现IWorkbenchPreferencePage
 ```java
-// public class AddressPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage{
-// 	public AddressPreferencePage(){
-// 		// 布局样式GRID或FLAT
-// 		super(GRID);
-// 		// 关联首选项的存储
-// 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-// 		setDescription("A demo of a preference page")
-// 	}
+public class AddressPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage{
+	public AddressPreferencePage(){
+		// 布局样式GRID或FLAT
+		super(GRID);
+		// 关联首选项的存储
+		setPreferenceStore(Activator.getDefault().getPreferenceStore());
+		setDescription("A demo of a preference page")
+	}
 
   // 字段编辑器
-	// public void createFieldEditors(){
-	// 	// 添加目录字段编辑器
-	// 	addFiled(new DirectoryFieldEditor(PreferenceConstants.P_PATH, "&Directory preference:", getFieldEditorParent()));
+	public void createFieldEditors(){
+		// 添加目录字段编辑器
+		addFiled(new DirectoryFieldEditor(PreferenceConstants.P_PATH, "&Directory preference:", getFieldEditorParent()));
  
-	// 	addFiled(new BooleanFiledEditor(PreferenceConstants.P_BOOLEAN, "&An example of a boolean preference", getFieldEditorParent()));
+		addFiled(new BooleanFiledEditor(PreferenceConstants.P_BOOLEAN, "&An example of a boolean preference", getFieldEditorParent()));
+// new RadioGroupFieldEditor(PreferenceConstants.P_CHOICE
 
-	// 	addFiled(new RadioGroupFieldEditor(PreferenceConstants.P_CHOICE, "An example of a muli-choice preference", 1, new String[][]{{"&Choice 1", "choice1"}, {"C&hoice 2", "choice2"}}, getFieldEditorParent()));
+		addFiled(new StringFieldEditor(PreferenceConstants.P_STRING, "A text prefrence:", getFieldEditorParent()));
 
-	// 	addFiled(new StringFieldEditor(PreferenceConstants.P_STRING, "A text prefrence:", getFieldEditorParent()));
-
-  //   addFiled(new ComboFieldEditor(PreferenceConstants.P_VIEW_COMBO,"选择显示的列：", new String[][]{{"名称", "0"}, {"类别","1"}}, getFieldEditorParent()));
-	// }
-// }
+    addFiled(new ComboFieldEditor(PreferenceConstants.P_VIEW_COMBO,"选择显示的列：", new String[][]{{"名称", "0"}, {"类别","1"}}, getFieldEditorParent()));
+	}
+}
 ```
 添加子首选项页面，需要标明category，多层需要用/分隔
 ### 14. 不常用功能
