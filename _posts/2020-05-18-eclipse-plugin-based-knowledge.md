@@ -348,6 +348,7 @@ browser.setUrl("http://www.eclipse.org")
   - **DefaultSelection**：用户双击Tree
   - Expand：展开
   - Collapse：折叠
+
 ##### 2. 鼠标事件
 MouseEvent：左键的值为1，右键为2，中键为3，0代表没有键被按下
 ##### 3. 使用SWT模拟键盘/鼠标事件
