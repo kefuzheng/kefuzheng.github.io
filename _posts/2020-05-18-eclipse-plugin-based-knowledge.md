@@ -39,7 +39,6 @@ Display.syncExec(Runnable runnable)
 Display.asyncExec(Runnable runnable)
 // 通知UI线程在下一个事件循环中执行runnable参数的run方法。调用这个方法的线程将，不会被阻塞， 而且在runnable执行完成后不会得到通知
 ```
-
 ### 2. 控件（Control）
 所有的控件类都从org.eclipse.swt.widget.Control继承而来，而Control的父类为Widget。  
 Widget是所有和窗口相关的部件的父类，它为所有的窗口组件提纲了创建对象（申请资源）、释放资源和事件监听的功能。  
@@ -50,7 +49,6 @@ Widget有两个比较重要的子类，Control类是所有控件的父类；而I
 控件也会占用系统资源，这部分资源的分配实在控件的构造函数中完成的。  
 控件是存在于shell之中的，所有它的父资源是shell控件，当窗口关闭的时候，所有的控件资源都会被释放。  
 手动释放控件资源会导致一系列问题，如果不是万不得已，最后不要手动释放一个控件，而应该交给SWT系统自动释放它们。
-
 ### 3. 图形资源
 SWT中几种常见的图形资源，都继承自org.eclipse.swt.graphics.Resource.
 ##### 1.Color
@@ -86,7 +84,6 @@ JPanel panel = new JPanel();
 panel.setLayout(null);
 frame.add(panel, BorderLayout.CENTER);
 ```
-
 ### 4. 基本控件和对话框的使用
 ##### 1. 控件的使用
 使用样式SWT.BORDER显示边框，SWT.NONE无边框。  
@@ -173,7 +170,6 @@ fileDialog.setFilterPath("path")
 fileDialog.open();
 ```
 目录对话框：DirectoryDialog
-
 ### 5. 容器和布局管理器
 ##### 1. Composite
 创建有边框的Composite：  
@@ -258,7 +254,6 @@ composite.setLayout(layout);
 layout.topControl = ~
 composite.layout();
 ```
-
 ### 6. 高级控件
 ##### 1. List、Tree和Table
 ContentProvider:解析模型，取得查看器所需要的内容；监听数据模型的变化(PropertyChangeListener)   
@@ -353,9 +348,220 @@ browser.setUrl("http://www.eclipse.org")
   - **DefaultSelection**：用户双击Tree
   - Expand：展开
   - Collapse：折叠
+##### 2. 鼠标事件
+MouseEvent：左键的值为1，右键为2，中键为3，0代表没有键被按下
+##### 3. 使用SWT模拟键盘/鼠标事件
+先创建一个org.eclipse.swt.widgets.Event实例，然后使用Display.post()将它加到操作系统的事件队列中
+```java
+//首先将焦点定位到Text，这样后续的KeyEvent才会发到Text中
+display.syncExec(new Runnable(){
+	public void run(){
+		text.setFocus();
+	}
+})
+Event event = new Event();
+event.type = SWT.KeyDown;
+event.character = "a";
+display.post(event);
+```
+##### 4. JFace事件处理
+Action可以直接继承org.eclipse.jface.action.Action
+```java
+public class MyAction extends Action{
+	public static String ID = "MyAction";
+	//在构造函数中设置各种用于显示的内容
+	public MyAction(){
+		super();
+		setId(ID);
+		setText("My Action");
+		setToolTip...;
+		setImageDescriptor...;
+	}
 
+	public void run(){
+		//具体的用户操作
+	}
+}
+```
+MenuManager创建菜单：可以使用已有的action
+```java
+MenuManager barMgr = new MenuManager();
+barMgr.add(new MyAction);
+Menu bar = barMgr.createMenuBar(shell);
+shell.setMenuBar(bar);
+
+// 第一个参数：菜单显示文字，第二个：菜单ID
+MenuManager childMgr = new MenuManager("child menu", "childMgr");
+childMgr.add(new MyAction());
+barMgr.add(childMgr);
+// 菜单已经生产，需要刷新它的内容
+barMgr.update(true);
+```
+由于action具有一定的局限性，现在用commands来代替action   
+Eclipse的**commands**是一个组件的说明和声明的实施细则，从独立。一个commands可以被归类，分配给用户界面和一键绑定可以为命令定义。commands的行为可以通过定义一个处理程序。  
+因此，你必须要定义和使用一个commands
+- 描述该组件的声明 - 通过定义扩展点org.eclipse.ui.commands
+- Handler - 定义行为（继承org.eclipse.core.commands.AbstractHandler）
+- UI的分配 - 在哪里，怎样的commands包含在用户界面
+### 8. Eclipse插件体系结构
+##### 1. Eclipse工作台各层次结构
+- 工作台（workbench）：定义了eclipse的UI聚合体，是不可见的，包括一个或多个Eclipse工作窗口
+- 工作台窗口(IWorkbenchWindow)：是顶层窗口，包含菜单栏、工具栏和多个工作页面
+- 工作台页面(IWorkenbenPage)：包含视图和编辑器，透视图在它的上面
+- 透视图(Perspective)：是页面的附加层，用来定义工作各部件的可视化排列方式
+- 视图(View)：ViewPart
+- 编辑器(Editor)：EditorPart
+##### 2. 常用扩展点
+- 视图：org.eclipse.ui.views
+- 编辑器：org.eclipse.ui.editors
+- 上下文菜单：org.eclipse.ui.popupMenus(DEPRECATED)
+- 菜单和工具栏：org.eclipse.ui.actionSets(DEPRECATED)
+- 为已存在view添加操作：org.eclipse.ui.viewActions(DEPRECATED)
+- 为已存在editor添加操作：org.eclipse.ui.editorActions(DEPRECATED)
+- commands：org.eclipse.ui.commands
+- handlers: org.eclipse.ui.handlers
+- 菜单：org.eclipse.ui.menus(menu,popup,toolbar)
+commands方式创建menu：  
+1. 添加org.eclipse.ui.commands扩展，创建一个command
+2. 添加org.eclipse.ui.handlers扩展，创建一个handler，command id指向步骤1中创建的command，并为其编写实现类
+3. 添加org.eclipse.ui.menus扩展，创建一个menuContribution
+4. 为步骤2中创建的handler指定激活状态的表达式
+##### 3. Activicator
+控制插件生命周期的插件类是激活器（Activicator），如果对UI进行操作的，将扩展org.eclipse.ui.plugin.AbstractUIPlugin类；若非UI，扩展org.eclipse.core.runtime.Plugin
+### 9. Views
+所有的视图需要继承org.eclipse.ui.ViewPart  
+预定义视图：  
+- ResourceNavigator(DEPRECATED), 现在使用CommonNavigator
+- PageBookView：包含多个页面
+- ContentOutline：大纲视图，无法被再次实例化或拥有子类，id：org.eclipse.ui.views.ContentOutline
+- PropertySheet:属性视图，无法被再次实例化或拥有子类，id：org.eclipse.ui.views.PropertySheet
+- BookmarkNavigator：书签栏，无法被再次实例化或拥有子类，id：org.eclipse.ui.views.BookmarkNavigator
+- TaskList：任务栏，无法被再次实例化或拥有子类，id：org.eclipse.ui.views.TaskList
+##### 1. 创建视图
+- 添加category，在org.eclipse.ui.views扩展点上，右键，新建category
+- 右键，新建视图：fastViewWidthRatio定义视图出现在工作台窗口时的宽度百分比（0.5f~0.95f）,allowMuntiple是否允许在工作台页面中出现多个该视图的实例
+- 创建视图，继承org.eclipse.ui.ViewPart，createPartControl(Composite)定义视图的用户界面，setFocus()也是必须实现的方法，它将焦点设定到视图中合适的控件上
+##### 2. 视图类
+通常在视图中仅包含**一个单一**的JFace表或树，当然在视图中也可以直接使用SWT控件或多个查看器，但是作为良好的设计喜欢，应该尽可能保证视图有一个简洁的结构。  
+- 对于TableViewer的排序，通过实现ViewerComparator的compare方法
+- 过滤，实现ViewerFilter的setPattern(String newPattern)方法
+- 上下文菜单：参考之前的内容
+- 获取工具栏：getViewSite().getActionBars().getToolBarManager();
+- 获取下拉菜单：getViewSite().getActionBars().getMenuManager();
+- 绑定快捷键：viewer.getControl.addKeyListener(new KeyAdapter(){public void keyReleased(KeyEvent event){...}})
+##### 3. 视图间通信
+视图中共享被选中的内容，必须调用WorkbenchSite，代码如下：  
+`getViewSite().setSelectionProvider(viewer);`  
+org.eclipse.core.runtime.IAdaptable接口，允许一个对象将它不理解的类型对象转换成另一种可以询问和控制的类型对象。  
+```java
+public class AddressItem implements IAdaptable{
+	....
+	public Object getAdapter(Class adapter){
+		return new AddressItemPropertySource(this);
+	}
+	return null;
+}
+```
+监听其他workbench部分被选中的内容，只要在本视图中实现ISelectionListener接口，就可以监听其他Workbench部分了。  
+```java
+public class AddressView extends ViewPart implements ISelectionListener{
+	....
+	public void createPartContrl(Composite parent){
+		getSite().getPage().addSelectionListener(this);
+	}
+
+  // 对于选择事件的处理
+	public void selectionChanged(){
+
+	}
+}
+```
+##### 4. 持久化排序和过滤信息
+- 在sort中添加saveState()和init()方法
+- 重写ViewPart中的init()和saveState()方法来获取和保存IMemento对象
+### 10. Editors
+编辑器必须实现org.eclipse.ui.IEditorPart接口，可以通过继承其子类org.eclipse.ui.part.EditorPart和org.eclipse.ui.part.WorkbenchPart  
+数据源：IEditorInput，IPathEditorInput描述了本地文件的数据格式源，IFileEditorInput描述了基本的基于文件的输入数据源  
+当编辑器被创建后，在init()来设定，也可通过getEditorInput()的方法来重新获取  
+##### 1. 几种主要的Editors
+- AbstractTextEditor:基于文本的编辑器
+- MultiEditor:一个GUI中合并了不同的编辑器
+- MultiPageEditorPart：多页面编辑器
+- FormEditor：继承了MultiPageEditorPart用来实现基于表格的编辑器
+##### 2. FormEditor的使用
+1. 扩展org.eclipse.ui.editors
+2. editor继承FormEditor，实现addPages()
+3. 编辑器的输入，继承FormEditorInput
+4. 各个页面继承FormPage
+5. Master-Details风格的页面，可继承MasterDetailsBlock来实现
+6. FormText中支持部分html标签
+7. editor的工具栏：form.getToolBarManager()
+### 11. 透视图(Perspectives)
+透视图时UI层的概念，它实际上视图和操作的集合，一个工作台窗口可以包括多个透视图  
+##### 1. 创建透视图
+- 扩展org.eclipse.ui.perspectives
+- 实现IPerspectiveFactory接口
+##### 2. IPageLayout
+- createFolder(String, int, float, String):在页面布局中创建给定ID的文件夹
+- createPlaceholderFolder(String, int, float, String):在页面布局中创建给定ID的新文件夹占位符
+- addView(String, int, float, String)：在页面布局中添加给定ID的视图
+- addPlaceholder(String, int, float, String):添加给定ID视图的占位符
+- getEditorArea():返回该页面布局中的编辑器区域的特定标识符
+##### 3. 扩展现有的透视图
+使用org.eclipse.ui.perspectiveExtensions扩展点
+- id：要添加的视图的id
+- relative：基础视图的id
+- relationShip：应该如何相对于目标视图（fast，stack，left，right，top，bottom）
+### 12. Dialog and Wizard
+对话框和向导不属于Workbench的一部分，是eclipse的第三类用户界面元素  
+SWT的对话框类，是基于内置平台的；JFace对话框是独立于平台的
+##### 1. JFace对话框
+可继承org.eclipse.jface.dialogs.Dialog,org.eclipse.jface.dialogs.TitleAreaDialog,org.eclipse.ui.dialogs.SelectionDialog
+##### 2. 向导Wizard
+- 定义向导扩展：org.eclipse.ui.newWizard(INewWizard),org.eclipse.ui.importWizard(IImportWizard),org.eclipse.ui.exportWizard(IExportWizard)
+- 向导：继承Wizard类，实现对应的接口，重写init(),performFinish(),addPages()等方法
+- 向导页面：继承WizardPage类
+- 添加向导处理逻辑
+- 点击下一步按钮，可重写**setVisible()**方法来，根据前一个页面的内容，将页面赋值
+### 13. 首选项Preferences
+扩展org.eclipse.ui.preferencePages,选择它给的模板，然后更改模板的类名和名称  
+首选项页面必须实现org.eclipse.ui.IWorkbenchPreferencePage接口，可以继承org.eclipse.jface.prefrence.PreferencePage来简化处理过程，FieldEditorPreferencePage可以进一步简化，不过在继承此类时，还需要实现IWorkbenchPreferencePage
+```java
+public class AddressPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage{
+	public AddressPreferencePage(){
+		// 布局样式GRID或FLAT
+		super(GRID);
+		// 关联首选项的存储
+		setPreferenceStore(Activator.getDefault().getPreferenceStore());
+		setDescription("A demo of a preference page")
+	}
+
+  // 字段编辑器
+	public void createFieldEditors(){
+		// 添加目录字段编辑器
+		addFiled(new DirectoryFieldEditor(PreferenceConstants.P_PATH, "&Directory preference:", getFieldEditorParent()));
+ 
+		addFiled(new BooleanFiledEditor(PreferenceConstants.P_BOOLEAN, "&An example of a boolean preference", getFieldEditorParent()));
+
+		addFiled(new RadioGroupFieldEditor(PreferenceConstants.P_CHOICE, "An example of a muli-choice preference", 1, new String[][]{{"&Choice 1", "choice1"}, {"C&hoice 2", "choice2"}}, getFieldEditorParent()));
+
+		addFiled(new StringFieldEditor(PreferenceConstants.P_STRING, "A text prefrence:", getFieldEditorParent()));
+
+    addFiled(new ComboFieldEditor(PreferenceConstants.P_VIEW_COMBO,"选择显示的列：", new String[][]{{"名称", "0"}, {"类别","1"}}, getFieldEditorParent()));
+	}
+}
+```
+添加子首选项页面，需要标明category，多层需要用/分隔
+### 14. 不常用功能
+##### 1. Eclipse帮助系统
+将已有的html，pdf导入帮助系统，需要扩展org.eclipse.help.toc，在上下文中提供帮助系统，需要扩展org.eclipse.help.contexts
+##### 2. 备忘单
+扩展org.eclipse.ui.cheatsheets.cheatSheetContent
 
 ----
 
-[Eclipse插件入门-----刷新资源](https://blog.csdn.net/zyf814/article/details/8448209)
-
+[Platform Command Framework](https://wiki.eclipse.org/Platform_Command_Framework)  
+[Eclipse Commands 指南(一)](https://blog.csdn.net/redshlink/article/details/5865146)  
+[Eclipse Commands 指南(二)](https://blog.csdn.net/redshlink/article/details/5881338?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.nonecase)  
+[Eclipse 插件开发 -- 深入理解菜单（Menu）功能及其扩展点](https://www.ibm.com/developerworks/cn/opensource/os-cn-ecl-menuext/index.html)  
+[org.eclipse.ui.menus扩展点学习](https://www.cnblogs.com/huadoumi/p/5669947.html)  

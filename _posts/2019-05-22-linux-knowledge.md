@@ -18,6 +18,7 @@ tags: Linux
 `tar -zcvf file.tar.gz dirName`    指定目录压缩到tar包  
 `unzip file.zip -d dirName` 解压zip包到指定目录  
 `zip -r file.zip dirName`   指定目录压缩到zip包
+`zip -d xxx.zip "WEB-INF/web.xml"` 删除xxx.zip压缩包里WEB-INF目录下的web.xml文件
 ### 5. tail
 `tail -f file` 实时输出文件更新的内容
 ### 6. cp
@@ -63,13 +64,43 @@ kefuz@[xhdrdevl27 ~]$
 ### 13. 更改分辨率
 `xrandr -s 1920x1080`
 ### 14. shell执行多个命令
-（1）在每个命令之间用；（分号）隔开。  
+（1）在每个命令之间用;（分号）隔开。  
+`command1;command2` 分号连接的命令会按照顺序从前向后依次执行，但分号两端的命令之间没有任何逻辑关系，所有写出来的命令最终都会被执行，即使分号前面的命令出错也不影响后面的命令
 （2）在每个命令之间用&&隔开。  
- &&表示：若前一个命令执行成功，才会执行下一个。这样，可确保所有的命令执行完毕后，其执行过程都是成功的
+`command1  &&  command2`   
+ &&表示：逻辑与。&&连接的命令会按照顺序从前向后执行，但只有当command1正确执行才执行command2，如果command1不正确执行，则不执行command2。  
 这种执行方法，经常运用在自动安装的Script中。  
 （3）在每个命令之间用||隔开。  
- ||表示：若前一个命令执行成功，就不会执行下一条了。  
- 
+`command1 || command2`   
+ ||表示：逻辑或。||连接的命令会按照顺序从前向后执行，但只有当command1不正确执行才执行command2，command1正确执行则不会执行command2  
+ (4)&
+ `command1 &`   
+ `command1 & command2`   
+ &表示将其前面的命令放入后台执行，放入后台后会立即返回到bash环境让用户可以继续和bash交互。如果&符号连接了两个命令，则其前面的命令被放入后台，立即执行后面的命令，所以可以简单地认为这两个命令是并行执行的，两端的命令之间也没有任何逻辑关系。
+ (5)|
+ `command1 | command2`   
+ |叫做管道符，可以将command1的结果作为command2的输入
+### 15. bsub
+##### 1. 命令格式：
+  `bsub [options] command [argument]`
+##### 2. 参数含义 
+```
+-q   选择队列
+-i   指定输入文件  
+-I   交互模式，此时终端不能输入
+-o   指定输出文件，作业提交后标准输出的信息会保存到这个文件中。
+-e   指定输出文件，作业提交后标准错误输出的信息会保存到这个文件中。
+-n   指定作业需要的CPU核
+-J   作业的名字
+```
+##### 3. 命令
+```
+bjobs：查看系统的job
+bsub：提交作业
+bhist：查看作业历史
+bkill：kill一个作业
+```
+
 ----
 
 [在VirtualBox下安装linux操作系统](https://blog.csdn.net/yuchao2015/article/details/52132270)  
