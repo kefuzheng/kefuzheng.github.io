@@ -440,6 +440,7 @@ commands方式创建menu：
 - PropertySheet:属性视图，无法被再次实例化或拥有子类，id：org.eclipse.ui.views.PropertySheet
 - BookmarkNavigator：书签栏，无法被再次实例化或拥有子类，id：org.eclipse.ui.views.BookmarkNavigator
 - TaskList：任务栏，无法被再次实例化或拥有子类，id：org.eclipse.ui.views.TaskList
+
 ##### 1. 创建视图
 - 添加category，在org.eclipse.ui.views扩展点上，右键，新建category
 - 右键，新建视图：fastViewWidthRatio定义视图出现在工作台窗口时的宽度百分比（0.5f~0.95f）,allowMuntiple是否允许在工作台页面中出现多个该视图的实例
@@ -452,6 +453,7 @@ commands方式创建menu：
 - 获取工具栏：getViewSite().getActionBars().getToolBarManager();
 - 获取下拉菜单：getViewSite().getActionBars().getMenuManager();
 - 绑定快捷键：viewer.getControl.addKeyListener(new KeyAdapter(){public void keyReleased(KeyEvent event){...}})
+
 ##### 3. 视图间通信
 视图中共享被选中的内容，必须调用WorkbenchSite，代码如下：  
 `getViewSite().setSelectionProvider(viewer);`  
@@ -482,6 +484,7 @@ public class AddressView extends ViewPart implements ISelectionListener{
 ##### 4. 持久化排序和过滤信息
 - 在sort中添加saveState()和init()方法
 - 重写ViewPart中的init()和saveState()方法来获取和保存IMemento对象
+
 ### 10. Editors
 编辑器必须实现org.eclipse.ui.IEditorPart接口，可以通过继承其子类org.eclipse.ui.part.EditorPart和org.eclipse.ui.part.WorkbenchPart  
 数据源：IEditorInput，IPathEditorInput描述了本地文件的数据格式源，IFileEditorInput描述了基本的基于文件的输入数据源  
@@ -491,6 +494,7 @@ public class AddressView extends ViewPart implements ISelectionListener{
 - MultiEditor:一个GUI中合并了不同的编辑器
 - MultiPageEditorPart：多页面编辑器
 - FormEditor：继承了MultiPageEditorPart用来实现基于表格的编辑器
+
 ##### 2. FormEditor的使用
 1. 扩展org.eclipse.ui.editors
 2. editor继承FormEditor，实现addPages()
@@ -499,22 +503,26 @@ public class AddressView extends ViewPart implements ISelectionListener{
 5. Master-Details风格的页面，可继承MasterDetailsBlock来实现
 6. FormText中支持部分html标签
 7. editor的工具栏：form.getToolBarManager()
+
 ### 11. 透视图(Perspectives)
 透视图时UI层的概念，它实际上视图和操作的集合，一个工作台窗口可以包括多个透视图  
 ##### 1. 创建透视图
 - 扩展org.eclipse.ui.perspectives
 - 实现IPerspectiveFactory接口
+
 ##### 2. IPageLayout
 - createFolder(String, int, float, String):在页面布局中创建给定ID的文件夹
 - createPlaceholderFolder(String, int, float, String):在页面布局中创建给定ID的新文件夹占位符
 - addView(String, int, float, String)：在页面布局中添加给定ID的视图
 - addPlaceholder(String, int, float, String):添加给定ID视图的占位符
 - getEditorArea():返回该页面布局中的编辑器区域的特定标识符
+
 ##### 3. 扩展现有的透视图
 使用org.eclipse.ui.perspectiveExtensions扩展点
 - id：要添加的视图的id
 - relative：基础视图的id
 - relationShip：应该如何相对于目标视图（fast，stack，left，right，top，bottom）
+
 ### 12. Dialog and Wizard
 对话框和向导不属于Workbench的一部分，是eclipse的第三类用户界面元素  
 SWT的对话框类，是基于内置平台的；JFace对话框是独立于平台的
@@ -526,6 +534,7 @@ SWT的对话框类，是基于内置平台的；JFace对话框是独立于平台
 - 向导页面：继承WizardPage类
 - 添加向导处理逻辑
 - 点击下一步按钮，可重写**setVisible()**方法来，根据前一个页面的内容，将页面赋值
+
 ### 13. 首选项Preferences
 扩展org.eclipse.ui.preferencePages,选择它给的模板，然后更改模板的类名和名称  
 首选项页面必须实现org.eclipse.ui.IWorkbenchPreferencePage接口，可以继承org.eclipse.jface.prefrence.PreferencePage来简化处理过程，FieldEditorPreferencePage可以进一步简化，不过在继承此类时，还需要实现IWorkbenchPreferencePage
