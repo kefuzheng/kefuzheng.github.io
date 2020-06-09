@@ -404,6 +404,7 @@ Eclipse的**commands**是一个组件的说明和声明的实施细则，从独�
 - 描述该组件的声明 - 通过定义扩展点org.eclipse.ui.commands
 - Handler - 定义行为（继承org.eclipse.core.commands.AbstractHandler）
 - UI的分配 - 在哪里，怎样的commands包含在用户界面
+
 ### 8. Eclipse插件体系结构
 ##### 1. Eclipse工作台各层次结构
 - 工作台（workbench）：定义了eclipse的UI聚合体，是不可见的，包括一个或多个Eclipse工作窗口
@@ -412,6 +413,7 @@ Eclipse的**commands**是一个组件的说明和声明的实施细则，从独�
 - 透视图(Perspective)：是页面的附加层，用来定义工作各部件的可视化排列方式
 - 视图(View)：ViewPart
 - 编辑器(Editor)：EditorPart
+
 ##### 2. 常用扩展点
 - 视图：org.eclipse.ui.views
 - 编辑器：org.eclipse.ui.editors
@@ -445,6 +447,7 @@ commands方式创建menu：
 - 添加category，在org.eclipse.ui.views扩展点上，右键，新建category
 - 右键，新建视图：fastViewWidthRatio定义视图出现在工作台窗口时的宽度百分比（0.5f~0.95f）,allowMuntiple是否允许在工作台页面中出现多个该视图的实例
 - 创建视图，继承org.eclipse.ui.ViewPart，createPartControl(Composite)定义视图的用户界面，setFocus()也是必须实现的方法，它将焦点设定到视图中合适的控件上
+
 ##### 2. 视图类
 通常在视图中仅包含**一个单一**的JFace表或树，当然在视图中也可以直接使用SWT控件或多个查看器，但是作为良好的设计喜欢，应该尽可能保证视图有一个简洁的结构。  
 - 对于TableViewer的排序，通过实现ViewerComparator的compare方法
