@@ -545,8 +545,7 @@ public class AddressPreferencePage extends FieldEditorPreferencePage implements 
 // new RadioGroupFieldEditor(PreferenceConstants.P_CHOICE
 
 		addFiled(new StringFieldEditor(PreferenceConstants.P_STRING, "A text prefrence:", getFieldEditorParent()));
-
-    addFiled(new ComboFieldEditor(PreferenceConstants.P_VIEW_COMBO,"选择显示的列：", new String[][]{{"名称", "0"}, {"类别","1"}}, getFieldEditorParent()));
+// new ComboFieldEditor(PreferenceConstants.P_VIEW_COMBO
 	}
 }
 ```
