@@ -565,11 +565,51 @@ public class AddressPreferencePage extends FieldEditorPreferencePage implements 
 }
 ```
 添加子首选项页面，需要标明category，多层需要用/分隔
-### 14. 不常用功能
+### 14. 插件开发的高级内容
 ##### 1. Eclipse帮助系统
 将已有的html，pdf导入帮助系统，需要扩展org.eclipse.help.toc，在上下文中提供帮助系统，需要扩展org.eclipse.help.contexts
 ##### 2. 备忘单
 扩展org.eclipse.ui.cheatsheets.cheatSheetContent
+##### 3. 扩展点与扩展被读取和装载的过程
+- Eclipse平台启动时，首先读取所有插件的plugin.xml中声明的扩展点，并建立一个注册表
+- Eclipse平台读取所有的扩展声明并根据point元素的值将扩展与扩展点一一对应，同时根据扩展点的Schema检查扩展的格式。
+
+在代码中获取这个注册表：  
+```java
+IExtensionRegistry registry = org.eclipse.core.runtime.Platform.getExtensionRegistry();
+IExtensionPoint point = registry.getExtensionPoint("org.eclipse.ui.actionSets");
+IExtension[] extensions = point.getExtensions();
+IExtension extension = registry.getExtension("myActions");
+```
+##### 4. 使用资源束（ResourceBundle）进行文本翻译
+```java
+ResourceBundle bundle = ResourceBundle.getBundle("Message", Locale.getDefault());
+String welcomeMsg = bundle.getString("Message_1");
+```
+##### 5. 功能部件（feature）
+一个基于插件的软件产品出于灵活性考虑，都不会只由一个插件构成，而是设计成相对独立又相互关联的多个插件组合。一个功能部件就是由一个或多个插件及它们的附加数据构成的软件产品。
+
+### 15. RCP技术
+##### 1. RCP框架结构
+1. 由Equinox和Runtime组成，负责管理整个插件结构体系。其中Eclipse Runtime模块负责解析和管理插件之间的扩展点和扩展的相互关联；而Equinox则管理插件的版本，依赖关系以及动态的载入、卸载等内容。
+2. UI相关的插件，由SWT和JFace，以及基于其上的Eclipse UI框架构成。Eclipse UI框架的插件包含了透视图、编辑器、视图、首选项、向导页和操作集等扩展点。
+3. 自动升级、帮助系统等可选模块
+
+##### 2. OSGi框架
+- 模块层(Modules)：模块层为了每个模块提供了独立的类读取器，这意味着用户可以创建只在模块内可见的类、对象或资源，模块层还为模块之间的访问提供了完善的控制机制
+- 生命周期管理(Life Cycle)：生命周期管理层负责在运行时对组件进行管理，通过这一层提供的服务，开发者可以动态地添加、删除、升级、启动或禁用各个组件。
+- 服务注册表(Service Registry)：服务注册表帮助动态变化的组件维护相互引用的关系。在服务注册表中，每一个需要共享的Java对象都是一项服务(service)，当某一项服务可用或不可用时，服务注册表都会发出对应的事件，组件可以通过这些事件了解服务的变化并相应的作出反应。
+  
+##### 3. RCP程序的结构
+RCP插件与普通插件的区别，就在于org.eclipse.core.runtime.applications这个扩展点。  
+applications扩展点时Eclipse平台运行的入口。默认情况下，启动eclipse.exe时，平台会根据configuration/config.ini文件中设定的eclipse.application的属性值来巨顶要启动的入口点。  
+org.eclipse.core.runtime.products扩展点用于指定与工作的装饰，每一个products扩展唯一地关联着一个applications扩展，因为通过products扩展也可以找到启动入口点，如果通过products启动的applications创建了工作台，那么在products中指定的装饰就会应用到工作台窗口中。  
+##### 4. 创建RCP程序
+会扩展两个扩展点，生成五个java文件，Application, ApplicationActionBarAdvisor, ApplicationWorkbenchAdvisor, ApplicationWorkbenchWindowAdvisor, Perspective
+##### 5. 第三方安装程序制作软件
+如InstallShield，将其制成安装程序发布到最终用户。
+##### 6. 欢迎页（Intro）
+扩展org.eclipse.ui.intro和org.eclipse.ui.intro.config
 
 ----
 
