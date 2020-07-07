@@ -611,6 +611,8 @@ org.eclipse.core.runtime.products扩展点用于指定与工作的装饰，每�
 ##### 6. 欢迎页（Intro）
 扩展org.eclipse.ui.intro和org.eclipse.ui.intro.config
 
+
+
 ----
 
 [Platform Command Framework](https://wiki.eclipse.org/Platform_Command_Framework)  
