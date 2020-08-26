@@ -131,6 +131,66 @@ private void removeWarningMarker(List<Integer> errorLines, IFile currentFile) {
 	}
 }
 ```
+### 10. SWT的Text的几种监听事件
+1. 文本框按键监听事件，遇到的应用场景：需要对文本框进行输入长度限制时
+```java
+txtSample.addKeyListener(new KeyAdapter() { 　//按键监听
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if(txtSample.getText().length > 3){ //判断文本框输入长度是否大于4
+            e.doit = false;  //doit属性如果为true,则字符允许输入,反之不允许 
+        }
+    }
+});
+```
+2. 文本框焦点获取监听，遇到的应用场景：当文本框的输入不是使用键盘而是界面上的按钮键盘。
+```java
+countText1.addFocusListener(new FocusAdapter() { // 焦点监听
+    @Override
+    public void focusGained(FocusEvent arg0) {
+        flag = 1;  //flag为一个全局变量，用来标志当前是在哪个文本框进行输入
+        }
+});
+```
+3. 内容改变监听事件，遇到的应用场景：一个文本框内容改变时，其他文本框或label标签需要同步改变
+```java
+countText1.addModifyListener(new ModifyListener() {// 内容改变监听
+     @Override
+     public void modifyText(ModifyEvent arg0) {
+         setTotalValue(); //用来进行计算总计项的方法
+         }
+});
+```
+4. 输入类型限制监听，遇到的应用场景：当文本框的输入只允许输入数字（输入身份证号码或金额）。
+```java
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.events.VerifyListener;
+public class TextVerifyListener implements VerifyListener{
+	private int type;
+	public TextVerifyListener(int type){
+		this.type=type;
+	}
+	public void verifyText(VerifyEvent e) {
+	    // TODO Auto-generated method stub
+	    if(type==1){//只能输入数字
+	        boolean b = "0123456789".indexOf(e.text) >= 0 ;
+                e.doit = b;  //doit属性如果为true,则字符允许输入,反之不允许
+                return;
+	    }
+	}
+}
+```
+5. 文本框回车键事件监听，应用场景：文本框输入结束后，敲回车键来完成某个事件。其实用到也是上面说到的按键监听事件。
+```java
+countText1.addKeyListener(new KeyAdapter() {
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyChar() == KeyEvent.VK_ENTER) {//假如是enter键的话
+        bu.login();//要进行相应的事件处理
+        }
+    }
+});
+```
 
 ----
 

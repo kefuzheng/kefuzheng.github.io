@@ -100,6 +100,14 @@ bsub：提交作业
 bhist：查看作业历史
 bkill：kill一个作业
 ```
+### 16. Linux下批量Kill多个进程
+`ps -ef|grep php|grep -v grep|cut -c 9-15|xargs kill -9`
+- "ps - ef"是linux 里查看所有进程的命令。这时检索出的进程将作为下一条命令"grep php"的输入。  
+- "grep php"的输出结果是，所有含有关键字"php"的进程。  
+- "grep -v grep"是在列出的进程中去除含有关键字"grep"的进程。
+- "cut -c 9-15"是截取输入行的第9个字符到第15个字符，而这正好是进程号PID。
+- "xargs kill -9"中的xargs命令是用来把前面命令的输出结果（PID）作为"kill -9"命令的参数，并执行该令。
+
 
 ----
 

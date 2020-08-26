@@ -346,10 +346,16 @@ private void hookHeaderMenu(Tree tree) {
 	});
 	new MenuItem(headerMenu, SWT.SEPARATOR);
 }
-
 ```
+### 4. 定制treeItem的背景色，高度，字体颜色等
+The following Table events have been defined to provide hooks into the drawing process:  
+- SWT.MeasureItem: allows a client to specify the dimensions of a cell's content
+- SWT.EraseItem: allows a client to custom draw a cell's background and/or selection, and to influence whether the cell's foreground should be drawn
+- SWT.PaintItem: allows a client to custom draw or augment a cell's foreground and/or focus rectangle
+
 
 ----
 
 [swt table 使用小结](https://blog.csdn.net/inowcome/article/details/6227037)
 [JFace中的表格型树TableTreeViewer](https://www.cnblogs.com/DreamDrive/p/4178219.html)
+[Custom Drawing Table and Tree Items](https://www.eclipse.org/articles/article.php?file=Article-CustomDrawingTableAndTreeItems/index.html)
