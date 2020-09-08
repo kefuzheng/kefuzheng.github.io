@@ -108,6 +108,19 @@ bkill：kill一个作业
 - "cut -c 9-15"是截取输入行的第9个字符到第15个字符，而这正好是进程号PID。
 - "xargs kill -9"中的xargs命令是用来把前面命令的输出结果（PID）作为"kill -9"命令的参数，并执行该令。
 
+### 17. 查看桌面环境和Gtk
+1. echo $DESKTOP_SESSION
+2. ps -A | egrep -i "gnome|kde|mate|cinnamon|lxde|xfce|jwm"
+3. dpkg -l libgtk2.0-0 libgtk-3-0
+
+### 18. sudo
+`sudo -s` 进入root
+### 19. Ubuntu卸载软件
+```shell
+apt-get --purge remove <package>		# 删除软件及其配置文件
+apt-get autoremove <package>				# 删除没用的依赖包
+dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P	# 清理dpkg的列表中有“rc”状态的软件包
+```
 
 ----
 

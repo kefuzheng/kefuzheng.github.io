@@ -72,14 +72,14 @@ SSH: 使用SSH url克隆却需要在克隆之前先配置和添加好SSH key，�
 `cat id_rsa.pub >> ~/.ssh/authorized_keys`
 ##### 3. 客户端获取sample库，并增加文件上传到服务器
 服务器地址： 'username'@'hostname':'repository path'
-```xml
+```shell
 git clone git@192.168.10.14:/home/git/sample.git
 Cloning into 'sample'...
 warning: You appear to have cloned an empty repository.
 Checking connectivity... done.
 ```
 获取成功，增加一个文件，并提交到服务器上 
-```xml
+```shell
 cd sample
 cat 'first file.' >> readme.md
 git add .
@@ -87,6 +87,11 @@ git commit -m "first commit"
 git push
 ```
 提交成功后，在服务器上，git log查看状态
+### 8. 分支管理
+- 创建分支：git branch (branchname)
+- 切换分支：git checkout (branchname)
+- 列出分支：git branch
+- 删除分支：git branch -d (branchname)
 
 ----
 
