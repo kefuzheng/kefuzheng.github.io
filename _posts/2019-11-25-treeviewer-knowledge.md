@@ -353,9 +353,199 @@ The following Table events have been defined to provide hooks into the drawing p
 - SWT.EraseItem: allows a client to custom draw a cell's background and/or selection, and to influence whether the cell's foreground should be drawn
 - SWT.PaintItem: allows a client to custom draw or augment a cell's foreground and/or focus rectangle
 
+### 5. 刷新后恢复之前的展开状态
+Object[] expandElements = (Object[]) treeViewer.getExpandedElements();// 获取刷新之前展开的元素  
+注意，要在刷新之前获取展开的元素，因为刷新之后默认折叠所有节点。这时不能直接调用treeViewer.setExpandedState(Object, boolean)方法，因为输入模型已经发生变化，恢复展开状态是要展开新的节点，而expandElements存储的是旧的节点，所以要先获取新的节点。
+```java
+List<Catalog> expandParentCatalogs = new ArrayList<Catalog>();
+for (Object expandElement : expandElements) {
+	if (expandElement instanceof Catalog) {// 获取刷新之前展开的父目录
+               expandParentCatalogs.add((Catalog) expandElement);
+        }
+}
+
+for (Catalog parentCatalog : parentCatalogs) {// 恢复刷新之前展开的父目录
+	for (Catalog expandParentCatalog : expandParentCatalogs) {
+		if (expandParentCatalog.getCatalogName().trim().equals(parentCatalog.getCatalogName().trim())) {
+			treeViewer.setExpandedState(parentCatalog, true);
+			break;
+		}
+	}
+}
+```
+### 6. table的内容中更改字体和颜色
+需求：对于是源文件的字符串，改变字体的颜色，并单击时，打开Ceditor   
+```java
+private ArrayList<SourcePosition> sourcePositions = new ArrayList<>();
+// StyledCellLabelProvider
+tableViewerColumn.setLabelProvider(new StyledCellLabelProvider() {
+		@Override
+		public void update(ViewerCell cell) {
+			Object element = cell.getElement();
+			if (!(element instanceof List<?>)) {
+				super.update(cell);
+				return;
+			}
+			cell.setText(((List<String>)element).get(index).trim());
+			String message = cell.getText();
+
+			GC gc = new GC(cell.getControl());
+			List<StyleRange> styleRanges = new ArrayList<>();
+			String regex = "([^/\\\\<>*?|\"\\s\\(]+.(c|cl|cpp|hpp|h)):(\\d+)";
+			Pattern pattern = Pattern.compile(regex);
+			Matcher m = pattern.matcher(message);
+			while (m.find()) {
+				String filename = m.group(1);
+				IResource r = null;
+				r = AutoPilotReportUtil.getFileResource(filename);
+				if (r == null) continue;
+				int start = m.start();
+				int end = m.end();
+				int length = end - start;
+				StyleRange s = new StyleRange();
+				s.foreground = JFaceColors.getHyperlinkText(cell.getItem().getDisplay());
+				s.underline = true;
+				s.start = start;
+				s.length = length;
+				styleRanges.add(s);
+				
+				int x, y, width, height;
+				String result = message.substring(0, start);
+				height = gc.textExtent("A").y;
+				y = gc.textExtent(result).y - height;
+				if(result.contains("\n")){
+					int ii = result.lastIndexOf("\n");
+					result = result.substring(ii+1);
+				}
+				x = gc.textExtent(result).x;
+				
+				width = gc.textExtent(message.substring(start,end)).x;
+				Rectangle rectangle = new Rectangle(x, y, width, height);
+				String sourceName = filename;
+				int lineNumber = Integer.parseInt(m.group(3));
+				SourcePosition sourcePosition = new SourcePosition(message, sourceName, lineNumber, rectangle);
+				sourcePositions.add(sourcePosition);
+			}
+			gc.dispose();
+			if(styleRanges.size() > 0){
+				StyleRange[] rs = new StyleRange[styleRanges.size()];
+				styleRanges.toArray(rs);
+				cell.setStyleRanges(rs);
+			}
+			super.update(cell);
+		}
+	});
+}
+// 鼠标单击
+tableViewerColumn.getViewer().getControl().addMouseListener(new MouseAdapter() {
+	@Override
+	public void mouseDown(MouseEvent e) {
+		Point point = new Point(e.x,e.y);
+		ViewerCell cell = tableViewerColumn.getViewer().getCell(point);
+		if (cell != null && tblclmnName.getText().equals("Location")) {
+			Rectangle rect = cell.getBounds();
+			for(SourcePosition sourcePosition : sourcePositions){
+				if (sourcePosition.getMessage().equals(cell.getText())) {
+					if (sourcePosition.containsPoint(new Point(e.x - rect.x, e.y - rect.y))) {
+						String fileName = sourcePosition.getSourceName();
+						int lineNumber =  sourcePosition.getLineNumber();
+						if(lineNumber == 0 || fileName == null || fileName.isEmpty())
+							return;
+						source4Rpt.openSourceGotoLine(fileName, lineNumber,null);
+						break;
+					}
+				}
+			}
+		}
+	}
+});
+
+public class SourcePosition {
+	private String message;
+	private String sourceName;
+	private int lineNumber;
+	private Rectangle rectangle;
+	
+	public SourcePosition(String message, String sourceName, int lineNumber, Rectangle rectangle) {
+		this.message = message;
+		this.sourceName = sourceName;
+		this.lineNumber = lineNumber;
+		this.rectangle = rectangle;
+	}
+	public String getMessage() return message;
+	public String getSourceName() return sourceName;
+	public int getLineNumber() return lineNumber;
+	public boolean containsPoint(Point point){
+		if(rectangle.contains(point)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+}
+```
+### 7. table上显示不同的控件
+```java
+private Map<Object, Button> resetBtns = new HashMap<Object, Button>();
+// ColumnLabelProvider
+treeViewerColumn.setLabelProvider(new ColumnLabelProvider() {
+	@Override
+	public void update(ViewerCell cell) {
+		TreeItem item = (TreeItem) cell.getItem();
+		Button btn = resetBtns.get(cell.getElement());
+		if (btn == null || btn.isDisposed()) {
+			btn = new Button((Composite) cell.getControl(), SWT.NONE);
+//					btn.setText("Reset");
+			btn.setAlignment(SWT.LEFT);
+			GridData gd_btnTest = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+			gd_btnTest.widthHint = 20;
+			btn.setLayoutData(gd_btnTest);
+			ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
+			btn.setImage(sharedImages.getImage(ISharedImages.IMG_TOOL_DELETE));
+			resetBtns.put(cell.getElement(), btn);
+		}
+
+		TreeEditor editor = new TreeEditor(item.getParent());
+//			      editor.grabHorizontal  = true;
+		editor.horizontalAlignment = SWT.LEFT;
+		editor.minimumWidth = 35;
+		editor.setEditor(btn, item, cell.getColumnIndex());
+		editor.layout();
+	}
+	
+	@Override
+	public String getText(Object element) {
+		return "";
+	}
+});
+
+//在ContentProvider里，做inputchanged监听，当改变时，注销掉
+public class TableContentProvider implements ITreeContentProvider {
+	@Override
+	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+		if (((TreeViewer)viewer).getTree() != null && ((TreeViewer)viewer).getTree().getChildren() != null) {
+			for (Control item : ((TreeViewer)viewer).getTree().getChildren()) {
+				if (item != null && !item.isDisposed()) {
+					item.getData();
+					item.dispose();
+				}
+			}
+		}
+		ITreeContentProvider.super.inputChanged(viewer, oldInput, newInput);
+	}
+}
+
+// 在展开伸缩时，会有控件不刷新的问题，通过重新setInput来解决
+treeViewer.collapseToLevel(selection.getFirstElement(), TreeViewer.ALL_LEVELS);
+Object[] expandElements = treeViewer.getExpandedElements();
+treeViewer.setInput(treeViewer.getInput());
+treeViewer.setExpandedElements(expandElements);
+packTree(treeViewer.getTree());
+```
 
 ----
 
 [swt table 使用小结](https://blog.csdn.net/inowcome/article/details/6227037)
 [JFace中的表格型树TableTreeViewer](https://www.cnblogs.com/DreamDrive/p/4178219.html)
-[Custom Drawing Table and Tree Items](https://www.eclipse.org/articles/article.php?file=Article-CustomDrawingTableAndTreeItems/index.html)
+[Custom Drawing Table and Tree Items](https://www.eclipse.org/articles/article.php?file=Article-CustomDrawingTableAndTreeItems/index.html)  
+[Adding a remove button to a column in a table](https://stackoverflow.com/questions/12480402/adding-a-remove-button-to-a-column-in-a-table)
