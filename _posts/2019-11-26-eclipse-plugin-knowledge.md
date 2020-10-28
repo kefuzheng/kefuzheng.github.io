@@ -131,7 +131,7 @@ private void removeWarningMarker(List<Integer> errorLines, IFile currentFile) {
 	}
 }
 ```
-### 10. SWT的Text的几种监听事件
+### 11. SWT的Text的几种监听事件
 1. 文本框按键监听事件，遇到的应用场景：需要对文本框进行输入长度限制时
 ```java
 txtSample.addKeyListener(new KeyAdapter() { 　//按键监听
@@ -192,7 +192,46 @@ countText1.addKeyListener(new KeyAdapter() {
 });
 ```
 
+### 12. Ant 执行 Java 代码
+```java
+public class NotifyAdministrator
+{
+   public static void main(String[] args)
+   {
+      String email = args[0];
+      notifyAdministratorviaEmail(email);
+      System.out.println("Administrator "+email+" has been notified");
+   }
+   public static void notifyAdministratorviaEmail(String email
+   { 
+       //......
+   }
+}
+```
+build.xml
+```xml
+<?xml version="1.0"?>
+<project name="sample" basedir="." default="notify">
+   <target name="notify">
+      <java fork="true" failonerror="yes" classname="NotifyAdministrator">
+         <arg line="admin@test.com"/>
+				 <classpath>
+				  	<pathelement location="dist/test.jar"/>
+					  <pathelement path="${java.class.path}"/>
+				 </classpath>
+      </java>
+   </target>
+</project>
+```
+实际使用中，需要先编译java文件，然后将其加入classpath，才能执行到。   
+`<arg value="-l -a"/>` is a single command-line argument containing a space character, not separate options -l and -a.   
+`<arg line="-l -a"/>` This is a command line with two separate options, -l and -a.  
+
+
+
 ----
 
-[Eclipse插件入门-----刷新资源](https://blog.csdn.net/zyf814/article/details/8448209)
+[Eclipse插件入门-----刷新资源](https://blog.csdn.net/zyf814/article/details/8448209)   
+[Java Task in Ant](http://ant.apache.org/manual/Tasks/java.html)   
+[Ant 执行 Java 代码](https://www.w3cschool.cn/ant/m24b1hwf.html)   
 

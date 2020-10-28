@@ -127,3 +127,5 @@ dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P	# 清理dpkg的列表中�
 [在VirtualBox下安装linux操作系统](https://blog.csdn.net/yuchao2015/article/details/52132270)  
 [Unix环境下PS1变量的设置](https://www.cnblogs.com/undead/p/3741764.html)  
 [linux shell 执行多个命令的方法](https://blog.csdn.net/ysdaniel/article/details/6127860)  
+[LSF 作业管理系统](https://www.jianshu.com/p/601ca9f33b31)   
+

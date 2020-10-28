@@ -67,7 +67,9 @@ set nobackup " do not keep a backup file, use versions instead
 if has('mouse') 
 	set mouse-=a endif 
 ```
-### 11. vim的推荐配置
+### 11. 行号的显示与隐藏
+显示行号:set nu 或 set number   
+取消显示行号：set nonu或set nonumber   
 
 
 

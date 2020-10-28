@@ -65,4 +65,15 @@ public void createFile() throws IOException {
     }
 }
 ```
-
+### 5. double型转化成int型
+一个变量 double x；  
+不进行四舍五入操作：  
+(int)x   
+进行四舍五入操作：  
+Integer.parseInt(new java.text.DecimalFormat("0.00").format(x))  
+### 6. FileWriter(Java)以UTF-8格式编写文件
+`FileWriter fw = new FileWriter("filename.txt", Charset.forName("utf-8"));`  java11   
+`Writer out = new BufferedWriter( new OutputStreamWriter(new FileOutputStream(this.outputFilename),”UTF-8″));`   old java   
+### 7. 奇偶数的判断
+(1) 通过a%2！=0来判断。  
+(2) 通过(a&1)==1来判断。（推荐使用，位操作，性能更优）  
