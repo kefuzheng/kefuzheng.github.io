@@ -57,9 +57,27 @@ main: 插件的主入口。
 ##### 4. 插件入口文件(extension.ts)
 插件入口文件会导出两个函数，activate 和 deactivate，你注册的激活事件被触发之时执行activate，deactivate则提供了插件关闭前执行清理工作的机会。  
 vscode模块包含了一个位于node ./node_modules/vscode/bin/install的脚本，这个脚本会拉取package.json中engines.vscode字段定义的VS Code API。这个脚本执行过后，你就得到了智能代码提示，定义跳转等TS特性了。
+### 4. 扩展点
+- contributes.commands  命令
+- contributes.keybindings  快捷键
+- contributes.menus  菜单
+- contributes.viewsContainers 视图容器
+- contributes.views  panel
+- contributes.snippets  补全块
+- contributes.languages 语言支持
+
+### 5. 激活事件
+- activationEvents.onCommand  命令
+- activationEvents.onView  panel
+
+### 6. 本地打包
+- 安装`npm i vsce -g`
+- 打包成vsix文件`vsce package`
+- 安装扩展，从扩展的右上角选择Install from VSIX安装
 
 
 ----
 
 [vscode docs](https://code.visualstudio.com/api)  
 [vscode extension example](https://github.com/microsoft/vscode-extension-samples)  
+[VSCode插件开发全攻略（一）概览](https://www.cnblogs.com/liuxianan/p/vscode-plugin-overview.html)   
