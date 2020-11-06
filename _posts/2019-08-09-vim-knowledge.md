@@ -70,6 +70,10 @@ if has('mouse')
 ### 11. 行号的显示与隐藏
 显示行号:set nu 或 set number   
 取消显示行号：set nonu或set nonumber   
+### 12. tabe多标签切换
+- :tabe file 在新标签页中打开指定的文件
+- :tabn :tabp 切换标签页，或者gt键下一个，gT上一个
+- :tabs 显示已打开标签页的列表
 
 
 
