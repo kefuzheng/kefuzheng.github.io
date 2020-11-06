@@ -54,6 +54,7 @@ main: 插件的主入口。
 2. activationEvents 和 contributes: 激活事件 and 发布内容配置。
 3. engines.vscode: 描述了这个插件依赖的最低VS Code API版本。
 4. postinstall 脚本: 如果你的engines.vscode声明的是1.25版的VS Code API，那它就会按照这个声明去安装目标版本。一旦vscode.d.ts文件存在于node_modules/vscode/vscode.d.ts，IntelliSense就会开始运作，你就可以对所有VS Code API进行定义跳转或者语法检查了。
+
 ##### 4. 插件入口文件(extension.ts)
 插件入口文件会导出两个函数，activate 和 deactivate，你注册的激活事件被触发之时执行activate，deactivate则提供了插件关闭前执行清理工作的机会。  
 vscode模块包含了一个位于node ./node_modules/vscode/bin/install的脚本，这个脚本会拉取package.json中engines.vscode字段定义的VS Code API。这个脚本执行过后，你就得到了智能代码提示，定义跳转等TS特性了。

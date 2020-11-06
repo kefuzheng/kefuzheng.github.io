@@ -10,7 +10,6 @@ tags: nodejs
 - process.execPath: 当前执行的node路径（如：/bin/node）
 
 
-
 ----
 
 [nodejs实现文件的拷贝复制](https://www.cnblogs.com/coding4/p/7495968.html)  
