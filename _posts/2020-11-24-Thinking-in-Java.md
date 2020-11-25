@@ -72,57 +72,182 @@ print("i: " + i);       // i: 1
 2. 或运算（`|`）：参加运算的两个对象只要有一个为1，其值为1。例如:`3|5　即 0000 0011 | 0000 0101 = 0000 0111`,因此，`3|5`的值得7。
 3. 异或运算（^）：参加运算的两个对象，如果两个相应位为“异”（值不同），则该位结果为1，否则为0。例如：9^5可写成算式如下： 00001001^00000101=00001100 (十进制为12)可见9^5=12  
 4. 按位非（~）：取反操作符
-
+   
+##### 4. 字符串
+String对象是不可变的，String类中每一个看起来会修改String值的方法，实际上都是创建了一个全新的String对象。
+##### 5. 数组
+无论使用哪种类型的数组，数组标识符其实只是一个引用，指向再堆中创建的一个真实对象，这个（数组）对象用以保存指向其他对象的引用。可以作为数组初始化语法的一部分隐式地创建此对象，或者用new表达式显示地创建。“[]”语法是访问数组对象唯一的方式。   
+对象数组保存的是引用，基本类型数组直接保存基本类型的值。
 ### 3. 访问权限控制
 权限控制的大小情况是这样的：public > protected > default(包访问权限) > private   
-访问权限|本类|本包的类|子类|非子类的外包类
-public|是|是|是|是
-protected|是|是|是|否
-default|是|是|否|否
-private|是|否|否|否
+访问权限|本类|本包的类|子类|非子类的外包类  
+public|是|是|是|是  
+protected|是|是|是|否  
+default|是|是|否|否  
+private|是|否|否|否  
 
-### 4. Java创建文件并写入内容
+### 4. 泛型
+##### 1. 泛型的定义以及存在意义
+泛型，即“参数化类型”。就是将类型由原来的具体的类型参数化，类似于方法中的变量参数，此时类型也定义成参数形式（可以称之为类型形参），然后在使用/调用时传入具体的类型（类型实参）。   
+一些常用的泛型类型变量：   
+- E：元素（Element），多用于java集合框架
+- K：关键字（Key）
+- N：数字（Number）
+- T：类型（Type）
+- V：值（Value）
+
+泛型适用于多种数据类型执行相同的代码（代码复用）；泛型中的类型在使用时指定，不需要强制类型转换（类型安全，编译器会检查类型）
+##### 2. 泛型类的使用
 ```java
-public void createFile() throws IOException {
-    String filePath = "D:/a/b";
-    File dir = new File(filePath);
-    // 一、检查放置文件的文件夹路径是否存在，不存在则创建
-    if (!dir.exists()) {
-        dir.mkdirs();// mkdirs创建多级目录
+public class GenericClass<T> {
+    private T data;
+
+    public T getData() {
+        return data;
     }
-    File checkFile = new File(filePath + "/filename.txt");
-    FileWriter writer = null;
-    try {
-        // 二、检查目标文件是否存在，不存在则创建
-        if (!checkFile.exists()) {
-            checkFile.createNewFile();// 创建目标文件
-        }
-        // 三、向目标文件中写入内容
-        // FileWriter(File file, boolean append)，append为true时为追加模式，false或缺省则为覆盖模式
-        writer = new FileWriter(checkFile, true);
-        writer.append("your content");
-        writer.flush();
-    } catch (IOException e) {
-        e.printStackTrace();
-    } finally {
-        if (null != writer)
-            writer.close();
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    public static void main(String[] args) {
+        GenericClass<String> genericClass=new GenericClass<String>();
+        genericClass.setData("Generic Class");
+        System.out.println(genericClass.getData());
     }
 }
 ```
-### 5. double型转化成int型
-一个变量 double x；  
-不进行四舍五入操作：  
-(int)x   
-进行四舍五入操作：  
-Integer.parseInt(new java.text.DecimalFormat("0.00").format(x))  
-### 6. FileWriter(Java)以UTF-8格式编写文件
-`FileWriter fw = new FileWriter("filename.txt", Charset.forName("utf-8"));`  java11   
-`Writer out = new BufferedWriter( new OutputStreamWriter(new FileOutputStream(this.outputFilename),”UTF-8″));`   old java   
-### 7. 奇偶数的判断
-(1) 通过a%2！=0来判断。  
-(2) 通过(a&1)==1来判断。（推荐使用，位操作，性能更优）  
+##### 3. 泛型接口的使用
+```java
+// 泛型接口
+public interface GenericIntercace<T> {
+     T getData();
+}
+
+// 实现泛型接口一
+public class ImplGenericInterface1<T> implements GenericIntercace<T> {
+    private T data;
+
+    private void setData(T data) {
+        this.data = data;
+    }
+
+    @Override
+    public T getData() {
+        return data;
+    }
+
+    public static void main(String[] args) {
+        ImplGenericInterface1<String> implGenericInterface1 = new ImplGenericInterface1<String>();
+        implGenericInterface1.setData("Generic Interface1");
+        System.out.println(implGenericInterface1.getData());
+    }
+}
+
+// 实现泛型接口二
+public class ImplGenericInterface2 implements GenericIntercace<String> {
+    @Override
+    public String getData() {
+        return "Generic Interface2";
+    }
+
+    public static void main(String[] args) {
+        ImplGenericInterface2 implGenericInterface2 = new ImplGenericInterface2();
+        System.out.println(implGenericInterface2.getData());
+    }
+}
+```
+##### 4. 泛型方法的使用
+```java
+public class GenericMethod1 {
+    private static int add(int a, int b) {
+        System.out.println(a + "+" + b + "=" + (a + b));
+        return a + b;
+    }
+
+    // 有返回值
+    private static <T> T genericAdd(T a, T b) {
+        System.out.println(a + "+" + b + "="+a+b);
+        return a;
+    }
+
+    // 没返回值
+    public void show01(T t) {
+        System.out.println(t.toString());
+    }
+
+    public <T> void show02(T t) {
+        System.out.println(t.toString());
+    }
+
+    public static void main(String[] args) {
+        GenericMethod1.add(1, 2);
+        GenericMethod1.<String>genericAdd("a", "b");
+    }
+}
+```
+##### 5. 限定泛型类型变量
+```java
+// 类型变量的限定-类  限定类型使用extends关键字指定,可以使类，接口，类放在前面接口放在后面用&符号分割
+public class TypeLimitForClass<T extends List & Serializable> {
+    private T data;
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    public static void main(String[] args) {
+        ArrayList<String> stringArrayList = new ArrayList<>();
+        stringArrayList.add("A");
+        stringArrayList.add("B");
+        ArrayList<Integer> integerArrayList = new ArrayList<>();
+        integerArrayList.add(1);
+        integerArrayList.add(2);
+        integerArrayList.add(3);
+        TypeLimitForClass<ArrayList> typeLimitForClass01 = new TypeLimitForClass<>();
+        typeLimitForClass01.setData(stringArrayList);
+        TypeLimitForClass<ArrayList> typeLimitForClass02 = new TypeLimitForClass<>();
+        typeLimitForClass02.setData(integerArrayList);
+
+        System.out.println(getMinListSize(typeLimitForClass01.getData().size(), typeLimitForClass02.getData().size()));
+}
+
+    // 类型变量的限定-方法
+    public static <T extends Comparable<T>> T getMinListSize(T a, T b) {
+        return (a.compareTo(b) < 0) ? a : b;
+    }
+}
+```
+##### 6. 泛型中的约束和局限性
+1. 不能实例化泛型类
+2. 静态变量或方法不能引用泛型类型变量，但是静态泛型方法是可以的
+3. 基本类型无法作为泛型类型
+4. 无法使用instanceof关键字或==判断泛型类的类型
+5. 泛型类的原生类型与所传递的泛型无关，无论传递什么类型，原生类是一样的
+6. 泛型数组可以声明但无法实例化
+7. 泛型类不能继承Exception或者Throwable
+8. 不能捕获泛型类型限定的异常但可以将泛型限定的异常抛出
+
+##### 7. 通配符类型
+1. <? extends Parent> 指定了泛型类型的上届:`public static void getUperNumber(List<? extends Number> data)`
+2. <? super Child> 指定了泛型类型的下届, 如List<? super Number>来定义，表示类型只能接受Number及其三层父类类型，如 Object 类型的实例。
+3. <?> 指定了没有限制的泛型类型
+
+### 5. Deque
+Deque是double ended queue的简称，习惯上称之为双端队列。大多数Deque 实现对它们可能包含的元素的数量没有固定的限制，但是该接口支持容量限制的deques以及没有固定大小限制的deque。  
+与List接口不同，此接口不支持索引访问元素。   
+- LinkedList 大小可变的链表双端队列，允许元素为插入null。
+- ArrayDeque 大下可变的数组双端队列，不允许插入null。
+- ConcurrentLinkedDeque 大小可变且线程安全的链表双端队列，非阻塞，不允许插入null。
+- LinkedBlockingDeque 为线程安全的双端队列，在队列为空的情况下，获取操作将会阻塞，直到有元素添加。
+
 
 ----
 
-[与、或、异或运算](https://www.cnblogs.com/wisdom-jie/p/7732940.html)  
+[与、或、异或运算](https://www.cnblogs.com/wisdom-jie/p/7732940.html)   
+[Java泛型详解](https://www.jianshu.com/p/986f732ed2f1)   
+[深入理解Java集合之---Deque](https://www.jianshu.com/p/d78a7c982edb)    
