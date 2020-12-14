@@ -177,7 +177,82 @@ def fun(n):
     for i in range(n):
         temp.append(i)
 ```
-### 3. 链表（Linked List）
+### 3. 排序方法
+##### 1. 冒泡排序
+![bubble sort](https://github.com/kefuzheng/kefuzheng.github.io/raw/master/assets/images/bubble_sort.png)
+```java
+public static int[] sort(int[] array){
+   //这里for循环表示总共需要比较多少轮
+   for(int i = 1 ; i < array.length; i++){
+      //设定一个标记，若为true，则表示此次循环没有进行交换，也就是待排序列已经有序，排序已经完成。
+      boolean flag = true;
+      //这里for循环表示每轮比较参与的元素下标
+      //对当前无序区间array[0......length-i]进行排序
+      //j的范围很关键，这个范围是在逐步缩小的,因为每轮比较都会将最大的放在右边
+      for(int j = 0 ; j < array.length-i ; j++){
+         if(array[j]>array[j+1]){
+            int temp = array[j];
+            array[j] = array[j+1];
+            array[j+1] = temp;
+         }
+      }
+      if(flag){
+         break;
+      }
+   }
+   return array;
+}
+```
+冒泡排序是由两个for循环构成，第一个for循环的变量 i 表示总共需要多少轮比较，第二个for循环的变量 j 表示每轮参与比较的元素下标【0,1，......，length-i】，因为每轮比较都会出现一个最大值放在最右边，所以每轮比较后的元素个数都会少一个，这也是为什么 j 的范围是逐渐减小的。
+##### 2. 选择排序 
+选择排序是每一次从待排序的数据元素中选出最小的一个元素，存放在序列的起始位置，直到全部待排序的数据元素排完。分为三步：
+1. 从待排序序列中，找到关键字最小的元素
+2. 如果最小元素不是待排序序列的第一个元素，将其和第一个元素互换
+3. 从余下的 N - 1 个元素中，找出关键字最小的元素，重复(1)、(2)步，直到排序结束
+
+![select sort](https://github.com/kefuzheng/kefuzheng.github.io/raw/master/assets/images/select_sort.png)
+```java
+public static int[] sort(int[] array){
+   //总共要经过N-1轮比较
+   for(int i = 0 ; i < array.length-1 ; i++){
+      int min = i;
+      //每轮需要比较的次数
+      for(int j = i+1 ; j < array.length ; j++){
+            if(array[j]<array[min]){
+               min = j;//记录目前能找到的最小值元素的下标
+            }
+      }
+      //将找到的最小值和i位置所在的值进行交换
+      if(i != min){
+            int temp = array[i];
+            array[i] = array[min];
+            array[min] = temp;
+      }
+   }
+   return array;
+}
+```
+##### 3. 插入排序
+直接插入排序基本思想是每一步将一个待排序的记录，插入到前面已经排好序的有序序列中去，直到插完所有元素为止。  
+![insert sort](https://github.com/kefuzheng/kefuzheng.github.io/raw/master/assets/images/insert_sort.gif)
+```java
+public static int[] sort(int[] array){
+   int j;
+   //从下标为1的元素开始选择合适的位置插入，因为下标为0的只有一个元素，默认是有序的
+   for(int i = 1 ; i < array.length ; i++){
+      int tmp = array[i];//记录要插入的数据
+      j = i;
+      while(j > 0 && tmp < array[j-1]){//从已经排序的序列最右边的开始比较，找到比其小的数
+            array[j] = array[j-1];//向后挪动
+            j--;
+      }
+      array[j] = tmp;//存在比其小的数，插入
+   }
+   return array;
+}
+```
+
+### 4. 链表（Linked List）
 **链表的定义**：链表是一种物理存储单元上非连续、非顺序的存储结构，数据元素的逻辑顺序是通过链表中的指针连接次序实现的。   
 每一个链表都包含多个节点，节点又包含两个部分，一个是数据域（储存节点含有的信息），一个是引用域（储存下一个节点或者上一个节点的地址）。   
 **链表的特点**：获取数据麻烦，需要遍历查找，比数组慢；方便插入、删除   
@@ -654,4 +729,4 @@ public class TwoWayLinkedList {
 [十分钟搞定时间复杂度](https://www.jianshu.com/p/f4cca5ce055a)    
 [Java数据结构和算法（七）——链表](https://www.cnblogs.com/ysocean/p/7928988.html)   
 [链表的原理及java实现](https://blog.csdn.net/jianyuerensheng/article/details/51200274)   
-
+[十大经典排序算法（动图演示）](https://www.cnblogs.com/onepixel/articles/7674659.html)   
