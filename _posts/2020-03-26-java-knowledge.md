@@ -77,3 +77,5 @@ Integer.parseInt(new java.text.DecimalFormat("0.00").format(x))
 ### 7. 奇偶数的判断
 (1) 通过a%2！=0来判断。  
 (2) 通过(a&1)==1来判断。（推荐使用，位操作，性能更优）  
+### 8. 数组的快速定义
+`List<String> numbers = Arrays.asList("1", "2", "3");`
