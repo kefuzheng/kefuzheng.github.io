@@ -72,28 +72,7 @@ split() 方法根据匹配给定的正则表达式来拆分字符串。
 注意： . 、 $、 | 和 * 等转义字符，必须得加 \\。  
 注意：多个分隔符，可以用 | 作为连字符。  
 
-### 9.重绘监听
-```java
-Composite textComp = new Composite(pragmaComposite, SWT.NONE);
-textComp.setLayout(new GridLayout(1, false));
-textGrid = new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1);
-textGrid.heightHint = 40;
-textGrid.exclude = true;
-		
-textComp.setLayoutData(textGrid);
-textComp.addPaintListener(new PaintListener() {
-	@Override
-	public void paintControl(PaintEvent e) {
-		GC gc = e.gc;
-		gc.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
-		gc.drawText("RESOURCE directive is deprecated, use\nBIND_OP or BIND_STORAGE instead",
-				5, 0);
-	}
-});
-```
-对composite进行重绘，重新写了文字，这种方法可以用在，有主题颜色覆盖，一般常用的改字体颜色不生效的情况下
-
-### 10.对editor中添加、删除marker
+### 9.对editor中添加、删除marker
 ```java
 import org.eclipse.core.resources.IMarker;
 
@@ -131,68 +110,8 @@ private void removeWarningMarker(List<Integer> errorLines, IFile currentFile) {
 	}
 }
 ```
-### 11. SWT的Text的几种监听事件
-1. 文本框按键监听事件，遇到的应用场景：需要对文本框进行输入长度限制时
-```java
-txtSample.addKeyListener(new KeyAdapter() { 　//按键监听
-    @Override
-    public void keyPressed(KeyEvent e) {
-        if(txtSample.getText().length > 3){ //判断文本框输入长度是否大于4
-            e.doit = false;  //doit属性如果为true,则字符允许输入,反之不允许 
-        }
-    }
-});
-```
-2. 文本框焦点获取监听，遇到的应用场景：当文本框的输入不是使用键盘而是界面上的按钮键盘。
-```java
-countText1.addFocusListener(new FocusAdapter() { // 焦点监听
-    @Override
-    public void focusGained(FocusEvent arg0) {
-        flag = 1;  //flag为一个全局变量，用来标志当前是在哪个文本框进行输入
-        }
-});
-```
-3. 内容改变监听事件，遇到的应用场景：一个文本框内容改变时，其他文本框或label标签需要同步改变
-```java
-countText1.addModifyListener(new ModifyListener() {// 内容改变监听
-     @Override
-     public void modifyText(ModifyEvent arg0) {
-         setTotalValue(); //用来进行计算总计项的方法
-         }
-});
-```
-4. 输入类型限制监听，遇到的应用场景：当文本框的输入只允许输入数字（输入身份证号码或金额）。
-```java
-import org.eclipse.swt.events.VerifyEvent;
-import org.eclipse.swt.events.VerifyListener;
-public class TextVerifyListener implements VerifyListener{
-	private int type;
-	public TextVerifyListener(int type){
-		this.type=type;
-	}
-	public void verifyText(VerifyEvent e) {
-	    // TODO Auto-generated method stub
-	    if(type==1){//只能输入数字
-	        boolean b = "0123456789".indexOf(e.text) >= 0 ;
-                e.doit = b;  //doit属性如果为true,则字符允许输入,反之不允许
-                return;
-	    }
-	}
-}
-```
-5. 文本框回车键事件监听，应用场景：文本框输入结束后，敲回车键来完成某个事件。其实用到也是上面说到的按键监听事件。
-```java
-countText1.addKeyListener(new KeyAdapter() {
-    @Override
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyChar() == KeyEvent.VK_ENTER) {//假如是enter键的话
-        bu.login();//要进行相应的事件处理
-        }
-    }
-});
-```
 
-### 12. Ant 执行 Java 代码
+### 10. Ant 执行 Java 代码
 ```java
 public class NotifyAdministrator
 {
@@ -213,7 +132,7 @@ build.xml
 <?xml version="1.0"?>
 <project name="sample" basedir="." default="notify">
    <target name="notify">
-      <java fork="true" failonerror="yes" classname="NotifyAdministrator">
+      <java fork="false" failonerror="yes" classname="NotifyAdministrator">
          <arg line="admin@test.com"/>
 				 <classpath>
 				  	<pathelement location="dist/test.jar"/>
@@ -226,7 +145,111 @@ build.xml
 实际使用中，需要先编译java文件，然后将其加入classpath，才能执行到。   
 `<arg value="-l -a"/>` is a single command-line argument containing a space character, not separate options -l and -a.   
 `<arg line="-l -a"/>` This is a command line with two separate options, -l and -a.  
+### 11. 动态刷新ToolBar的图片
+扩展Eclipse的快捷工具栏的时候，经常会碰到一些类似于开关的问题，比如需要根据某个状态或开关量来显示不同的图片，但是IHandler或AbstractHandler只给出了定义回调的执行函数，并没有给出操作UI相关的方法，其实只需要实现一个接口IElementUpdater即可
+```java
+public class TestAction extends AbstractHandler implements IElementUpdater{
+    public static boolean isOn = false;
+    private static ImageDescriptor IMAGE_ON = UIActivator.getImageDescriptor("icons/on.gif");
+    private static ImageDescriptor IMAGE_OFF = UIActivator.getImageDescriptor("icons/off.gif");
 
+    @Override
+    public Object execute(ExecutionEvent event) throws ExecutionException {
+        if(!isOn){
+            System.out.println("on");
+            isOn = true;
+        }else{
+            System.out.println("off");
+            isOn = false;
+        }
+        Display.getDefault().asyncExec(new Runnable() {
+            @Override
+            public void run() {
+                    ICommandService commandService = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getService(ICommandService.class);
+                if(commandService != null){
+                    commandService.refreshElements("com.zj.test.ui.commands.on", null);
+                }
+            }
+        });
+        return null;
+    }
+
+    @Override
+    public void updateElement(UIElement element, Map parameters) {
+        if(!isOn){
+            element.setIcon(IMAGE_ON);
+            element.setTooltip("on");
+        }else{
+            element.setIcon(IMAGE_OFF);
+            element.setTooltip("off");
+        }
+    }
+}
+```
+### 12. SWT中颜色、字体获取
+```java
+//三种颜色获取方式  
+final Color white = new Color(display, 255, 255, 255);  
+final Color sysBlack = Display.getCurrent().getSystemColor(SWT.COLOR_BLACK);   
+final Color swtBlue = SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION);  
+
+Font font = new Font(e.display, "Arial", 14, SWT.BOLD | SWT.ITALIC);
+
+// use gc draw line and image
+public class CanvasSample {
+	private Image image = null;
+	private Shell shell = null;
+	private Canvas canvas = null;
+	
+	public CanvasSample(){
+		createContent();
+	}
+	
+	public void createContent(){
+		shell = new Shell();
+		shell.setLayout(new FillLayout());
+		image = new Image(shell.getDisplay(), getClass().getResourceAsStream("1.gif"));
+		canvas = new Canvas(shell, SWT.NONE);
+		canvas.addPaintListener(new PaintListener(){
+			public void paintControl(PaintEvent e){
+				//绘制图像
+				e.gc.drawImage(image, 10, 10);
+				//绘制椭圆
+				e.gc.drawOval(20, 20, 200, 100);
+				//绘制直线
+				e.gc.drawLine(20,10,100,20);
+				
+				Font font = new Font(e.display, "Arial", 14, SWT.BOLD | SWT.ITALIC);
+				//绘制字符串
+				e.gc.drawString("This is a String", 30, 20);
+				
+				//设置display前景色
+				e.gc.setForeground(e.display.getSystemColor(SWT.COLOR_GREEN));
+				//设置display字体
+				e.gc.setFont(font);
+				//设置display 背景色
+				e.gc.setBackground(e.display.getSystemColor(SWT.COLOR_DARK_GRAY));
+				//再绘制字符串
+				e.gc.drawString("This is a String", 30, 50);
+				font.dispose();
+			}
+		});
+		shell.setSize(200, 150);
+	}
+
+	public static void main(String[] args){
+		Display display = Display.getDefault();
+		CanvasSample cSample = new CanvasSample();
+		cSample.getShell().open();
+		while(!cSample.getShell().isDisposed()){
+			if(!display.readAndDispatch())
+				display.sleep();
+		}
+		cSample.getImage().dispose();
+		display.dispose();
+	}
+}
+```
 
 
 ----
@@ -234,4 +257,6 @@ build.xml
 [Eclipse插件入门-----刷新资源](https://blog.csdn.net/zyf814/article/details/8448209)   
 [Java Task in Ant](http://ant.apache.org/manual/Tasks/java.html)   
 [Ant 执行 Java 代码](https://www.w3cschool.cn/ant/m24b1hwf.html)   
+[eclipse 资源监听](https://blog.csdn.net/u011893509/article/details/53557415)   
+[How You've Changed! - Eclipse IResourceChangeListener](https://blog.csdn.net/davidhsing/article/details/6939273)   
 

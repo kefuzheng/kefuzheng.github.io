@@ -79,3 +79,18 @@ Integer.parseInt(new java.text.DecimalFormat("0.00").format(x))
 (2) 通过(a&1)==1来判断。（推荐使用，位操作，性能更优）  
 ### 8. 数组的快速定义
 `List<String> numbers = Arrays.asList("1", "2", "3");`
+### 9. String根据空格分割内容的正确做法
+```java
+String s3 = "我   是 一个         好  人啊";
+String [] spString = s3.split("\\s+");
+for(String ss : spString){
+    System.out.println(ss);
+}
+
+我
+是
+一个
+好
+人啊
+```
+### 10. Lambda表达式

@@ -37,3 +37,9 @@ public class NewAction extends Action {
 	
 }
 ```
+
+### 2. Run command by ID
+```java
+IHandlerService handlerService = PlatformUI.getWorkbench().getService(IHandlerService.class);
+handlerService.executeCommand(COMMANDID, null);
+```

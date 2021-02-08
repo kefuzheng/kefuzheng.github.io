@@ -121,6 +121,40 @@ apt-get --purge remove <package>		# 删除软件及其配置文件
 apt-get autoremove <package>				# 删除没用的依赖包
 dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P	# 清理dpkg的列表中有“rc”状态的软件包
 ```
+### 20. 不能修改文件权限
+`sudo chattr -i libprotobuf.so` # 注意chattr修改文件属性需要root权限   
+`chmod 544 libprotobuf.so`
+
+### 21. ubuntu中查找软件的安装位置
+ubuntu中可供调用的终端大都在/usr/bin或者/opt，但也不尽然。可尝试用下面的方法快速找到软件的位置。
+1. 执行该程序；
+2. 用命令 ps -e 找到该程序的名字；
+3. 用 find 或 whereis 命令查找文件位置
+
+使用apt-get install命令安装的软件，可直接用命令 dpkg -S softwarename 显示包含此软件包的所有位置，dpkg -L softwarename 显示安装路径。
+### 22. env设置
+Linux的变量种类：按变量的生存周期来划分，Linux变量可分为两类：
+1. 永久的：需要修改配置文件，变量永久生效。
+2. 临时的：使用export命令声明即可，变量在关闭shell时失效。
+
+##### 1. 设置变量的三种方法
+1. 在/etc/profile文件中添加变量【对所有用户生效(永久的)】，修改文件后要想马上生效还要运行# source /etc/profile不然只能在下次重进此用户时生效。
+2. 在用户目录下的.bash_profile文件中增加变量【对单一用户生效(永久的)】，修改文件后要想马上生效还要运行$ source /home/guok/.bash_profile不然只能在下次重进此用户时生效。
+3. 直接运行export命令定义变量【只对当前shell(BASH)有效(临时的)】
+
+### 23. 查看文件被那个进程占用
+##### 1. fuser
+`fuser -v -u file`   
+fuser可以用来查看文件或目录被谁占用。-v：详细显示；-u：显示用户；-m：显示陌路下所有文件和目录被占用情况；-k：杀掉占用文件的进程，配合-i可以让用户选择是否删除   
+##### 2. lsof
+`lsof  /tmp/nginx_access.log`  查看文件被那些进程打开   
+`lsof  +d /tmp/`  查看目录先被占用的文件及进程   
+查看指定用户占用的文件，使用选项-u，后面跟用户名
+### 24. 在linux下怎么安装.bin文件
+$ cd 你希望安装的目录
+$ chmod a+x  j2sdk-1_4_2-nb-3_5_1-bin-linux.bin
+$ ./j2sdk-1_4_2-nb-3_5_1-bin-linux.bin
+然后就会出现协议，问你同意否，yes继续安装......
 
 ----
 
