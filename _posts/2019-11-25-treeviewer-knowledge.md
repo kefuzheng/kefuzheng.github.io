@@ -543,6 +543,13 @@ treeViewer.setExpandedElements(expandElements);
 packTree(treeViewer.getTree());
 ```
 
+### 8. ToolTip in tree
+ColumnViewerToolTipSupport adds support for individual tooltips to TableViewer and TreeViewer (and other ColumnViewers), you enable this using:   
+`ColumnViewerToolTipSupport.enableFor(viewer);`   
+The support expects that the label provider(s) for the viewer are based on CellLabelProvider (or one of its subclasses).   
+CellLabelProvider has getToolTipImage, getToolTipText, getToolTipBackgroundColor, getToolTipForegroundColor, getToolTipFont and getToolTipShift methods that you can override to control the tooltips.
+
+
 ----
 
 [swt table 使用小结](https://blog.csdn.net/inowcome/article/details/6227037)

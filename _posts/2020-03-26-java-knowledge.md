@@ -93,4 +93,95 @@ for(String ss : spString){
 好
 人啊
 ```
-### 10. Lambda表达式
+### 10. 获取当前时间
+`long startMili=System.currentTimeMillis();`  当前时间对应的毫秒数
+
+### 11. 定时器的使用
+```java
+/**
+* 这个方法是调度一个task，经过2000(ms)后开始进行调度，仅仅调度一次。
+*/
+public static void timer1(){
+Timer nTimer = new Timer();
+nTimer.schedule(new TimerTask() {
+    @Override
+    public void run() {
+    System.out.println("----设定要指定任务-----");
+    }
+},2000);
+}
+
+/**
+* 在指定的时间点time上调度一次。
+*/
+public static void timer2() {
+    Timer timer = new Timer();
+    timer.schedule(new TimerTask() {
+        public void run() {
+        System.out.println("-------在指定的时间点time上调度一次。--------");
+        }
+    }, time);
+}
+
+/**
+* 延迟5000毫秒，每1000毫秒执行一次
+* 在5000（ms）后开始调度，每次调度完后，最少等待1000（ms）后才开始调度。
+*/
+public static void timer3() {
+    Timer timer = new Timer();
+    timer.scheduleAtFixedRate(new TimerTask() {
+        public void run() {
+        System.err.println("-------延迟5000毫秒，每1000毫秒执行一次--------");
+        }
+    }, 5000, 1000);
+}
+/**
+* 设置17：56执行任务(第一次调度的时间)，每过一天执行一次
+* java.util.Timer.scheduleAtFixedRate(TimerTask task, Date firstTime, long period)
+*/
+public static void timer4() {
+    Calendar calendar = Calendar.getInstance();
+    calendar.set(Calendar.HOUR_OF_DAY, 17);
+    calendar.set(Calendar.MINUTE, 26);
+    calendar.set(Calendar.SECOND, 0);
+
+    Date time = calendar.getTime();
+
+    Timer timer = new Timer();
+    timer.scheduleAtFixedRate(new TimerTask() {
+        public void run() {
+        System.out.println("-------设定要指定任务--------");
+        }
+    }, time, 1000 * 60 * 60 * 24);// 这里设定将延时每天固定执行
+}
+```
+
+### 12. Stack类
+栈是Vector的一个子类，它实现了一个标准的后进先出的栈。   
+堆栈只定义了默认构造函数，用来创建一个空栈。 堆栈除了包括由Vector定义的所有方法，也定义了自己的一些方法。   
+`Stack<Integer> s1 = new Stack<Integer>()`
+1. boolean empty(), 测试堆栈是否为空。
+2. Object peek( ), 查看堆栈顶部的对象，但不从堆栈中移除它。
+3. Object pop( ), 移除堆栈顶部的对象，并作为此函数的值返回该对象。
+4. Object push(Object element), 把项压入堆栈顶部。
+5. int search(Object element), 返回对象在堆栈中的位置，以 1 为基数。
+
+### 13. char的比较
+ char是一个基本数据类型，只能用”==”进行值相等比较，如果想用equals()方法进行比较，则要用char的封装对象Character。  
+ ```java
+//char是基本类型，没有equals()方法，只能用"=="来进行比较。
+char c1 = 'a';
+char c2 = 'a';
+System.out.println(c1 == c2);   //true,c1和c2是同一个字符常量'a'的引用，是同一个对象地址，所以相同。
+
+//如想用equals()方法，则可以用char的封装对象Character。下面就与String是一模一样的了，如下：
+Character c3 = 'a';
+Character c4 = 'a';
+System.out.println(c3 == c4);  // true，c3和c4是同一个字符串常量'a'的引用，是同一个对象地址，所以相同。
+System.out.println(c3.equals(c4));  //true,equals()方法只是比较两个字符串的值是否相等，地址不会进行比较,两个字符串的值都是a，所以相等。
+
+c3 = new Character('a');
+c4 = new Character('a');
+System.out.println(c3 == c4);  // false，c3和c4是两个不同的对象，虽然字符串值都是a，但是对象地址不同，用==比较的话不相同。
+System.out.println(c3.equals(c4));  //true，equals()方法只是比较两个字符串的值是否相等，地址不会进行比较。
+ ```
