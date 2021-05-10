@@ -167,8 +167,8 @@ public static void timer4() {
 5. int search(Object element), 返回对象在堆栈中的位置，以 1 为基数。
 
 ### 13. char的比较
- char是一个基本数据类型，只能用”==”进行值相等比较，如果想用equals()方法进行比较，则要用char的封装对象Character。  
- ```java
+char是一个基本数据类型，只能用”==”进行值相等比较，如果想用equals()方法进行比较，则要用char的封装对Character。  
+```java
 //char是基本类型，没有equals()方法，只能用"=="来进行比较。
 char c1 = 'a';
 char c2 = 'a';
@@ -184,4 +184,33 @@ c3 = new Character('a');
 c4 = new Character('a');
 System.out.println(c3 == c4);  // false，c3和c4是两个不同的对象，虽然字符串值都是a，但是对象地址不同，用==比较的话不相同。
 System.out.println(c3.equals(c4));  //true，equals()方法只是比较两个字符串的值是否相等，地址不会进行比较。
- ```
+```
+
+### 14. 字符串中是否含有特殊字符
+```java
+//string 为要判断的字符串 
+public static boolean isConSpeCharacters(String string){ 
+    if(string.replaceAll("[\u4e00-\u9fa5]*[a-z]*[A-Z]*\\d*-*_*\\s*","").length()==0){ 
+        //不包含特殊字符 
+        return false; 
+    } 
+    return true; 
+} 
+
+// \u4E00-\u9FA5 匹配所有汉字
+// A-Za-z0-9 匹配 带小写字母和数字
+```
+
+### 15. 移动文件到指定的目录
+```java
+try {
+    File afile = new File("C:\\test_1\\test.txt");
+    if (afile.renameTo(new File("C:\\test_2\\" + afile.getName()))) {
+        System.out.println("File is moved successful!");
+    } else {
+        System.out.println("File is failed to move!");
+    }
+} catch (Exception e) {
+    e.printStackTrace();
+}
+```

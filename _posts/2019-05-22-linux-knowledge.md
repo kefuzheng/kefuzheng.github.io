@@ -150,11 +150,17 @@ fuser可以用来查看文件或目录被谁占用。-v：详细显示；-u：�
 `lsof  /tmp/nginx_access.log`  查看文件被那些进程打开   
 `lsof  +d /tmp/`  查看目录先被占用的文件及进程   
 查看指定用户占用的文件，使用选项-u，后面跟用户名
+
 ### 24. 在linux下怎么安装.bin文件
 $ cd 你希望安装的目录
 $ chmod a+x  j2sdk-1_4_2-nb-3_5_1-bin-linux.bin
 $ ./j2sdk-1_4_2-nb-3_5_1-bin-linux.bin
 然后就会出现协议，问你同意否，yes继续安装......
+
+### 25. 查看终端是csh还是bash和更改shell设置
+`echo $SHELL` 查看   
+`chsh -s /bin/bash` 更改
+
 
 ----
 
