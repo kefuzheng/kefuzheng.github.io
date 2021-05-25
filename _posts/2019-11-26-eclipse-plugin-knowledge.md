@@ -251,6 +251,10 @@ public class CanvasSample {
 }
 ```
 
+### 13. shell的两种获取方式
+`Display.getDefault().getActiveShell()` 获取当前窗口的shell   
+`PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()` 获取当前应用程序的shell
+
 
 ----
 

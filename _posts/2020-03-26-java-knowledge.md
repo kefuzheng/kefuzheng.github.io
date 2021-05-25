@@ -214,3 +214,9 @@ try {
     e.printStackTrace();
 }
 ```
+
+### 16. 获取文件后缀
+```java
+import org.apache.commons.io.FilenameUtils
+String fileType = FilenameUtils.getExtension(fileName).toLowerCase();
+```
