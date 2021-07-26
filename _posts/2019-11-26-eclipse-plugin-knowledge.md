@@ -255,6 +255,27 @@ public class CanvasSample {
 `Display.getDefault().getActiveShell()` 获取当前窗口的shell   
 `PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()` 获取当前应用程序的shell
 
+### 14. 在ant脚本中对外部ant任务的调用
+```xml
+<target name="copy_lib" description="Copy library files from  project1 to project2">
+	<ant antfile="build.xml"
+		dir="${project1dir}"
+		inheritall="false"
+		inheritrefs="false"
+		target="copy_to_project2_lib">
+		  <property name="param1" value="version 1.x"/>
+	</ant>
+
+</target>
+```
+antfile表示子项目的构建文件。  
+dir表示构建文件所再的目录，缺省为当前目录。  
+inheritall表示父项目的所有属性在子项目中都可使用，并覆盖子项目中的同名属性。缺省为true。   
+inheritrefs表示父项目中的所有引用在子项目中都可以使用，并且不覆盖子项目中的同名引用。缺省为false。如果在ant任务中显示的定义引用，如上例<reference refid="filter.set">则该引用将会覆盖子项目中的同名引用。  
+target表示所要运行的子项目中的target，如果不写则为缺省target。   
+property表示往调用的target里面传参   
+[Ant Target](https://ant.apache.org/manual/Tasks/ant.html)  
+
 
 ----
 
