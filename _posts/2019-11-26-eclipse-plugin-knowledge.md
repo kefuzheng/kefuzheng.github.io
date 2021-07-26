@@ -273,8 +273,7 @@ dir表示构建文件所再的目录，缺省为当前目录。
 inheritall表示父项目的所有属性在子项目中都可使用，并覆盖子项目中的同名属性。缺省为true。   
 inheritrefs表示父项目中的所有引用在子项目中都可以使用，并且不覆盖子项目中的同名引用。缺省为false。如果在ant任务中显示的定义引用，如上例<reference refid="filter.set">则该引用将会覆盖子项目中的同名引用。  
 target表示所要运行的子项目中的target，如果不写则为缺省target。   
-property表示往调用的target里面传参   
-[Ant Target](https://ant.apache.org/manual/Tasks/ant.html)  
+property表示往调用的target里面传参
 
 
 ----
@@ -283,5 +282,6 @@ property表示往调用的target里面传参
 [Java Task in Ant](http://ant.apache.org/manual/Tasks/java.html)   
 [Ant 执行 Java 代码](https://www.w3cschool.cn/ant/m24b1hwf.html)   
 [eclipse 资源监听](https://blog.csdn.net/u011893509/article/details/53557415)   
-[How You've Changed! - Eclipse IResourceChangeListener](https://blog.csdn.net/davidhsing/article/details/6939273)   
+[How You've Changed! - Eclipse IResourceChangeListener](https://blog.csdn.net/davidhsing/article/details/6939273)    
+[Ant Target](https://ant.apache.org/manual/Tasks/ant.html)  
 
