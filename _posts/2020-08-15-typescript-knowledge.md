@@ -14,8 +14,9 @@ VS Code已经禁用了CSS和HTML
 每行指令都是一段语句，你可以使用分号或不使用， 分号在 TypeScript 中是可选的，建议使用。   
 TypeScript 会忽略程序中出现的空格、制表符和换行符。空格、制表符通常用来缩进代码，使代码易于阅读和理解。  
 ### 3. 基础类型
-##### 1. 任意类型any
-声明为 any 的变量可以赋予任意类型的值。任意值是 TypeScript 针对编程时类型不明确的变量使用的一种数据类型。
+##### 1. 任意类型any和unknow
+声明为 any 的变量可以赋予任意类型的值。任意值是 TypeScript 针对编程时类型不明确的变量使用的一种数据类型。   
+unknow可以保证类型的安全
 ```typescript
 let x: any = 1;    // 数字类型
 x = 'I am who I am';    // 字符串类型
@@ -50,29 +51,59 @@ let arr: number[] = [1, 2];
 // 或者使用数组泛型
 let arr: Array<number> = [1, 2];
 ```
-##### 6. 元组
-元组类型用来表示已知元素数量和类型的数组，各元素的类型不必相同，对应位置的类型需要相同。
+##### 6. 元组tuple
+元组类型是一种特殊的数组，是已知元素数量和类型的数组，各元素的类型不必相同，对应位置的类型需要相同。元组中允许存储不同类型的元素，元组可以作为参数传递给函数。
 ```typescript
 let x: [string, number];
 x = ['Runoob', 1];    // 运行正常
 x = [1, 'Runoob'];    // 报错
 console.log(x[0]);    // 输出 Runoob
 ```
-##### 7. 枚举enum
+##### 7. 联合Union类型
+联合类型（Union Types）可以通过管道(|)将变量设置多种类型，赋值时可以根据设置的类型来赋值。只能赋值指定的类型，如果赋值其它类型就会报错。
+```typescript
+let union : string | number // 既可以是string类型，也可以是number
+
+let val:string|number 
+val = 12 
+console.log("数字为 "+ val) 
+val = "Runoob" 
+console.log("字符串为 " + val)
+
+// 联合类型数组
+let arr:number[]|string[]; 
+arr = [1,2,4] 
+arr = ["Runoob","Google","Taobao"] 
+```
+##### 8. 字面量类型literal
+```typescript
+let union1 : 0 | 1 | 2 // 是number类型，取值范围0，1，2
+union1 = 0 
+union1 = 3  // 报错
+
+let literal : 1 | "2" | true | [1,2,3,4]
+```
+##### 9. 枚举enum
 枚举类型用于定义数值集合。
 ```typescript
 enum Color {Red, Green, Blue};
 let c: Color = Color.Blue;
 console.log(c);    // 输出 2
+
+enum Color1 {
+    Red = 1, 
+    Green = 2, 
+    Blue = "blue"
+    };
 ```
-##### 8. void
+##### 10. void
 用于标识方法返回值的类型，表示该方法没有返回值。
 ```typescript
 function hello(): void {
     alert("Hello Runoob");
 }
 ```
-##### 9. null和undefined
+##### 11. null和undefined
 null表示对象值缺失。undefined用于初始化变量为一个未定义的值
 用 typeof 检测 null 返回是 object。typeof 一个没有值的变量会返回 undefined。   
 Null 和 Undefined 是其他任何类型（包括 void）的子类型，可以赋值给其它类型，如数字类型，此时，赋值后的类型会变成 null 或 undefined。而在TypeScript中启用严格的空校验（--strictNullChecks）特性，就可以使得null 和 undefined 只能被赋值给 void 或本身对应的类型
@@ -83,7 +114,7 @@ x = 1; // 运行正确
 x = undefined;    // 运行错误
 x = null;    // 运行错误
 ```
-##### 10. never
+##### 12. never
 never 是其它类型（包括 null 和 undefined）的子类型，代表从不会出现的值。这意味着声明为 never 类型的变量只能被 never 类型所赋值，在函数中它通常表现为抛出异常或无法执行到终止点（例如无限循环）
 ```typescript
 let x: never;
@@ -108,6 +139,15 @@ function loop(): never {
     while (true) {}
 }
 ```
+##### 13. 类型适配（类型断言）
+```typescript
+let msg : any;
+msg = "abc";
+msg.endWith("c");
+let msg1 = (<string>msg).endWith("c");
+let msg2 = (msg as string).endWith("c");
+```
+
 ### 4. 变量声明
 `var [变量名] : [类型] = 值;` 声明变量的类型，但没有初始值，变量值会设置为 undefined;声明变量没有设置类型和初始值，类型可以是任意类型，默认初始值为 undefined：
 ##### 1. 类型断言（Type Assertion）
@@ -138,7 +178,8 @@ var obj = new Numbers();
 console.log("实例变量: "+obj.num_val)
 ```
 ##### 3. let和var的区别
-let和var的区别体现在作用域上。var的作用域被规定为一个函数作用域，而let则被规定为块作用域，块作用域要比函数作用域小一些，但是如果两者既没在函数中，也没在块作用域中定义，那么两者都属于全局作用域。
+let和var的区别体现在作用域上。var的作用域被规定为一个函数作用域，而let则被规定为块作用域，块作用域要比函数作用域小一些，但是如果两者既没在函数中，也没在块作用域中定义，那么两者都属于全局作用域。   
+不推荐使用var   
 ```typescript
 function  aFun1(){
     // i 对于for循环外的范围是不可见的(i is not defined)
@@ -163,6 +204,9 @@ let me  = 'bar'; //SyntaxError: Identifier 'me' has already been declared
 var me = 'foo';
 var me = 'bar'; //这里me被替代了，是可以重复声明的
 ```
+##### 4. const
+定义常量
+
 ### 5. 运算符
 ##### 1. 逻辑运算符
 - &&, and, (x < 10 && y > 1) 为 true
@@ -305,6 +349,10 @@ var res = function(a:number,b:number) {
     return a*b;  
 }; 
 console.log(res(12,2))
+
+let log = (message: string, code: number) => {
+    console.log(message,code)
+}
 
 // 匿名函数自调用
 (function () { 
@@ -471,25 +519,7 @@ for (let [key, value] of nameSiteMapping) {
     console.log(key, value);            
 }
 ```
-### 13. 元组
-元组中允许存储不同类型的元素，元组可以作为参数传递给函数。   
-`var mytuple = [10,"Runoob"];`
-### 14. 联合类型
-联合类型（Union Types）可以通过管道(|)将变量设置多种类型，赋值时可以根据设置的类型来赋值。只能赋值指定的类型，如果赋值其它类型就会报错。
-```typescript
-var val:string|number 
-val = 12 
-console.log("数字为 "+ val) 
-val = "Runoob" 
-console.log("字符串为 " + val)
-
-// 联合类型数组
-var arr:number[]|string[]; 
-var i:number; 
-arr = [1,2,4] 
-arr = ["Runoob","Google","Taobao"] 
-```
-### 15. 接口
+### 14. 接口
 接口是一系列抽象方法的声明，是一些方法特征的集合，这些方法都应该是抽象的，需要由具体的类去实现，然后第三方就可以通过这组抽象方法调用，让具体的类执行具体的方法。
 ```typescript
 interface IPerson { 
