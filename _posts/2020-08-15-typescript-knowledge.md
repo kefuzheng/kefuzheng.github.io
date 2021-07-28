@@ -350,10 +350,6 @@ var res = function(a:number,b:number) {
 }; 
 console.log(res(12,2))
 
-let log = (message: string, code: number) => {
-    console.log(message,code)
-}
-
 // 匿名函数自调用
 (function () { 
     var x = "Hello!!";   
@@ -688,26 +684,39 @@ console.log(obj.str1)     // 可访问
 console.log(obj.str2)   // 编译错误， str2 是私有的
 ```
 ##### 5. 类和接口
-类可以实现接口，使用关键字 implements，并将 interest 字段作为类的属性使用。
+类可以实现接口，使用关键字 implements，并将 interest 字段作为类的属性使用。   
+构造函数不能重载    
+在构造函数加访问修饰符public，protected，private，会自动完成变量的声明以及赋值，但是参数不能是可选参数
 ```typescript
 interface ILoan { 
    interest:number 
+   drawPoint: () => void;
 } 
  
 class AgriLoan implements ILoan { 
-   interest:number 
-   rebate:number 
+   drawPoint: () =>{
+       console.log("drawPoint")
+   };
    
    constructor(interest:number,rebate:number) { 
       this.interest = interest 
       this.rebate = rebate 
    } 
 } 
+
+class BlikLoan implements ILoan { 
+   drawPoint: () =>{
+       console.log("drawPoint")
+   };
+   // 在构造函数加访问修饰符public，protected，private，会自动完成变量的声明以及赋值，但是参数不能是可选参数
+   constructor(public interest:number, public rebate:number) { 
+   } 
+} 
  
 var obj = new AgriLoan(10,1) 
 console.log("利润为 : "+obj.interest+"，抽成为 : "+obj.rebate )
 ```
-### 17. 对象
+### 17. 对象Object
 对象是包含一组键值对的实例。 值可以是标量、函数、数组、对象等，如下实例：
 ```typescript
 var object_name = { 
@@ -761,6 +770,16 @@ var newPoint = addPoints({x:3,y:4},{x:5,y:1})
 // 错误 
 var newPoint2 = addPoints({x:1},{x:4,y:3})
 ```
+##### 3. 泛型
+```typescript
+let lastInArray = <T>(arr: T[]) =>{
+    return arr[arr.length - 1];
+}
+const l1 = lastInArray([1,2,3,4]);
+const l2 = lastInArray<string>(["a","b","c","d"]);
+const l2 = lastInArray<string | number>(["a","b","c","d", 3, 4]);
+```
+
 ### 18. 命名空间
 ```typescript
 namespace SomeNameSpaceName { 
