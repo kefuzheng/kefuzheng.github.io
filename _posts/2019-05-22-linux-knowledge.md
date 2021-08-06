@@ -161,6 +161,37 @@ $ ./j2sdk-1_4_2-nb-3_5_1-bin-linux.bin
 `echo $SHELL` 查看   
 `chsh -s /bin/bash` 更改
 
+### 26. Docker
+- docker images //查看当前本地存在的镜像
+- docker search name //搜索镜像
+- docker pull name //拉取镜像，name是镜像名
+- docker run -d IMAGE //执行镜像， -d是后台执行
+- docker ps //查看在docker上运行的程序
+- docker stop IMAGE //停止后台启动的镜像
+- docker exec -it CONTAINER_ID bash //进入docker启动的镜像中， -i在没有attach的时候保证用户的input有效，-t分配一个伪终端，bash使用shell
+- docker restart CONTAINER_ID //重启容器
+
+##### 1. Nginx
+`docker run -d -p 8080:80 hub.c.163.com/library/nginx` //docker 开放端口给外部网络访问, -p（小） 是开放指定的端口，与上面，开本机端口8080映射到nginx的80端口    
+`docker run -d -P hub.c.163.com/library/nginx`  // -P(大） 开放所有的端口与主机建立映射
+`docker ps`  // 可以查看进程，并看端口，连接   
+`netstat -na | grep portID` // 查看网络状态  
+
+##### 2. 制作自己的镜像
+1. 下载tomcat镜像
+`docker pull hub.c.163.com/library/tomcat:latest`  
+2. 编写自己的镜像
+```shell
+vim Dockerfile
+from hub.c.163.com/library/tomcat
+MAINTAINER Joon xx@163.com
+COPY jpress.war /usr/local/tomcat/webapps
+```
+3. 构建镜像
+`docker build -t jpress:latest .`
+4. 查看镜像
+`docker images`
+
 
 ----
 
