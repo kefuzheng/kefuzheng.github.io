@@ -247,6 +247,7 @@ switch(grade) {
     } 
 }
 ```
+
 ### 7. 循环
 ```typescript
 var num:number = 5; 
