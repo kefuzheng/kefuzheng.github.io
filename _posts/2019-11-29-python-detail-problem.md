@@ -213,6 +213,18 @@ log.info('test info')
 ```
 ### 13. __name__说明
 自己的 __name__ 在自己用时就是 main，当自己作为模块被调用时就是自己的名字，就相当于：我管自己叫我自己，但是在朋友眼里我就是小仙女一样。
+
+### 14. 类型注解
+```python
+a: int = 123
+b: str = 'hello'
+
+def add(x:int, y:int) -> int:
+    return x + y
+```
+用 : 类型 的形式指定函数的参数类型，用 -> 类型 的形式指定函数的返回值类型。
+
+
 ----
 
 [Python基础知识](https://kefuzheng.github.io/2019/09/05/python-knowledge.html)  

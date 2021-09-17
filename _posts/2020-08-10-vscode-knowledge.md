@@ -1,5 +1,5 @@
 ---
-title: VS Code插件基础知识梳理
+title: VS Code插件开发
 key: 2020-08-15
 tags: vscode
 ---
@@ -76,9 +76,144 @@ vscode模块包含了一个位于node ./node_modules/vscode/bin/install的脚本
 - 打包成vsix文件`vsce package`
 - 安装扩展，从扩展的右上角选择Install from VSIX安装
 
+### 7. QuickPick
+```typescript
+commands.registerCommand('samples.quickInput', async () => {
+  const options = ['vscode-data-function', 'vscode-appservice-microservices', 'vscode-appservice-monitor', 'vscode-appservice-preview', 'vscode-appservice-prod'].map(label => ({label}));
+  const quickPick = window.createQuickPick();
+  quickPick.items = options;
+  quickPick.onDidChangeSelection(([{label}]) => {
+    window.showInformationMessage(label);
+    quickPick.hide();
+  });
+  quickPick.show();
+})
+```
+
+### 8. contributes.commands
+```typescript
+// 在命令输入框隐藏命令
+"contributes": {
+    "menus": {
+        "commandPalette": [
+            {
+                "command": "extension.myCommand",
+                "when": "false"
+            }
+        ]
+    },
+    // icon, 在命令输入框显示时，会是'category: title'的格式
+    "commands": [
+      {
+        "command": "extension.sayHello",
+        "title": "Hello World",
+        "category": "Hello",
+        "icon": {
+          "light": "path/to/light/icon.svg",
+          "dark": "path/to/dark/icon.svg"
+        }
+      }
+    ]
+  }
+}
+```
+
+### 9. contributes.configuration
+```json
+"configuration":{
+  "title": "Vitis HLS",
+  "properties": {
+    "vitishls.home":{
+      "type":"string",
+      "default":"/proj/xbuilds/2021.2_daily_latest/installs/lin64/Vitis_HLS/2021.2",
+      "description": "The Vitis HLS home"
+    },
+    "vitishls.lastRunTclFile":{
+      "type":["string"],
+      "default": "",
+      "description": "The Tcl file of the last run"
+    }
+  }
+}
+```
+code中调用
+```typescript
+export function getLastRunTclFile() {
+    let configuration = vscode.workspace.getConfiguration();
+    let lastFile = configuration.get('vitishls.lastRunTclFile', vscode.ConfigurationTarget.Workspace);
+    return lastFile.toString();
+}
+```
+launch.json中引用
+```json
+"miDebuggerPath": "${config:vitishls.home}/lnx64/tools/bin/gdb"
+```
+
+### 10. show toolbar in editor
+```json
+"menus": {
+  "editor/title": [
+    {
+      "when": "editorLangId == SynapseXml",
+      "command": "webview.show",
+      "group": "navigation"
+    }
+  ]
+}
+```
+
+### 11. FileSystemWatcher
+```typescript
+export function watcherForLog() {
+    let folders = vscode.workspace.workspaceFolders;
+    if (folders) {
+        let watcher = vscode.workspace.createFileSystemWatcher(new vscode.RelativePattern(folders[0], 'vitis_hls.log'));
+        watcher.onDidChange(uri => {
+            console.log('watcher change.................' + uri);
+        })
+    }
+}
+```
+
+### 12. Terminal
+```typescript
+let cmdName = 'test terminal';
+export function getHLSTerminal(): vscode.Terminal {
+  for (let terminal of vscode.window.terminals) {
+    if (terminal.name == cmdName) {
+      terminal.show();
+      return terminal;
+    }
+  }
+
+  const terminal = vscode.window.createTerminal(cmdName);
+  terminal.show();
+  return terminal;
+}
+```
+
+### 13. viewsWelcome
+```json
+"viewsWelcome": [
+  {
+    "view": "explorer",
+    "contents": "You can open a Vitis HLS project.\n[Open Vitis HLS Project](command:supportforvitishls.openhlsprojcmd)",
+    "when": "workbenchState == empty"
+  }
+]
+```
+
+### 14. 查看已有命令的ID
+File > Preferences > Keyboard Shortcuts
+
 
 ----
 
 [vscode docs](https://code.visualstudio.com/api)  
 [vscode extension example](https://github.com/microsoft/vscode-extension-samples)  
 [VSCode插件开发全攻略（一）概览](https://www.cnblogs.com/liuxianan/p/vscode-plugin-overview.html)   
+[VSCode extension use multi step input directly](https://stackoverflow.com/questions/62298858/vscode-extension-use-multi-step-input-directly)   
+[contributes.configuration](https://code.visualstudio.com/api/references/contribution-points#contributes.configuration)   
+[VS Code 运行Web IDE](https://www.cnblogs.com/anliven/p/13363811.html)   
+[terminal-sample](https://github.com/microsoft/vscode-extension-samples/tree/main/terminal-sample)   
+[configuration-sample](https://github.com/microsoft/vscode-extension-samples/tree/main/configuration-sample)   

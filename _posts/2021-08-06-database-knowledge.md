@@ -35,9 +35,4 @@ tags: Database
 ##### 4. BC范式
 在第三范式的基础上，数据库表中如果不存在任何字段对任一候选关键字段的传递函数依赖则符合 BC 范式。
 
- 
-----
-
-[GDB调试C/C++程序](http://c.biancheng.net/view/8153.html)  
-[GDB调试多线程程序](http://c.biancheng.net/view/8261.html)   
 
