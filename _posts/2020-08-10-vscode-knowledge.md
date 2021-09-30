@@ -91,7 +91,7 @@ commands.registerCommand('samples.quickInput', async () => {
 ```
 
 ### 8. contributes.commands
-```typescript
+```json
 // 在命令输入框隐藏命令
 "contributes": {
     "menus": {
