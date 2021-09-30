@@ -206,6 +206,92 @@ export function getHLSTerminal(): vscode.Terminal {
 ### 14. 查看已有命令的ID
 File > Preferences > Keyboard Shortcuts
 
+### 15. "Always installed" extensions
+If there are extensions that you would like to always have installed on any SSH host, you can specify which ones using the remote.SSH.defaultExtensions property in settings.json. 
+```json
+"remote.SSH.defaultExtensions": [
+    "eamodio.gitlens",
+    "mutantdino.resourcemonitor"
+]
+```
+
+### 16. Task
+##### 1. problemMatchers
+```json
+"problemMatchers": [
+  {
+    "name": "hls",
+    "owner": "hlsComplier",
+    "fileLocation": [
+      "relative",
+      "${workspaceFolder}"
+    ],
+    "pattern": {
+      "regexp": "^(WARNING|ERROR):.*?(\\w+?\\.cpp|c|h):(\\d+):?(\\d+)?.*$",
+      "severity": 1,
+      "file": 2,
+      "line": 3,
+      "column": 4
+    }
+  },
+  {
+    "name": "hlsTcl",
+    "owner": "hlsComplier",
+    "severity": "error",
+    "fileLocation": [
+      "relative",
+      "${workspaceFolder}"
+    ],
+    "pattern": {
+      "regexp": "^\\s+\\(file\\s+\"(.+?\\.tcl)\"\\s+line\\s+(\\d+)\\)$",
+      "file": 1,
+      "line": 2
+    }
+  }
+]
+```
+##### 2. new Task and listener
+```typescript
+let task = new vscode.Task({ type: 'hlsTask', name: 'hlsTask' }, vscode.TaskScope.Workspace,
+    'HLS', 'HLS', new vscode.ShellExecution(hls, [cmd], { shellArgs: ['-c', '-l'], cwd: tclDir }), ['$hls', '$hlsTcl']);
+
+// let tasks = await vscode.tasks.fetchTasks();
+vscode.tasks.executeTask(task);
+vscode.tasks.onDidStartTask(listener => {
+    listener.execution.task.name;
+})
+vscode.tasks.onDidEndTask(e => {
+    if (e.execution.task.name == 'HLS') {
+        console.log('end task....................' + e.execution.task.name)
+    }
+});
+```
+##### 3. registerTaskProvider
+```json
+"contributes": {
+    "taskDefinitions": [
+        {
+            "type": "exampleProvider"
+        }
+    ]
+}
+```
+```typescript
+var type = "exampleProvider";
+vscode.tasks.registerTaskProvider(type, {
+    provideTasks(token?: vscode.CancellationToken) {
+        var execution = new vscode.ShellExecution("echo \"Hello World\"");
+        var problemMatchers = ["$myProblemMatcher"];
+        return [
+            new vscode.Task({type: type}, vscode.TaskScope.Workspace,
+                "Build", "myExtension", execution, problemMatchers)
+        ];
+    },
+    resolveTask(task: vscode.Task, token?: vscode.CancellationToken) {
+        return task;
+    }
+});
+```
 
 ----
 
@@ -217,3 +303,11 @@ File > Preferences > Keyboard Shortcuts
 [VS Code 运行Web IDE](https://www.cnblogs.com/anliven/p/13363811.html)   
 [terminal-sample](https://github.com/microsoft/vscode-extension-samples/tree/main/terminal-sample)   
 [configuration-sample](https://github.com/microsoft/vscode-extension-samples/tree/main/configuration-sample)   
+["Always installed" extensions](https://code.visualstudio.com/docs/remote/ssh#_always-installed-extensions)   
+[Customizing C/C++ default settings](https://code.visualstudio.com/docs/cpp/customize-default-settings-cpp)   
+[Variables Reference](https://code.visualstudio.com/docs/editor/variables-reference)   
+[Overriding existing Visual Studio Code commands in an extension](https://stackoverflow.com/questions/46454733/overriding-existing-visual-studio-code-commands-in-an-extension)   
+[Extension API - Task Provider - Build Task example](https://stackoverflow.com/questions/55135876/extension-api-task-provider-build-task-example)   
+[vscode-extension-samples/task-provider-sample/](https://github.com/microsoft/vscode-extension-samples/tree/c1271e335e4b228842a8f242b92e0f5854fb13fb/task-provider-sample)   
+[How to await a build task in a VS Code extension?](https://stackoverflow.com/questions/61428928/how-to-await-a-build-task-in-a-vs-code-extension)   
+[Integrate with External Tools via Tasks](https://code.visualstudio.com/docs/editor/tasks)   

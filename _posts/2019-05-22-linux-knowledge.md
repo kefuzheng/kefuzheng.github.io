@@ -192,6 +192,19 @@ COPY jpress.war /usr/local/tomcat/webapps
 4. 查看镜像
 `docker images`
 
+### 27. 使用ssh工具连接到WSL
+```bash
+# 卸载重装一遍ssh服务
+sudo apt-get remove openssh-server
+sudo apt-get install openssh-server
+
+# 编辑sshd_config文件，修改几处配置才能正常使用用户名/密码的方式连接
+Port 22 #默认即可，如果有端口占用可以自己修改
+PasswordAuthentication yes # 允许用户名密码方式登录
+
+# 修改完之后重启ssh服务
+sudo service ssh restart
+```
 
 ----
 
