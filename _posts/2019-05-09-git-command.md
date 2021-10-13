@@ -67,7 +67,7 @@ fatal: remote origin already exists
 
 ### 6. 修改Github上的开源代码
 先将别人的代码Fork到自己的账户，然后进行修改，修改完成后，发起New pull requst，若原项目主同意别人所发起的request，就会把被人修改的内容更新到原项目   
-![New pull request](https://github.com/kefuzheng/kefuzheng.github.io/raw/master/assets/images/Git%20New%20pull%20requst.png)
+![New pull request](/assets/images/Git%20New%20pull%20requst.png)
 
 ### 7. 搭建Git私服
 ##### 1. 创建bare仓库
