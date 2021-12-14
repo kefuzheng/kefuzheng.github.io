@@ -90,7 +90,35 @@ int main()
 - on：锁定线程，只有当前线程或指定线程可以运行；
 - step：当单步执行某一线程时，其它线程不会执行，同时保证在调试过程中当前线程不会发生改变。但如果该模式下执行 continue、until、finish 命令，则其它线程也会执行，并且如果某一线程执行过程遇到断点，则 GDB 调试器会将该线程作为当前线程。
   
+### 3. c++ sleep
+```c++
+// windows OS
+#include <iostream>
+#include <windows.h>
+using namespace std;
+void main()
+{
+    //睡眠5秒再输出
+    Sleep(5000);
+    std::cout << "Hi,Gril!" << std::endl;
+}
 
+// linux OS
+include <unistd.h>
+using namespace std;
+int main()
+{
+	//5秒后输出Hi,Gril!
+	sleep(5);
+	std::cout << "Hi,Gril!" << std::endl;
+
+	//3000000微妙(相当于3秒)输出Hi,Boy!
+	usleep(3000000);
+	std::cout << "Hi,Boy!" << std::endl;
+
+	return 0;
+}
+```
  
 ----
 

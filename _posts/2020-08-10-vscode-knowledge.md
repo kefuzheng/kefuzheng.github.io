@@ -293,6 +293,10 @@ vscode.tasks.registerTaskProvider(type, {
 });
 ```
 
+### 17. 调起debug
+`vscode.debug.startDebugging(getFirstWorkspaceFolder(), '(gdb) Launch');`
+
+
 ----
 
 [vscode docs](https://code.visualstudio.com/api)  

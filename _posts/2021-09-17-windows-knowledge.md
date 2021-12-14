@@ -17,6 +17,13 @@ tags: Windows
 `set NODE_ENV=development`#添加/更新环境变量    
 `set NODE_ENV=`#删除环境变量
 
+### 3. 结束进程
+1. 进入cmd
+2. tasklist 显示进程
+3. 结束进程
+`taskkill /f /t /im qq.exe`   
+`taskkill /pid [进程码] -t -f`: -t结束该进程, -f强制结束该进程以及所有子进程, `taskkill /pid 10580 -f `   
+`tskill 6528`
 
 ----
 
