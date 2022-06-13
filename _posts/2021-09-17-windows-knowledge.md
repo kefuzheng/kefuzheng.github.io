@@ -25,6 +25,9 @@ tags: Windows
 `taskkill /pid [进程码] -t -f`: -t结束该进程, -f强制结束该进程以及所有子进程, `taskkill /pid 10580 -f `   
 `tskill 6528`
 
+### 4. 查看指定端口的使用情况
+`netstat -ano | findstr 端口号`
+
 ----
 
 

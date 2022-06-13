@@ -220,3 +220,25 @@ try {
 import org.apache.commons.io.FilenameUtils
 String fileType = FilenameUtils.getExtension(fileName).toLowerCase();
 ```
+
+### 17. 运行jar包main函数
+```java
+java -cp xxx.jar xxx.com.xxxx  //它会找到这个类的main函数，开始执行, 其中-cp命令是将xxx.jar加入到classpath，这样java class loader就会在这里面查找匹配的类。
+
+//在MANIFEST.MF里配置了Main-Class，可以直接执行jar文件
+java -jar xxx.jar
+```
+
+### 17. maven项目导出项目依赖的jar包
+`mvn dependency:copy-dependencies -DoutputDirectory=lib`   
+-DincludeScope=compile 设置依赖级别
+
+### 18. java中的几种实体类对象(PO,VO,DAO,BO,POJO)
+1. PO(persistant object)，持久对象
+可以看成是与数据库中的表相映射的java对象。使用Hibernate来生成PO是不错的选择。
+2. VO(value object) ，值对象
+通常用于业务层之间的数据传递，和PO一样也是仅仅包含数据而已
+3. DAO(Data Access Objects)，数据访问对象接口
+4. BO(Business Object)，业务对象层
+表示应用程序领域内“事物”的所有实体类。这些实体类驻留在服务器上，并利用服务类来协助完成它们的职责。
+5. POJO(Plain Old Java Objects)，简单的Java对象

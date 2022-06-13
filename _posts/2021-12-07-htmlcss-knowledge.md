@@ -405,7 +405,7 @@ p:empty {
 }​
 ```
 4. `:target` 目标选择器，用来匹配文档(页面)的url的某个标志符的目标元素
-```html
+```xml
 <h2><a href="#brand">Brand</a></h2>
 <div class="menuSection" id="brand">
   content for Brand
