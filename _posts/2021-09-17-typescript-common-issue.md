@@ -1,20 +1,28 @@
 ---
 title: Typescript常见问题
-key: 2020-08-10
+key: 2021-09-17
 tags: typescript
 ---
 
-### 1. 遍历对象属性
-遍历对象属性会报错
+### 1. for of与for in 以及forEach的区别
+1. for of: 过程可以被打断。循环出的结果是数组中的元素
+2. for in: 过程不能被打断，循环出的结果是数组的下标
+3. forEach: 过程不能被打断，无法返回
+4. every：遍历数组每一项，若全部为true，则返回true
+5. some: 遍历数组的每一项，若其中一项为 true，则返回true
+
 ```typescript
-function test (foo: object) {
-  for (let key in foo) {
-    console.log((foo as any)[key]); // 报错消失
-    // do something
-  }
-}
+const list = [4, 5, 6];
+list.every((val, index, array) => {
+  // val 当前值
+  // index 索引值
+  // array 数组
+  return true; // cotinues
+  // return false will quit the interation
+})
 ```
-### 2. 型判断typeof,instanceof，以及as断言
+
+### 2. 型判断typeof,instanceof，以及as断言, 非空断言
 ```typescript
 // 基本类型用typeof, string,number,object,null,undefined
 console.log(typeof str == 'string')
@@ -29,6 +37,15 @@ console.log(/\d/ instanceof RegExp);
 // 断言，as和<>的用法
 console.log((p1 as String).length);
 console.log((<String>p1).length);
+
+// 非空断言
+// 当你明确知道某个值不可能为 undefined 和 null 时，你可以用 在变量后面加上一个 !（非空断言符号）来告诉编译器："嘿！相信我，我确信这个值不为空！"
+function fun(value: string | undefined | null) {
+  const str: string = value; // error value 可能为 undefined 和 null
+  const str: string = value!; //ok
+  const length: number = value.length; // error value 可能为 undefined 和 null
+  const length: number = value!.length; //ok
+}
 ```
 
 ### 3. parse json
@@ -442,12 +459,14 @@ tsc -b 配置文件地址,如果配置文件名为tsconfig.json,那么文件名�
     按顺序构建非最新版本的工程
 ```
 
-### 11. 使用 for-in 来循环对象的属性
+### 11. 数组排序
 ```typescript
-var myObj = { "name":"runoob", "alexa":10000, "site":null };
-for (x in myObj) {
-    document.getElementById("demo").innerHTML += x + "<br>";
-}
+const numArray: number[] = [6,5,8,2,1];
+numArray.sort();
+
+numArray.sort(function(x,y) {
+    return x-y
+});
 ```
 
 ### 12. @types
@@ -501,6 +520,58 @@ clearTimeout(timeoutObj);
 clearImmediate(immediateObj);
 clearInterval(intervalObj);
 ```
+
+### 17. 可选链操作符（?.）
+`const catName = animal?.cat?.name;`可选链操作符( ?. )允许读取位于连接对象链深处的属性的值，而不必明确验证链中的每个引用是否有效。?. 操作符的功能类似于 . 链式操作符，不同之处在于，在引用为空(nullish ) (null 或者 undefined) 的情况下不会引起错误，该表达式短路返回值是 undefined。与函数调用一起使用时，如果给定的函数不存在，则返回 undefined。
+
+### 18. 空值合并运算符（??）
+空值合并操作符（??）是一个逻辑操作符，当左侧的操作数为 null 或者 undefined 时，返回其右侧操作数，否则返回左侧操作数。   
+```typescript
+console.log(null ?? 'default string'); // default string
+console.log(0 ?? 'default string')     // 0
+console.log(1 ?? 'default string')     // 1
+console.log(false ?? 'default string') // false
+console.log(true ?? 'default string')  // true
+console.log('' ?? 'default string')    // ''
+console.log('哈哈' ?? 'default string')    // '哈哈'
+```
+
+### 19. 双叹号(!!)作用
+!!一般用来将后面的表达式强制转换为布尔类型的数据(boolean)，也就是只能是true或者false;
+```typescript
+const a;  // a为undefined
+const b=!!a; // !a = true, !!a = false, b = false
+```
+
+### 20. 类型保护机制（is）
+TypeScript里有类型保护机制。要定义一个类型保护，我们只要简单地定义一个函数，它的返回值是一个类型谓词：   
+- 在使用类型保护时，TS 会进一步缩小变量的类型。例子中，将类型从 any 缩小至了 string
+- 类型保护的作用域仅仅在 if 后的块级作用域中生效
+
+```typescript
+function isString(test: any): test is string{
+    return typeof test === "string";
+}
+
+function example(foo: any){
+    if(isString(foo)){
+        console.log("it is a string" + foo);
+        console.log(foo.length); // string function
+        // 如下代码编译时会出错，运行时也会出错，因为 foo 是 string 不存在toExponential方法
+        console.log(foo.toExponential(2));
+    }
+    // 编译不会出错，但是运行时出错
+    console.log(foo.toExponential(2));
+}
+example("hello world");
+```
+
+### 21. replace all
+`str = str.replace(/abc/g, '');`
+
+### 22. 防抖动（debounce）
+防止在短时间内过于频繁的执行相同的任务。 当短时间内的频繁是不必要的时候，就可以考虑去抖动，避免资源浪费，或造成不好体验。
+
 
 ----
 

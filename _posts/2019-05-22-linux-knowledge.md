@@ -206,6 +206,11 @@ PasswordAuthentication yes # 允许用户名密码方式登录
 sudo service ssh restart
 ```
 
+### 28. 查看文件被哪个进程占用
+`fuser -uv .` 查看当前目录正在被哪些进程占用   
+`fuser -uv ./test.log` 查看文件正在被哪些进程占用   
+
+
 ----
 
 [在VirtualBox下安装linux操作系统](https://blog.csdn.net/yuchao2015/article/details/52132270)  
