@@ -98,7 +98,10 @@ git push
 - 创建分支：git branch (branchname)
 - 切换分支：git checkout (branchname)
 - 列出分支：git branch
-- 删除分支：git branch -d (branchname)
+- 删除本地分支：git branch -d (branchname)
+- 查看当前分支： git branch
+- 切换分支： git checkout (branchname)
+- 当前分支新建分支： git checkout -b (branchname)
 
 ### 9. HTTPS和SSH方式的区别
 HTTPS: 使用https url克隆对初学者来说会比较方便，复制https url然后到git Bash里面直接用clone命令克隆到本地就好了，但是每次fetch和push代码都需要输入账号和密码，这也是https方式的麻烦之处。  
@@ -134,6 +137,10 @@ git reset --hard commit_id     // 退到/进到 指定commit的sha码
 
 git push origin HEAD --force  // 强推到远程
 ```
+
+### 12. cherry-pick
+将指定的提交，合并到当前分支   
+`git cherry-pick <commitHash>`
 
 ----
 

@@ -572,6 +572,25 @@ example("hello world");
 ### 22. 防抖动（debounce）
 防止在短时间内过于频繁的执行相同的任务。 当短时间内的频繁是不必要的时候，就可以考虑去抖动，避免资源浪费，或造成不好体验。
 
+### 23. "Record<string, unknown>"
+Record<string, unknown> is a utility type that defines an object type whose property keys are of type string and whose property values are of type unknown
+extends Record<string, unknown>. It is used to define an object type that can have any number of properties with any key of type string and any value of type unknown.
+```typescript
+type MyType = {
+  foo: string;
+} & Record<string, unknown>;
+
+interface MyType extends Record<string, unknown> {
+  foo: string;
+}
+
+const myObject: MyType = {
+  foo: 'bar',
+  baz: 42,
+};
+```
+MyType is a type that has a foo property of type string, as well as any additional properties with string keys and unknown values. The myObject variable is an object that conforms to the MyType type.
+
 
 ----
 
