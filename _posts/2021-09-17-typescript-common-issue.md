@@ -143,8 +143,8 @@ xml2js.parseString(data, async function (err, result) {
 
 ### 8. 正则表达式
 ##### 1. 创建正则表达式
-1. 字面量创建方式：let reg = /pattern/flags
-2. 构造函数实例创建方式：let reg = new RegExp(pattern, flags)
+1. 字面量创建方式：`let reg = /pattern/flags`
+2. 构造函数实例创建方式：`let reg = new RegExp(pattern, flags)`
 
 - pattern 正则表达式
 - flags 标识（修饰符）
@@ -591,6 +591,248 @@ const myObject: MyType = {
 ```
 MyType is a type that has a foo property of type string, as well as any additional properties with string keys and unknown values. The myObject variable is an object that conforms to the MyType type.
 
+### 24. function参数默认值，可选参数
+```typescript
+// 默认值
+function test1(a:string, b:string, c:string = 'test1') {
+}
+
+// 可选参数
+function test2(a:string, b?:string, c:string = 'test2') {
+}
+```
+
+### 25. 函数调用不加括号
+函数调用时加不加括号的区别在于，加括号表示调用函数并返回函数的返回值，不加括号表示返回函数本身
+```typescript
+function add(x: number, y: number): number {
+  return x + y;
+}
+
+const result1 = add(1, 2); // result1 的值为 3
+const result2 = add; // result2 的类型为 (x: number, y: number) => number
+// result1 的值为 3，因为 add(1, 2) 表示调用函数 add 并返回它的返回值。
+// 而 result2 的类型为 (x: number, y: number) => number，表示它是一个函数类型，接受两个参数并返回一个数字。
+```
+
+### 26. 函数作为对象属性
+对象的值可以是任何的数据类型，也可以是个函数   
+函数也可以成为对象的属性，如果一个函数作为对象的属性保存，那么，这个函数成为这个对象的方法，调用这个函数就是调用对象的方法（method)
+```typescript
+const obj = {
+  add(x: number, y: number): number {
+    return x + y;
+  }
+};
+
+const result = obj.add(1, 2); // result 的值为 3
+```
+
+### 27. bind
+bind() 方法可以用于创建一个新函数，该函数与原函数具有相同的函数体，但是 this 值被绑定到指定的对象上。这个方法返回一个新的函数，可以在稍后调用。   
+可以使用 bind() 方法来绑定 this 值。例如，假设有一个对象 obj 和一个函数 func，可以使用以下代码来创建一个新函数：   
+`let newFunc = func.bind(obj);`   
+
+如果传递了,而且在回调函数中用了this 的话, 就要小心了, 这个this 不一定是指向当前类对象了。   
+如果想确保指向的还是那个对象的话, 需要在传递那个方法的时候, 先调用bind(this).   
+或者就是在回调的时候, 不要直接func(agrs) 而是改成 func.call(目标对象, args)
+```typescript
+export class TestCallAndThis {
+    /**
+     * 不推荐的回调写法
+     * 外部调用必须【必须】【必须】在回调参数方法后面添加.bind(this),
+     * 否则可能会this异常
+     */
+    public static callBackTest(arg:number,callBack:Function):void
+    {
+        //返回 2 x arg
+        let result:number=arg*2;
+        //不推荐直接调用回调方法，应使用callBack.call(caller,result);
+        callBack(result);
+    }
+    /**
+     * 推荐的回调写法
+     * @param arg 参数
+     * @param caller 调用域 
+     * @param method 指定的回调方法（兼容.bind(this) 也可以不加.bind(this) ）
+     */
+    public static callMethod(arg:number,caller:any,method:Function):void
+    {
+        //返回 2 x arg
+        let result:number=arg*2;
+        //推荐的做法 .call(caller,result);
+        method.call(caller,result);
+      
+    }
+}
+
+export class Luna {
+　//注意观察，this异常的时候的isLoading的值是undefind
+  private isLoading:boolean = false;
+  private getResult(rst:number):void
+  {
+      console.log("get rusult:"+rst+this.isLoading);
+    
+  }
+  constructor()
+  {
+      //不推荐的回调写法， 遗漏了bind（this）
+      logic.TestCallAndThis.callBackTest(1,this.getResult);
+      //不推荐的回调写法， 使用了bind（this）（ √ ）
+      logic.TestCallAndThis.callBackTest(1,this.getResult.bind(this));
+    
+      //提倡的回调写法 ，有无bind(this)都可以
+      logic.TestCallAndThis.callMethod(1,this,this.getResult);
+      logic.TestCallAndThis.callMethod(1,this,this.getResult.bind(this));
+  }
+}
+```
+
+### 28. Promise
+Promise 是一种用于处理异步操作的对象。Promise 对象表示一个尚未完成、但预计将来会完成的操作，并且可以返回该操作的结果。   
+Promise 有三种状态：pending（等待中）、fulfilled（已成功）和 rejected（已失败）。当 Promise 对象处于 pending 状态时，它既不是已成功也不是已失败。当 Promise 对象处于 fulfilled 状态时，它表示操作已成功完成并返回了一个结果。当 Promise 对象处于 rejected 状态时，它表示操作已失败并返回了一个错误。   
+可以使用 then() 方法来处理 Promise 对象的结果。
+```typescript
+promise.then(function(result) {
+  console.log(result);
+}, function(error) {
+  console.log(error);
+});
+// 这将在 promise 成功时输出 result，在 promise 失败时输出 error。
+```
+
+### 29. type 与 interface 的区别
+##### 1. 类型别名 type
+类型别名用来给一个类型起个新名字，使用 type 创建类型别名，类型别名不仅可以用来表示基本类型，还可以用来表示对象类型、联合类型、元组和交集
+```typescript
+type userName = string; // 基本类型
+type userId = string | number; // 联合类型
+type arr = number[]; 
+
+// 对象类型
+type Person = {
+    id: userId; // 可以使用定义类型
+    name: userName;
+    age: number;
+    gender: string;
+    isWebDev: boolean;
+};
+// 泛型
+type Tree<T> = { value: T };
+
+const user: Person = {
+    id: "901",
+    name: "椿",
+    age: 22,
+    gender: "女",
+    isWebDev: false,
+};
+
+const numbers: arr = [1, 8, 9];
+```
+
+##### 2. 接口 interface
+接口是命名数据结构（例如对象）的另一种方式；与type 不同，interface仅限于描述对象类型。
+```typescript
+interface Person {
+    id: userId;
+    name: userName;
+    age: number;
+    gender: string;
+    isWebDev: boolean;
+}
+```
+
+##### 3. interface和type的相似之处
+```typescript
+// 都可以描述 Object和Function
+type Point = {
+  x: number;
+  y: number;
+};
+type SetPoint = (x: number, y: number) => void;
+
+interface Point {
+  x: number;
+  y: number;
+}
+interface SetPoint {
+  (x: number, y: number): void;
+}
+
+// 都可以被继承
+// interface 继承 interface
+interface Person{
+    name:string
+}
+interface Student extends Person { stuNo: number }
+// interface 继承 type
+type Person{
+    name:string
+}
+interface Student extends Person { stuNo: number }
+// type 继承 type
+type Person{
+    name:string
+}
+type Student = Person & { stuNo: number }
+// type 继承 interface
+interface Person{
+    name:string
+}
+type Student = Person & { stuNo: number }
+
+// 实现 implements
+interface ICat{
+    setName(name:string): void;
+}
+class Cat implements ICat{
+    setName(name:string):void{
+        // todo
+    }
+}
+
+// type 
+type ICat = {
+    setName(name:string): void;
+}
+class Cat implements ICat{
+    setName(name:string):void{
+        // todo
+    }
+}
+```
+
+##### 4. 区别
+```typescript
+// type可以定义基本类型别名, 但是interface无法定义
+type userName = string
+type stuNo = number
+
+// type可以声明联合类型
+type Student = {stuNo: number} | {classId: number}
+
+// type可以声明 元组类型
+type Data = [number, string];
+
+// type不支持声明合并
+// 如果你多次声明一个同名的接口，TypeScript 会将它们合并到一个声明中，并将它们视为一个接口。这称为声明合并
+interface Person { name: string }
+interface Person { age: number }
+let user: Person = {
+    name: "Tolu",
+    age: 0,
+};
+
+type Person { name: string }; 
+// Error: 标识符“Person”重复。ts(2300)
+type Person { age: number }
+```
+
+##### 5. 使用场景
+对于 React 组件中 props及 state，使用type，这样能够保证使用组件的地方不能随意在上面添加属性。如果有自定义需求，可通过 HOC二次封装。   
+编写三方库时使用interface，其更加灵活自动的类型合并可应对未知的复杂使用场景。   
+
 
 ----
 
@@ -604,3 +846,5 @@ MyType is a type that has a foo property of type string, as well as any addition
 [tsconfig.json](https://www.tslang.cn/docs/handbook/tsconfig-json.html)   
 [拿JS异步函数返回值的几种方式](https://blog.csdn.net/weixin_40970987/article/details/82255252)    
 [Node.js 中的定时器](https://nodejs.org/zh-cn/docs/guides/timers-in-node/)   
+[TypeScript: this bind 和 回调的正确用法](https://www.cnblogs.com/naiking/p/9836289.html)   
+[type 与 interface 的区别](https://juejin.cn/post/7072945053936648200)   

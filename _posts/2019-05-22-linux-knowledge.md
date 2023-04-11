@@ -16,8 +16,12 @@ tags: Linux
 ### 4. 解压
 `tar -zxvf file.tar.gz -C dirName` 解压tar包到指定目录  
 `tar -zcvf file.tar.gz dirName`    指定目录压缩到tar包  
+`tar –xvf file.tar` 解压 tar包   
+`tar -xjvf file.tar.bz2` 解压 tar.bz2   
+`tar –xZvf file.tar.Z` 解压tar.Z   
+`unrar e file.rar` 解压rar   
 `unzip file.zip -d dirName` 解压zip包到指定目录  
-`zip -r file.zip dirName`   指定目录压缩到zip包
+`zip -r file.zip dirName` 指定目录压缩到zip包
 `zip -d xxx.zip "WEB-INF/web.xml"` 删除xxx.zip压缩包里WEB-INF目录下的web.xml文件
 ### 5. tail
 `tail -f file` 实时输出文件更新的内容

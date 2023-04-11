@@ -79,6 +79,15 @@ http.createServer((req, res)=>{
 
 ```
 
+### 5. nvm管理nodejs版本
+nvm：Node Version Manager
+- nvm install stable  安装最新稳定版 node
+- nvm list  列出所有安装的版本
+- nvm install <version>  安装指定版本
+- nvm use <version>  切换使用指定的版本node
+- nvm uninstall <version>  删除已安装的指定版本
+- nvm alias default <version>  设置默认版本
+
 ----
 
 [nodejs实现文件的拷贝复制](https://www.cnblogs.com/coding4/p/7495968.html)  
