@@ -142,6 +142,11 @@ git push origin HEAD --force  // 强推到远程
 将指定的提交，合并到当前分支   
 `git cherry-pick <commitHash>`
 
+### 13. 查看历史
+`git log --since=1.weeks --author=xxx --oneline` 查看历史提交记录   
+`git blame file.file` 追踪文件中每一行的变更历史，包括作者、提交哈希、提交日期和提交消息等信息
+
+
 ----
 
 [Git基本操作](http://www.runoob.com/git/git-basic-operations.html)  
