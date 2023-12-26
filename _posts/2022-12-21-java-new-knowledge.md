@@ -1,7 +1,7 @@
 ---
 title: Java新特性
 key: 2022-12-21
-tags: java
+tags: Java
 ---
 
 ### 1. Stream

@@ -30,10 +30,13 @@ message TestResponse {
 message内的字段一般包含：数据类型、字段名、字段编号tag
 
 ##### 2. 数据类型
+
 1. 标量类型
 ![标量类型](/assets/images/proto.PNG)   
+
 2. 复合类型
-- 枚举
+
+- 枚举   
 定义一个枚举可以在message的外部或内部定义，且第一个枚举值必须是0，每个枚举值不能重复，若必须要重复，可以使用option allow_alias = true来启用重复。定义枚举后可在proto文件中任意message中使用。   
 ```proto
 enum ETest {
@@ -52,7 +55,8 @@ message TestOne {
     ETest eTest = 4;
 }
 ```
-- 嵌套其他message
+
+- 嵌套其他message   
 ```proto
 //定义一个message类型
 message MoreTestResponse {
@@ -67,7 +71,8 @@ message TestResponse {
     int32 height = 3;
 }
 ```
-- Map使用
+
+- Map使用   
 `map<key_type, value_type> map_field = N;`   
 key_type：类型必须是字符串类型或整形。   
 value_type：可以是任意类型。   
@@ -81,24 +86,26 @@ message MoreTestResponse {
     map<int32,string> test = 3; //使用map
 }
 ```
+
 3. 字段名
-1. 修饰符
-- singular（默认）：此字段在message中有0个或1个。
-- repeated：此字段在message中可以重复任意次数（类似数组），且会保留重复值的顺序。
+
+- 修饰符   
+singular（默认）：此字段在message中有0个或1个。   
+repeated：此字段在message中可以重复任意次数（类似数组），且会保留重复值的顺序。   
 ```proto
 //定义一个message类型
 message TestResponse {
     repeated string all_name = 1; //用repeated修饰，类似数组
 }
 ```
-2. 字段编号tag
+- 字段编号tag   
 编号tag就是“=”后面的数字1、2、3。每个字段在message内都需要定义一个唯一的编号tag，编号tag作用在于在二进制格式中唯一编码，所以编号tag一旦使用就不应再修改，且更新proto也不能修改，否则对旧版本无法兼容等问题出现。   
 编号tag的取值范围为[1, 2^29 -1] ，但 19000~19999 是 protobuf 预留的，用户不能使用。   
 不同范围的tag编码方式不同：   
 1 ~ 15：单字节编码   
 16 ~ 2047：双字节编码   
 因此使用频率高的编号tag最好设置成1~15，这样可以减小编码后的数据大小。
-3. reserved
+- reserved   
 若某些字段要删除或注释掉（凡是需要改变编号tag的操作），或需要预留一些编号tag，可以使用reserved来标注，用reserved标注后的tag再使用编译的时候直接报错，这样可以避免再次使用带来的各种风险。   
 reserved可以用来预留字段名和字段编号tag，可以用to来标识tag范围
 ```proto
@@ -113,10 +120,12 @@ message TestResponse {
 ```
 
 ##### 3. 定义service
+
 - 简单rpc: 跟普通的函数调用一样，客户端发送请求，等待服务器端返回。
 - 服务器端流式rpc: 客户端发送一个请求，服务器端收到请求后流式返回信息，客户端读取返回的流信息直到没有任何信息返回。在响应类型前用stream关键字修饰
 - 客户端流式rpc: 客户端流式发送信息到服务器，在发送结束后等待服务器返回一个响应。在请求类型前用stream关键字修饰
-- 双向流式rpc: 客户端和服务端双方都使用流发送信息，两个流独立操作。在请求类型和响应类型前用stream关键字修饰。
+- 双向流式rpc: 客户端和服务端双方都使用流发送信息，两个流独立操作。在请求类型和响应类型前用stream关键字修饰。   
+
 ```proto
 // 简单rpc
 service TestServ {
@@ -199,7 +208,8 @@ message HelloReply {
 ```
 
 ##### 2. Java server
-1. POM文件
+1. POM文件   
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -334,12 +344,15 @@ message HelloReply {
     </build>
 </project>
 ```
-2. 生成Java代码根据proto文件
+2. 生成Java代码根据proto文件   
+
 proto文件需放在`proj/src/main/proto`文件夹下面   
 protobuf:compile生成的5个文件是与protobuf序列化相关的，也就相当于是数据交换时的java bean。   
 protobuf:compile-custom生成的1个文件是与grpc相关的，主要用于与服务端通信的。   
 ![生成java代码](/assets/images/protobuf_task.png)   
-3. 实现service方法
+
+3. 实现service方法   
+
 ```java
 package test.grpc_server.examples;
 
@@ -376,7 +389,8 @@ public class GreeterImpl extends GreeterGrpc.GreeterImplBase {
     }
 }
 ```
-4. 开启server
+4. 开启server   
+
 ```java
 package test.grpc_server.examples;
 
@@ -444,10 +458,13 @@ public class HelloWorldServer {
   }
 }
 ```
+
 ##### 3. Typescript client
-1. 添加依赖
+
+1. 添加依赖   
 `npm i @grpc/grpc-js @grpc/proto-loader google-protobuf`
-2. 动态代码生成
+
+2. 动态代码生成   
 ```typescript
 import * as grpc from '@grpc/grpc-js'
 import * as protoLoader from '@grpc/proto-loader'
@@ -491,8 +508,10 @@ export function getDynamicGrpcClient() {
     client.close()
 }
 ```
-3. 静态代码生成
-- 生成ts代码
+
+3. 静态代码生成   
+
+- 生成ts代码   
 ```shell
 # windows OS
 npm i -g grpc-tools grpc_tools_node_protoc_ts
