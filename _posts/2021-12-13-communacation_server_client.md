@@ -513,15 +513,15 @@ export function getDynamicGrpcClient() {
 
 - 生成ts代码   
 ```shell
-# windows OS
+// windows OS
 npm i -g grpc-tools grpc_tools_node_protoc_ts
 mkdir gen-ts
 
 // the plugin must be absolute path on win64 OS
 grpc_tools_node_protoc --plugin=protoc-gen-ts=C:/Users/*/AppData/Roaming/npm/protoc-gen-ts.cmd --ts_out=grpc_js:./gen-ts --js_out=import_style=commonjs:./gen-ts --grpc_out=grpc_js:./gen-ts -I ./proto ./proto/*.proto
 
-# linux OS
-# --unsafe-perm needed in docker
+// linux OS
+// --unsafe-perm needed in docker
 npm install -g --unsafe-perm grpc-tools
 npm install grpc_tools_node_protoc_ts --save-dev
 
