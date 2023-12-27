@@ -511,7 +511,7 @@ export function getDynamicGrpcClient() {
 
 3. 静态代码生成   
 
-- 生成ts代码   
+- 生成ts代码
 ```shell
 // windows OS
 npm i -g grpc-tools grpc_tools_node_protoc_ts
