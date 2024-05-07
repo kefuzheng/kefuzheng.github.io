@@ -22,7 +22,8 @@ tags: Linux
 `unrar e file.rar` 解压rar   
 `unzip file.zip -d dirName` 解压zip包到指定目录  
 `zip -r file.zip dirName` 指定目录压缩到zip包
-`zip -d xxx.zip "WEB-INF/web.xml"` 删除xxx.zip压缩包里WEB-INF目录下的web.xml文件
+`zip -d xxx.zip "WEB-INF/web.xml"` 删除xxx.zip压缩包里WEB-INF目录下的web.xml文件   
+`zip -u test.zip test/test.file` 将test/test.file 压缩进zip包
 ### 5. tail
 `tail -f file` 实时输出文件更新的内容
 ### 6. cp

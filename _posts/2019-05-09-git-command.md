@@ -144,7 +144,8 @@ git push origin HEAD --force  // 强推到远程
 
 ### 13. 查看历史
 `git log --since=1.weeks --author=xxx --oneline` 查看历史提交记录   
-`git blame file.file` 追踪文件中每一行的变更历史，包括作者、提交哈希、提交日期和提交消息等信息
+`git blame file.file` 追踪文件中每一行的变更历史，包括作者、提交哈希、提交日期和提交消息等信息   
+`git log filename` 查看filename的历史记录
 
 
 ----
